@@ -46,14 +46,14 @@ table th,
 table td {
   @apply py-2 px-4;
 }
-input:focus,
+/* input:focus,
 button:focus,
 textarea:focus,
 select:focus,
 [role='button']:focus {
   outline: none;
   @apply ring-2 ring-accent dark:ring-gray-200;
-}
+} */
 
 .text-overflow {
   overflow: hidden;
@@ -91,7 +91,7 @@ pre {
   font-size: 15px;
 }
 
-.scroll, 
+.scroll,
 .scroll .cm-scroller {
   &::-webkit-scrollbar {
     width: 7px;

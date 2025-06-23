@@ -78,6 +78,7 @@
             >
               <t-radio-button :value="1">自动找简历</t-radio-button>
               <t-radio-button :value="2">自动找简历记录</t-radio-button>
+              <!-- <t-radio-button :value="3">岗位JD优化</t-radio-button> -->
             </t-radio-group>
           </div>
           <div v-if="radioValue === 1" class="plug_container">
@@ -254,7 +255,12 @@
                           @change="academyChange"
                         />
                       </div>
-                      <t-checkbox v-if="false" v-model="academyCheckbox">
+                      <t-checkbox
+                        v-if="
+                          academyValue.filter((num) => num !== 0).length > 0
+                        "
+                        v-model="academyCheckbox"
+                      >
                         只看第一学历
                       </t-checkbox>
                     </div>
@@ -438,6 +444,65 @@
                       />
                     </div>
                   </t-form-item>
+                </div>
+              </div>
+              <div class="Group_container" style="margin-bottom: 24px">
+                <div class="test_body" style="gap: 45px; margin-bottom: 12px">
+                  <t-image
+                    :src="Group11"
+                    fit="cover"
+                    style="width: 155px; height: 24px"
+                  />
+                  <div
+                    style="
+                      display: flex;
+                      width: 100%;
+                      margin-top: 5px;
+                      margin-bottom: 5px;
+                    "
+                  >
+                    <t-switch
+                      v-model="isAutoReply"
+                      @change="isAutoReplyChange"
+                    />
+                    <div style="font-size: 12px; color: #86909c">
+                      （自动回复开启/关闭）
+                    </div>
+                  </div>
+                </div>
+                <div class="ws_b" style="margin-left: 15px">
+                  <t-form-item
+                    label="合适时回复内容"
+                    name="autoReplySuccessMessage"
+                    label-width="140px"
+                    label-align="left"
+                    style="margin-bottom: 16px"
+                  >
+                    <t-textarea
+                      v-model="autoReplySuccessMessage"
+                      placeholder="请输入判断合适后回复内容"
+                      :disabled="!isAutoReply"
+                      style="width: 100%"
+                      :autosize="{ minRows: 2 }"
+                      @change="autoReplySuccessMessageChange"
+                    />
+                  </t-form-item>
+                  <t-form-item
+                    label="不合适时回复内容"
+                    name="autoReplyFailMessage"
+                    label-width="140px"
+                    label-align="left"
+                    style="margin-bottom: 16px"
+                  >
+                    <t-textarea
+                      v-model="autoReplyFailMessage"
+                      placeholder="请输入判断不合适后回复内容"
+                      :disabled="!isAutoReply"
+                      style="width: 100%"
+                      :autosize="{ minRows: 2 }"
+                      @change="autoReplyFailMessageChange"
+                    />
+                  </t-form-item>
                   <t-form-item
                     label="是否过滤已分析简历"
                     name="greetingMessage"
@@ -522,6 +587,293 @@
                       </div>
                     </div>
                   </t-form-item>
+                  <t-form-item
+                    label="开启夜间保护"
+                    name="isProtection"
+                    label-width="140px"
+                    label-align="left"
+                    style="margin-bottom: 16px"
+                  >
+                    <div
+                      style="display: flex; flex-direction: column; width: 100%"
+                    >
+                      <div
+                        style="
+                          display: flex;
+                          width: 100%;
+                          margin-top: 5px;
+                          margin-bottom: 5px;
+                        "
+                      >
+                        <t-switch
+                          v-model="isProtection"
+                          @change="isProtectionChange"
+                        />
+                        <div style="font-size: 12px; color: #86909c">
+                          （开启后，将在凌晨0点-6点自动停止打招呼，降低被BOSS识别为插件的风险）
+                        </div>
+                      </div>
+                    </div>
+                  </t-form-item>
+                  <div class="attachment_body bw100 disflex fl_dir_c">
+                    <div class="disflex bw100 fl_dir_c">
+                      <t-form-item
+                        v-if="mitAttachmentArray.includes('recent_entry')"
+                        name="recent_entry"
+                        label-width="140px"
+                        label-align="left"
+                        style="margin-bottom: 16px"
+                      >
+                        <template #label>
+                          <span class="posItem_r">
+                            <t-button
+                              shape="square"
+                              variant="text"
+                              class="pi_close"
+                              @click="
+                                removeAttachment({
+                                  content: '近期任职',
+                                  value: 'recent_entry',
+                                })
+                              "
+                            >
+                              <template #icon><CloseIcon /></template>
+                            </t-button>
+                            <span class="f14">近期任职</span>
+                          </span>
+                        </template>
+                        <div class="test_body" style="gap: 12px">
+                          <div class="f12 grey3" style="width: 125px">
+                            包含职位关键词
+                          </div>
+                          <t-input
+                            v-model="recentEntry"
+                            placeholder="请输入单个职位关键词"
+                            @change="recentEntryChange"
+                          />
+                        </div>
+                      </t-form-item>
+                      <t-form-item
+                        v-if="mitAttachmentArray.includes('empty_period')"
+                        name="empty_period"
+                        label-width="140px"
+                        label-align="left"
+                        style="margin-bottom: 16px"
+                      >
+                        <template #label>
+                          <span class="posItem_r">
+                            <t-button
+                              shape="square"
+                              variant="text"
+                              class="pi_close"
+                              @click="
+                                removeAttachment({
+                                  content: '空窗期',
+                                  value: 'empty_period',
+                                })
+                              "
+                            >
+                              <template #icon><CloseIcon /></template>
+                            </t-button>
+                            <span class="f14">空窗期</span>
+                          </span>
+                        </template>
+                        <div class="test_body" style="gap: 12px">
+                          <div class="f12 grey3" style="width: 86px">
+                            最近空窗少于
+                          </div>
+                          <t-input-number
+                            v-model="emptyPeriod"
+                            theme="normal"
+                            placeholder="请输入空窗期范围"
+                            :min="0"
+                            @change="emptyPeriodChange"
+                          >
+                            <template #suffix>
+                              <span>月</span>
+                            </template>
+                          </t-input-number>
+                        </div>
+                      </t-form-item>
+                      <t-form-item
+                        v-if="mitAttachmentArray.includes('profession')"
+                        name="profession_word"
+                        label-width="140px"
+                        label-align="left"
+                        style="margin-bottom: 16px"
+                      >
+                        <template #label>
+                          <span class="posItem_r">
+                            <t-button
+                              shape="square"
+                              variant="text"
+                              class="pi_close"
+                              @click="
+                                removeAttachment({
+                                  content: '专业',
+                                  value: 'profession',
+                                })
+                              "
+                            >
+                              <template #icon><CloseIcon /></template>
+                            </t-button>
+                            <span class="f14">专业</span>
+                          </span>
+                        </template>
+                        <div class="test_body" style="gap: 12px">
+                          <div class="f12 grey3" style="width: 125px">
+                            包含专业关键词
+                          </div>
+                          <t-input
+                            v-model="professionWord"
+                            placeholder="请输入单个专业关键词"
+                            @change="professionWordChange"
+                          />
+                        </div>
+                      </t-form-item>
+                      <t-form-item
+                        v-if="mitAttachmentArray.includes('expected_position')"
+                        name="expected_position"
+                        label-width="140px"
+                        label-align="left"
+                        style="margin-bottom: 16px"
+                      >
+                        <template #label>
+                          <span class="posItem_r">
+                            <t-button
+                              shape="square"
+                              variant="text"
+                              class="pi_close"
+                              @click="
+                                removeAttachment({
+                                  content: '期望职位',
+                                  value: 'expected_position',
+                                })
+                              "
+                            >
+                              <template #icon><CloseIcon /></template>
+                            </t-button>
+                            <span class="f14">期望职位</span>
+                          </span>
+                        </template>
+                        <div class="test_body" style="gap: 12px">
+                          <div class="f12 grey3" style="width: 170px">
+                            包含期望职位关键词
+                          </div>
+                          <t-input
+                            v-model="expectedPosition"
+                            placeholder="请输入单个期望职位关键词"
+                            @change="expectedPositionChange"
+                          />
+                        </div>
+                      </t-form-item>
+                      <t-form-item
+                        v-if="mitAttachmentArray.includes('company_name')"
+                        name="company_name"
+                        label-width="140px"
+                        label-align="left"
+                        style="margin-bottom: 16px"
+                      >
+                        <template #label>
+                          <span class="posItem_r">
+                            <t-button
+                              shape="square"
+                              variant="text"
+                              class="pi_close"
+                              @click="
+                                removeAttachment({
+                                  content: '公司名称',
+                                  value: 'company_name',
+                                })
+                              "
+                            >
+                              <template #icon><CloseIcon /></template>
+                            </t-button>
+                            <span class="f14">公司名称</span>
+                          </span>
+                        </template>
+                        <div class="test_body" style="gap: 12px">
+                          <div class="f12 grey3" style="width: 170px">
+                            包含公司名称关键词
+                          </div>
+                          <t-input
+                            v-model="companyName"
+                            placeholder="请输入单个公司名称关键词"
+                            @change="companyNameChange"
+                          />
+                        </div>
+                      </t-form-item>
+                      <t-form-item
+                        v-if="mitAttachmentArray.includes('resume_text')"
+                        name="resume_text"
+                        label-width="140px"
+                        label-align="left"
+                        style="margin-bottom: 16px"
+                      >
+                        <template #label>
+                          <span class="posItem_r">
+                            <t-button
+                              shape="square"
+                              variant="text"
+                              class="pi_close"
+                              @click="
+                                removeAttachment({
+                                  content: '简历文本',
+                                  value: 'resume_text',
+                                })
+                              "
+                            >
+                              <template #icon><CloseIcon /></template>
+                            </t-button>
+                            <span class="f14">简历文本</span>
+                          </span>
+                        </template>
+                        <div class="disflex fl_dir_c">
+                          <div class="r_test_ul">
+                            <div
+                              class="r_test_li"
+                              v-for="(item, index) in resumeTextList"
+                              :key="index"
+                            >
+                              <t-input
+                                v-model="item.wordName"
+                                placeholder="请输入任意简历文本关键词"
+                                @change="resumeTextChange(item.wordName)"
+                              />
+                              <t-icon
+                                name="close"
+                                @click="removeResumeText(item)"
+                              />
+                            </div>
+                          </div>
+                          <t-link
+                            theme="primary"
+                            hover="color"
+                            @click="addResumeText"
+                          >
+                            <template #prefixIcon><AddIcon /></template>
+                            添加简历文本关键词
+                          </t-link>
+                        </div>
+                      </t-form-item>
+                    </div>
+                    <div
+                      v-if="attachmentOptions.length > 0"
+                      class="disflex fl_dir_c"
+                    >
+                      <t-dropdown
+                        :options="attachmentOptions"
+                        @click="addAttachment"
+                      >
+                        <t-button
+                          variant="outline"
+                          theme="primary"
+                          class="bw100"
+                          >添加附加条件</t-button
+                        >
+                      </t-dropdown>
+                    </div>
+                  </div>
                   <div
                     class="test_body"
                     style="margin-top: 24px; margin-bottom: 24px"
@@ -608,6 +960,9 @@
           <div v-if="radioValue === 2">
             <CurriculumVitaeTable />
           </div>
+          <div class="t_mt15" v-show="radioValue === 3">
+            <JDHome ref="jdHomeRef" @startJD="startJD" />
+          </div>
           <div style="height: 24px"></div>
         </div>
         <!-- 后台管理 -->
@@ -652,7 +1007,7 @@ import {
   reactive,
 } from 'vue';
 import browser from 'webextension-polyfill';
-import { ChevronDownIcon, CloseIcon } from 'tdesign-icons-vue-next';
+import { ChevronDownIcon, CloseIcon, AddIcon } from 'tdesign-icons-vue-next';
 import { useUserStore } from '@/stores/user';
 import { useFolderStore } from '@/stores/folder';
 import { sendMessage } from '@/utils/message';
@@ -672,8 +1027,10 @@ import logo from '../../assets/images/logo_2.png';
 import Group1 from '../../assets/images/Group1.png';
 import Group2 from '../../assets/images/Group2.png';
 import Group3 from '../../assets/images/Group3.png';
+import Group11 from '../../assets/images/Group11.png';
 import ViewChat from '../../assets/images/view_chat.png';
 import { goodlookName, getColorById } from '../../utils/utils.js';
+import JDHome from './JD-home.vue';
 
 const isMV2 = browser.runtime.getManifest().manifest_version === 2;
 
@@ -683,11 +1040,147 @@ const workflowStore = useWorkflowStore();
 const teamWorkflowStore = useTeamWorkflowStore();
 const hostedWorkflowStore = useHostedWorkflowStore();
 const radioValue = ref(1);
+const jdHomeRef = ref(null);
 
 const viewLoading = ref(true);
 const activeType = ref('autoResume');
+const academyCheckbox = ref(false);
 
 const isLoading = ref(false);
+
+const isAutoReply = ref(true);
+const isAutoReplyChange = async () => {
+  await browser.storage.local.set({
+    isAutoReply: isAutoReply.value,
+  });
+};
+const autoReplySuccessMessage = ref('');
+const autoReplySuccessMessageChange = async () => {
+  await browser.storage.local.set({
+    autoReplySuccessMessage: autoReplySuccessMessage.value,
+  });
+};
+const autoReplyFailMessage = ref('');
+const autoReplyFailMessageChange = async () => {
+  await browser.storage.local.set({
+    autoReplyFailMessage: autoReplyFailMessage.value,
+  });
+};
+
+const attachmentOptions = ref([
+  { content: '近期入职', value: 'recent_entry' },
+  { content: '空窗期', value: 'empty_period' },
+  { content: '专业', value: 'profession' },
+  { content: '期望职位', value: 'expected_position' },
+  { content: '公司名称', value: 'company_name' },
+  { content: '简历文本', value: 'resume_text' },
+]);
+
+const mitAttachmentArray = ref([]);
+
+const addAttachment = async (val) => {
+  mitAttachmentArray.value.push(val.value);
+  attachmentOptions.value = attachmentOptions.value.filter(
+    (item) => item.value !== val.value
+  );
+  await browser.storage.local.set({
+    attachmentOptions: attachmentOptions.value,
+  });
+  await browser.storage.local.set({
+    mitAttachmentArray: mitAttachmentArray.value,
+  });
+};
+
+const recentEntry = ref('');
+const recentEntryChange = async () => {
+  await browser.storage.local.set({
+    recentEntry: recentEntry.value,
+  });
+};
+
+const emptyPeriod = ref(6);
+const emptyPeriodChange = async () => {
+  await browser.storage.local.set({
+    emptyPeriod: emptyPeriod.value,
+  });
+};
+
+const professionWord = ref('');
+const professionWordChange = async () => {
+  await browser.storage.local.set({
+    professionWord: professionWord.value,
+  });
+};
+
+const expectedPosition = ref('');
+const expectedPositionChange = async () => {
+  await browser.storage.local.set({
+    expectedPosition: expectedPosition.value,
+  });
+};
+
+const companyName = ref('');
+const companyNameChange = async () => {
+  await browser.storage.local.set({
+    companyName: companyName.value,
+  });
+};
+
+const resumeTextList = ref([{ wordName: '' }]);
+const addResumeText = () => {
+  resumeTextList.value.push({ wordName: '' });
+};
+const removeResumeText = (val) => {
+  resumeTextList.value = resumeTextList.value.filter(
+    (item) => item.wordName !== val.wordName
+  );
+};
+const resumeTextChange = async () => {
+  debugger;
+  console.log(resumeTextList.value);
+
+  await browser.storage.local.set({
+    resumeTextList: resumeTextList.value,
+  });
+};
+
+const removeAttachment = async (obj) => {
+  mitAttachmentArray.value = mitAttachmentArray.value.filter(
+    (item) => item !== obj.value
+  );
+  attachmentOptions.value.push({
+    content: obj.content,
+    value: obj.value,
+  });
+  if (obj.value === 'recent_entry') {
+    recentEntry.value = '';
+  }
+  if (obj.value === 'empty_period') {
+    emptyPeriod.value = 6;
+  }
+  if (obj.value === 'profession') {
+    professionWord.value = '';
+  }
+  if (obj.value === 'expected_position') {
+    expectedPosition.value = '';
+  }
+  if (obj.value === 'company_name') {
+    companyName.value = '';
+  }
+  if (obj.value === 'resume_text') {
+    resumeTextList.value = [];
+  }
+  await browser.storage.local.set({
+    mitAttachmentArray: mitAttachmentArray.value,
+    attachmentOptions: attachmentOptions.value,
+    recentEntry: recentEntry.value,
+    emptyPeriod: emptyPeriod.value,
+    professionWord: professionWord.value,
+    expectedPosition: expectedPosition.value,
+    companyName: companyName.value,
+    resumeTextList: resumeTextList.value,
+  });
+};
 
 useGroupTooltip();
 
@@ -786,8 +1279,6 @@ const showTab = computed(
 
 async function executeWorkflow(workflow) {
   try {
-    console.log(browser);
-
     const [tab] = await browser.tabs.query({
       url: browser.runtime.getURL('/newtab.html'),
     });
@@ -1024,6 +1515,12 @@ const isExperienceMatchingChange = async () => {
   });
 };
 
+const isProtection = ref(false);
+const isProtectionChange = async () => {
+  await browser.storage.local.set({
+    isProtection: isProtection.value,
+  });
+};
 const greetingMessageChange = async () => {
   await browser.storage.local.set({
     greetingMessage: greetingMessage.value,
@@ -1177,6 +1674,21 @@ const startResume = async () => {
           isAnalysis: isAnalysis.value,
           isPreciseMatch: isPreciseMatch.value,
           isExperienceMatching: isExperienceMatching.value,
+          isProtection: isProtection.value,
+          recentEntry: recentEntry.value,
+          emptyPeriod: emptyPeriod.value,
+          professionWord: professionWord.value,
+          expectedPosition: expectedPosition.value,
+          companyName: companyName.value,
+          resumeTextList: resumeTextList.value,
+          isAutoReply: isAutoReply.value,
+          autoReplySuccessMessage: isAutoReply.value
+            ? autoReplySuccessMessage.value
+            : null,
+          autoReplyFailMessage: isAutoReply.value
+            ? autoReplyFailMessage.value
+            : null,
+          academyCheckbox: academyCheckbox.value,
         };
         const JD_obj = positionOptions.value.find(
           (item) => item.label === positionValue.value
@@ -1225,10 +1737,13 @@ const hasLogin = ref(false);
 const userInfoMain = ref(null);
 
 // 获取岗位需求列表（自己的）
+const jdListToBeConfirmed = ref([]); // JD待确认
+const jdListConfirmed = ref([]); // JD已确认
+const jdListUpdate = ref([]); // JD已更新
 const getPositionRequirementList = async () => {
-  if (positionOptions.value?.length > 0) {
-    return;
-  }
+  // if (positionOptions.value?.length > 0) {
+  //   return;
+  // }
   const userInfo = await browser.storage.local.get('userInfo');
   const requestOptions = {
     method: 'get',
@@ -1249,15 +1764,38 @@ const getPositionRequirementList = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    const arr = data?.rows?.filter((item) => item.jobSyncVo);
-    positionOptions.value = arr.map((item) => ({
-      label: item.jobSyncVo.indexName,
-      value: item.jobSyncVo.indexName,
-      jobDescription: item.jobSyncVo.jobDescription,
-      filterConditions: item.filterConditions,
-      positionId: item.positionId || null,
-    }));
-    browser.storage.local.set({ positionOptions: positionOptions.value });
+    const arr = data?.rows;
+    // const arr = data?.rows?.filter((item) => item.jobSyncVo);
+    if (arr && arr.length > 0) {
+      arr.forEach((item) => {
+        if (item.jobSyncVo) {
+          if (!item.jobSyncVo?.jdPostName) {
+            item.jobSyncVo.jdPostName = item.jobSyncVo.indexName.split(' ')[0];
+          }
+        }
+        if (!item.jobSyncVo) {
+          item.jobSyncVo = {
+            indexName: item.name,
+            jdPostName: item.name,
+            jobDescription: '',
+          };
+        }
+      });
+      const list = arr.map((item) => {
+        return {
+          ...item.jobSyncVo,
+        };
+      });
+      await jdHomeRef.value.active(list);
+    }
+    // positionOptions.value = arr.map((item) => ({
+    //   label: item.jobSyncVo.indexName,
+    //   value: item.jobSyncVo.indexName,
+    //   jobDescription: item.jobSyncVo.jobDescription,
+    //   filterConditions: item.filterConditions,
+    //   positionId: item.positionId || null,
+    // }));
+    // browser.storage.local.set({ positionOptions: positionOptions.value });
     return null;
   } catch (error) {
     console.error('请求出错：', error);
@@ -1350,8 +1888,9 @@ const versionMit = async () => {
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json
+  // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json
   const API_URL =
-    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config.json';
+    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json';
   try {
     // 添加no-cache参数避免缓存
     const response = await fetch(API_URL, {
@@ -1461,7 +2000,20 @@ onMounted(async () => {
     'newTypeNum',
     'isPreciseMatch',
     'isExperienceMatching',
+    'isProtection',
     'isAnalysis',
+    'mitAttachmentArray',
+    'attachmentOptions',
+    'recentEntry',
+    'emptyPeriod',
+    'professionWord',
+    'expectedPosition',
+    'companyName',
+    'resumeTextList',
+    'isAutoReply',
+    'autoReplySuccessMessage',
+    'autoReplyFailMessage',
+    'academyCheckbox',
   ]);
 
   try {
@@ -1535,6 +2087,43 @@ onMounted(async () => {
     isExperienceMatching.value =
       result.isExperienceMatching === 'true' ||
       result.isExperienceMatching === true
+        ? true
+        : false;
+    isProtection.value =
+      result.isProtection === 'true' || result.isProtection === true
+        ? true
+        : false;
+    mitAttachmentArray.value = result.mitAttachmentArray
+      ? Object.values(result.mitAttachmentArray)
+      : [];
+    attachmentOptions.value = result.attachmentOptions
+      ? Object.values(result.attachmentOptions)
+      : [
+          { content: '近期入职', value: 'recent_entry' },
+          { content: '空窗期', value: 'empty_period' },
+          { content: '专业', value: 'profession' },
+          { content: '期望职位', value: 'expected_position' },
+          { content: '公司名称', value: 'company_name' },
+          { content: '简历文本', value: 'resume_text' },
+        ];
+    recentEntry.value = result.recentEntry || '';
+    emptyPeriod.value = result.emptyPeriod || 6;
+    professionWord.value = result.professionWord || '';
+    expectedPosition.value = result.expectedPosition || '';
+    companyName.value = result.companyName || '';
+    resumeTextList.value = result.resumeTextList
+      ? Object.values(result.resumeTextList)
+      : [];
+    isAutoReply.value =
+      result.isAutoReply === 'true' ||
+      result.isAutoReply === true
+        ? true
+        : false;
+    autoReplySuccessMessage.value = result.autoReplySuccessMessage || '';
+    autoReplyFailMessage.value = result.autoReplyFailMessage || '';
+    academyCheckbox.value =
+      result.academyCheckbox === 'true' ||
+      result.academyCheckbox === true
         ? true
         : false;
   } catch (e) {
@@ -1643,15 +2232,17 @@ onMounted(async () => {
           // browser.storage.local.set({
           //   keyWordsOptions: keyWordsOptions.value,
           // });
+          await getPointBalance();
+          await getPositionRequirementList();
           browser.storage.local.remove('uuid');
         } else {
-          // await getPositionRequirementList();
           await getPointBalance();
+          await getPositionRequirementList();
         }
       });
   } else {
-    // await getPositionRequirementList();
     await getPointBalance();
+    await getPositionRequirementList();
   }
 });
 
@@ -1773,7 +2364,7 @@ const aiResumeEvaluationCriteria = async (query) => {
 };
 
 const academyValue = ref([0]);
-const academyCheckbox = ref(false);
+
 const experienceValue = ref([1]);
 const educationalValue = ref([5]);
 
@@ -2017,6 +2608,75 @@ const academyChange = async (value, event) => {
   });
   // await aiResumeEvaluationCriteria(null);
 };
+
+const startSynchronization = async () => {
+  for (const element of workflows.value) {
+    if (element.name === '同步JD列表') {
+      const uuid = uuidv4();
+      await browser.storage.local.set({
+        uuid,
+      });
+      element.globalData = `{"uuid": "${uuid}"}`;
+      executeWorkflow(element, true);
+    }
+  }
+};
+
+const startUpDateBOSSListt = async () => {
+  const result = await browser.storage.local.get([
+    'local_jdListToBeConfirmed',
+    'local_jdListConfirmed',
+    'local_jdListUpdate',
+    'local_mitJdList',
+  ]);
+  jdListToBeConfirmed.value = result.local_jdListToBeConfirmed
+    ? Object.values(result.local_jdListToBeConfirmed)
+    : [];
+  jdListConfirmed.value = result.local_jdListConfirmed
+    ? Object.values(result.local_jdListConfirmed)
+    : [];
+  jdListUpdate.value = result.local_jdListUpdate
+    ? Object.values(result.local_jdListUpdate)
+    : [];
+  const mitJdList = result.local_mitJdList
+    ? Object.values(result.local_mitJdList)
+    : [];
+  const arr = mitJdList.map((item, index) => {
+    return {
+      title: item.jdPostName,
+      JDPost: item.indexName,
+      JDValue: item.optimizationNoHtmlJD,
+    };
+  });
+  for (const element of workflows.value) {
+    if (element.name === 'JD信息同步到BOSS') {
+      const uuid = uuidv4();
+      await browser.storage.local.set({
+        uuid,
+      });
+      element.globalData = {
+        upDateBOSSListt: arr,
+      };
+      jdListUpdate.value = mitJdList;
+      browser.storage.local.set({ local_jdListUpdate: jdListUpdate.value });
+      jdListConfirmed.value = jdListConfirmed.value.filter(
+        (i) => !mitJdList.find((item) => item.indexName === i.indexName)
+      );
+      browser.storage.local.set({
+        local_jdListConfirmed: jdListConfirmed.value,
+      });
+      executeWorkflow(element, true);
+    }
+  }
+};
+
+const startJD = async (type) => {
+  if (type === 'Synchronization') {
+    await startSynchronization();
+  } else if (type === 'upDateBoss') {
+    await startUpDateBOSSListt();
+  }
+};
 </script>
 <style scoped>
 :deep(.t-check-tag-group) {
@@ -2108,5 +2768,9 @@ const academyChange = async (value, event) => {
 }
 :deep(.t-form__item) {
   margin-bottom: 4px;
+}
+.pi_close {
+  position: absolute;
+  left: -32px;
 }
 </style>
