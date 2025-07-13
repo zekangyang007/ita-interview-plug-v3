@@ -828,18 +828,18 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "code": "const globalData = automaRefData('globalData');\nconst taskExecuteId = globalData?.taskExecuteId || null\nconst resume_name = automaRefData('variables', 'geek_name');\nconst resume_id = automaRefData('variables', 'geek_id');\nconst resume_resume = automaRefData('variables', 'resume_content');\nconst resume_nohtml_resume = automaRefData('variables', 'resume_nohtml_content');\nconst result_word_arr = automaRefData('variables', 'result_word_arr');\nconst parameter_1 = automaRefData('variables', 'parameter_1') || null;\nconst parameter_2 = automaRefData('variables', 'parameter_2') || null;\nconst parameter_3 = automaRefData('variables', 'parameter_3') || null;\nconst bossName = automaRefData('variables', 'boss_user_name') || null;\nconst jdPrompt = automaRefData('variables', 'jdPrompt') || null;\nconst geek_expect_wrap_data = automaRefData('variables', 'geek_expect_wrap_data');\nconst positionValue_word = globalData.positionValue_word\nconst edu = globalData.edu || '';\nconst resumeEvaluationCriteria = globalData.resumeEvaluationCriteria;\nconst isPreciseMatch = globalData.isPreciseMatch || null;\n//组装简历和简历判断标准\nlet prompt = \"\\n\\n ## 简历内容为\\n\\n\"\nlet recruitmentId = null;\nif (globalData?.source === 'systeam') {\n  recruitmentId = globalData.recruitmentId\n} else {\n  recruitmentId = automaRefData('variables', 'res_recruitmentId') || null;\n}\nlet searchStr = \"牛人分析器\";\nlet resume_new_resume = null;\nconst indexText = resume_nohtml_resume.indexOf(searchStr);\nif (indexText !== -1) {\n  resume_new_resume = resume_nohtml_resume.substring(0, indexText);\n} else {\n  searchStr = \"为妥善保护牛人在BOSS直聘平台提交\"\n  const indexText2 = resume_nohtml_resume.indexOf(searchStr);\n  if (indexText2 !== -1) {\n    resume_new_resume = resume_nohtml_resume.substring(0, indexText2);\n  } else {\n    resume_new_resume = resume_nohtml_resume\n  }\n}\nconsole.log(resume_new_resume)\nfunction formatDate(date) {\n    // 获取年份、月份、日期、小时、分钟、秒\n    const year = date.getFullYear();\n    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要加1\n    const day = String(date.getDate()).padStart(2, '0');\n    const hours = String(date.getHours()).padStart(2, '0');\n    const minutes = String(date.getMinutes()).padStart(2, '0');\n    const seconds = String(date.getSeconds()).padStart(2, '0');\n \n    // 组装成YYYY-MM-DD HH:mm:ss格式\n    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n}\nconst now_time = new Date();\nconst now_time_item = formatDate(now_time)\n\nvar data = null;\nautomaSetVariable('resume_new_resume', resume_new_resume);\nprompt += resume_new_resume;\nautomaSetVariable('promptResume', prompt);\nautomaSetVariable('resumeEvaluationCriteria', resumeEvaluationCriteria);\nautomaSetVariable('edu', edu);\nlet inputs = {\n  query: prompt,\n  standard: resumeEvaluationCriteria,\n  position: positionValue_word,\n  jd: jdPrompt,\n  edu: edu\n}\n\nif (result_word_arr && result_word_arr.length > 0) {\n  let workingExperienceNum = 0;\n  if (result_word_arr[1]) {\n    if (result_word_arr[1].indexOf('应届') > -1) {\n      workingExperienceNum = 0;\n    } else {\n      const yearTitle = result_word_arr[1].split('年') || []\n      const o_num = (yearTitle[0]) * 1\n      if (o_num) {\n        workingExperienceNum = o_num\n      }\n    }\n  }\n  data = JSON.stringify({\n      \"recruitmentId\": recruitmentId,\n      \"recordIdx\": resume_id,\n      \"name\":resume_name,\n      \"resume\": resume_resume,\n      \"account\": bossName,\n      \"matchParams\": result_word_arr[0] + ',' + result_word_arr[1] + ',' + result_word_arr[2],\n      \"viewedAt\": now_time_item,\n      \"position\": positionValue_word,\n      \"inputs\": JSON.stringify(inputs),\n      \"filterMode\": (isPreciseMatch === true || isPreciseMatch === 'true') ? 1 : 0,\n      \"expectedPosition\": geek_expect_wrap_data ? geek_expect_wrap_data[1] : null,\n      \"expectedSalary\": geek_expect_wrap_data ? geek_expect_wrap_data[3] : null,\n      \"workingExperience\": geek_expect_wrap_data ? workingExperienceNum : null,\n      \"degree\": geek_expect_wrap_data ? result_word_arr[2] : null,\n      \"district\": geek_expect_wrap_data ? geek_expect_wrap_data[0] : null,\n      \"remoteTaskId\": taskExecuteId,\n      \"recordType\": 1\n  });\n} else {\n  let workingExperienceNum = 0;\n  if (parameter_2) {\n    if (parameter_2.indexOf('应届') > -1) {\n      workingExperienceNum = 0;\n    } else {\n      const yearTitle = parameter_2.split('年') || []\n      const o_num = (yearTitle[0]) * 1\n      if (o_num) {\n        workingExperienceNum = o_num\n      }\n    }\n  }\n  data = JSON.stringify({\n      \"recruitmentId\": recruitmentId,\n      \"recordIdx\": resume_id,\n      \"name\":resume_name,\n      \"resume\": resume_resume,\n      \"account\": bossName,\n      \"matchParams\": parameter_1 + ',' + parameter_2 + ',' + parameter_3,\n      \"viewedAt\": now_time_item,\n      \"position\": positionValue_word,\n      \"inputs\": JSON.stringify(inputs),\n      \"filterMode\": (isPreciseMatch === true || isPreciseMatch === 'true') ? 1 : 0,\n      \"expectedPosition\": geek_expect_wrap_data ? geek_expect_wrap_data[1] : null,\n      \"expectedSalary\": geek_expect_wrap_data ? geek_expect_wrap_data[3] : null,\n      \"workingExperience\": geek_expect_wrap_data ? workingExperienceNum : null,\n      \"degree\": geek_expect_wrap_data ? result_word_arr[2] : null,\n      \"district\": geek_expect_wrap_data ? geek_expect_wrap_data[0] : null,\n      \"remoteTaskId\": taskExecuteId,\n      \"recordType\": 1\n  });\n}\n\nfetch(\"https://test-interview-api.itasaas.com/api/v1/business/recruit-record/filter\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      automaSetVariable('pass_ai', result?.data);\n      automaSetVariable('pass_ai_reason', result?.data?.reason);\n      if(result?.data?.result === true || result?.data?.result === 'true') {\n        automaNextBlock({},{nextBlockId:\"6y6wyk6\"})   \n        return\n        //简历通过 AI 筛选\n      } else if (result?.data?.result === false || result?.data?.result === 'false') {\n        //简历没有通过 AI 筛选\n        automaNextBlock({},{nextBlockId:\"ryrqk8d\"})\n        return\n      } else if (result?.code === 400) {\n        if (result?.msg === '积分不足') {\n          automaNextBlock({},{nextBlockId:\"4b2m81s\"}) \n          return\n        } else {\n          automaNextBlock({},{nextBlockId:\"laz0rl2\"}) \n          return\n        }\n      } else {\n        automaNextBlock({},{nextBlockId:\"laz0rl2\"}) \n        return\n      }\n    })\n    .catch(error => {\n      automaNextBlock({},{nextBlockId:\"hrp19lw\"})\n      console.log(error)\n      return\n    });\n",
-                    "context": "website",
-                    "description": "生成候选人记录",
                     "disableBlock": false,
-                    "everyNewTab": false,
+                    "description": "生成候选人记录",
+                    "timeout": 100000,
+                    "context": "website",
+                    "code": "const globalData = automaRefData('globalData');\nconst taskExecuteId = globalData?.taskExecuteId || null\nconst resume_name = automaRefData('variables', 'geek_name');\nconst resume_id = automaRefData('variables', 'geek_id');\nconst resume_resume = automaRefData('variables', 'resume_content');\nconst resume_nohtml_resume = automaRefData('variables', 'resume_nohtml_content');\nconst result_word_arr = automaRefData('variables', 'result_word_arr');\nconst parameter_1 = automaRefData('variables', 'parameter_1') || null;\nconst parameter_2 = automaRefData('variables', 'parameter_2') || null;\nconst parameter_3 = automaRefData('variables', 'parameter_3') || null;\nconst bossName = automaRefData('variables', 'boss_user_name') || null;\nconst jdPrompt = automaRefData('variables', 'jdPrompt') || null;\nconst geek_expect_wrap_data = automaRefData('variables', 'geek_expect_wrap_data');\nconst positionValue_word = globalData.positionValue_word\nconst edu = globalData.edu || '';\nconst resumeEvaluationCriteria = globalData.resumeEvaluationCriteria;\nconst isPreciseMatch = globalData.isPreciseMatch || null;\n//组装简历和简历判断标准\nlet prompt = \"\\n\\n ## 简历内容为\\n\\n\"\nlet recruitmentId = null;\nif (globalData?.source === 'systeam') {\n  recruitmentId = globalData.recruitmentId\n} else {\n  recruitmentId = automaRefData('variables', 'res_recruitmentId') || null;\n}\nlet searchStr = \"牛人分析器\";\nlet resume_new_resume = null;\nconst indexText = resume_nohtml_resume.indexOf(searchStr);\nif (indexText !== -1) {\n  resume_new_resume = resume_nohtml_resume.substring(0, indexText);\n} else {\n  searchStr = \"为妥善保护牛人在BOSS直聘平台提交\"\n  const indexText2 = resume_nohtml_resume.indexOf(searchStr);\n  if (indexText2 !== -1) {\n    resume_new_resume = resume_nohtml_resume.substring(0, indexText2);\n  } else {\n    resume_new_resume = resume_nohtml_resume\n  }\n}\nconsole.log(resume_new_resume)\nfunction formatDate(date) {\n    // 获取年份、月份、日期、小时、分钟、秒\n    const year = date.getFullYear();\n    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要加1\n    const day = String(date.getDate()).padStart(2, '0');\n    const hours = String(date.getHours()).padStart(2, '0');\n    const minutes = String(date.getMinutes()).padStart(2, '0');\n    const seconds = String(date.getSeconds()).padStart(2, '0');\n \n    // 组装成YYYY-MM-DD HH:mm:ss格式\n    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n}\nconst now_time = new Date();\nconst now_time_item = formatDate(now_time)\n\nvar data = null;\nautomaSetVariable('resume_new_resume', resume_new_resume);\nprompt += resume_new_resume;\nautomaSetVariable('promptResume', prompt);\nautomaSetVariable('resumeEvaluationCriteria', resumeEvaluationCriteria);\nautomaSetVariable('edu', edu);\nlet inputs = {\n  query: prompt,\n  standard: resumeEvaluationCriteria,\n  position: positionValue_word,\n  jd: jdPrompt,\n  edu: edu\n}\n\nif (result_word_arr && result_word_arr.length > 0) {\n  let workingExperienceNum = 0;\n  if (result_word_arr[1]) {\n    if (result_word_arr[1].indexOf('应届') > -1) {\n      workingExperienceNum = 0;\n    } else {\n      const yearTitle = result_word_arr[1].split('年') || []\n      const o_num = (yearTitle[0]) * 1\n      if (o_num) {\n        workingExperienceNum = o_num\n      }\n    }\n  }\n  data = JSON.stringify({\n      \"recruitmentId\": recruitmentId,\n      \"recordIdx\": resume_id,\n      \"name\":resume_name,\n      \"resume\": resume_resume,\n      \"account\": bossName,\n      \"matchParams\": result_word_arr[0] + ',' + result_word_arr[1] + ',' + result_word_arr[2],\n      \"viewedAt\": now_time_item,\n      \"position\": positionValue_word,\n      \"inputs\": JSON.stringify(inputs),\n      \"filterMode\": (isPreciseMatch === true || isPreciseMatch === 'true') ? 1 : 0,\n      \"expectedPosition\": geek_expect_wrap_data ? geek_expect_wrap_data[1] : null,\n      \"expectedSalary\": geek_expect_wrap_data ? geek_expect_wrap_data[3] : null,\n      \"workingExperience\": geek_expect_wrap_data ? workingExperienceNum : null,\n      \"degree\": geek_expect_wrap_data ? result_word_arr[2] : null,\n      \"district\": geek_expect_wrap_data ? geek_expect_wrap_data[0] : null,\n      \"remoteTaskId\": taskExecuteId,\n      \"recordType\": 1\n  });\n} else {\n  let workingExperienceNum = 0;\n  if (parameter_2) {\n    if (parameter_2.indexOf('应届') > -1) {\n      workingExperienceNum = 0;\n    } else {\n      const yearTitle = parameter_2.split('年') || []\n      const o_num = (yearTitle[0]) * 1\n      if (o_num) {\n        workingExperienceNum = o_num\n      }\n    }\n  }\n  data = JSON.stringify({\n      \"recruitmentId\": recruitmentId,\n      \"recordIdx\": resume_id,\n      \"name\":resume_name,\n      \"resume\": resume_resume,\n      \"account\": bossName,\n      \"matchParams\": parameter_1 + ',' + parameter_2 + ',' + parameter_3,\n      \"viewedAt\": now_time_item,\n      \"position\": positionValue_word,\n      \"inputs\": JSON.stringify(inputs),\n      \"filterMode\": (isPreciseMatch === true || isPreciseMatch === 'true') ? 1 : 0,\n      \"expectedPosition\": geek_expect_wrap_data ? geek_expect_wrap_data[1] : null,\n      \"expectedSalary\": geek_expect_wrap_data ? geek_expect_wrap_data[3] : null,\n      \"workingExperience\": geek_expect_wrap_data ? workingExperienceNum : null,\n      \"degree\": geek_expect_wrap_data ? result_word_arr[2] : null,\n      \"district\": geek_expect_wrap_data ? geek_expect_wrap_data[0] : null,\n      \"remoteTaskId\": taskExecuteId,\n      \"recordType\": 1\n  });\n}\n\nfetch(\"https://test-interview-api.itasaas.com/api/v1/business/recruit-record/filter-remote\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      automaSetVariable('pass_ai', result?.data);\n      automaSetVariable('pass_ai_reason', result?.data?.reason);\n      if(result?.data?.result === true || result?.data?.result === 'true') {\n        automaNextBlock({},{nextBlockId:\"6y6wyk6\"})   \n        return\n        //简历通过 AI 筛选\n      } else if (result?.data?.result === false || result?.data?.result === 'false') {\n        //简历没有通过 AI 筛选\n        automaNextBlock({},{nextBlockId:\"ryrqk8d\"})\n        return\n      } else if (result?.code === 400) {\n        if (result?.msg === '积分不足') {\n          automaNextBlock({},{nextBlockId:\"4b2m81s\"}) \n          return\n        } else {\n          automaNextBlock({},{nextBlockId:\"laz0rl2\"}) \n          return\n        }\n      } else {\n        automaNextBlock({},{nextBlockId:\"laz0rl2\"}) \n        return\n      }\n    })\n    .catch(error => {\n      automaNextBlock({},{nextBlockId:\"hrp19lw\"})\n      console.log(error)\n      return\n    });\n",
                     "preloadScripts": [],
+                    "everyNewTab": false,
                     "runBeforeLoad": false,
                     "settings": {
                         "blockTimeout": 100000,
                         "debugMode": false
-                    },
-                    "timeout": 100000
+                    }
                 },
                 "events": {},
                 "id": "l9oa1g2",
@@ -6969,18 +6969,18 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "code": "const globalData = automaRefData('globalData');\nconst taskExecuteId = globalData?.taskExecuteId || null\nconst resume_name = automaRefData('variables', 'geek_plural_name');\nconst resume_id = automaRefData('variables', 'geek_plural_id');\nconst resume_resume = automaRefData('variables', 'chat_html_resum_detail');\nconst resume_nohtml_resume = automaRefData('variables', 'chat_resum_detail');\nconst result_word_arr = automaRefData('variables', 'chat_result_word_arr');\nconst bossName = automaRefData('variables', 'boss_user_name') || null;\nconst jdPrompt = automaRefData('variables', 'jdPrompt') || null;\nconst geek_expect_wrap_data = automaRefData('variables', 'chat_expect_wrap_data') || null;\nconst positionValue_word = globalData.positionValue_word\nconst edu = globalData.edu || '';\nconst resumeEvaluationCriteria = globalData.resumeEvaluationCriteria;\nconst isPreciseMatch = globalData.isPreciseMatch || null;\n//组装简历和简历判断标准\nlet prompt = \"\\n\\n ## 简历内容为\\n\\n\"\nlet recruitmentId = null;\nif (globalData?.source === 'systeam') {\n  recruitmentId = globalData.recruitmentId\n} else {\n  recruitmentId = automaRefData('variables', 'res_recruitmentId') || null;\n}\nlet searchStr = \"牛人分析器\";\nlet resume_new_resume = null;\nconst indexText = resume_nohtml_resume.indexOf(searchStr);\nif (indexText !== -1) {\n  resume_new_resume = resume_nohtml_resume.substring(0, indexText);\n} else {\n  searchStr = \"为妥善保护牛人在BOSS直聘平台提交\"\n  const indexText2 = resume_nohtml_resume.indexOf(searchStr);\n  if (indexText2 !== -1) {\n    resume_new_resume = resume_nohtml_resume.substring(0, indexText2);\n  } else {\n    resume_new_resume = resume_nohtml_resume\n  }\n}\nconsole.log(resume_new_resume)\nfunction formatDate(date) {\n    // 获取年份、月份、日期、小时、分钟、秒\n    const year = date.getFullYear();\n    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要加1\n    const day = String(date.getDate()).padStart(2, '0');\n    const hours = String(date.getHours()).padStart(2, '0');\n    const minutes = String(date.getMinutes()).padStart(2, '0');\n    const seconds = String(date.getSeconds()).padStart(2, '0');\n \n    // 组装成YYYY-MM-DD HH:mm:ss格式\n    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n}\nconst now_time = new Date();\nconst now_time_item = formatDate(now_time)\n\nvar data = null;\nprompt += resume_new_resume;\nlet inputs = {\n  query: prompt,\n  standard: resumeEvaluationCriteria,\n  position: positionValue_word,\n  jd: jdPrompt,\n  edu: edu\n}\n\nlet workingExperienceNum = 0;\nif (result_word_arr[1]) {\n  if (result_word_arr[1].indexOf('应届') > -1) {\n    workingExperienceNum = 0;\n  } else {\n    const yearTitle = result_word_arr[1].split('年') || []\n    const o_num = (yearTitle[0]) * 1\n    if (o_num) {\n      workingExperienceNum = o_num\n    }\n  }\n}\ndata = JSON.stringify({\n    \"recruitmentId\": recruitmentId,\n    \"recordIdx\": resume_id,\n    \"name\":resume_name,\n    \"resume\": resume_resume,\n    \"account\": bossName,\n    \"matchParams\": result_word_arr[0] + ',' + result_word_arr[1] + ',' + result_word_arr[2],\n    \"viewedAt\": now_time_item,\n    \"position\": positionValue_word,\n    \"inputs\": JSON.stringify(inputs),\n    \"filterMode\": (isPreciseMatch === true || isPreciseMatch === 'true') ? 1 : 0,\n    \"expectedPosition\": geek_expect_wrap_data ? geek_expect_wrap_data[1] : null,\n    \"expectedSalary\": geek_expect_wrap_data ? geek_expect_wrap_data[3] : null,\n    \"workingExperience\": geek_expect_wrap_data ? workingExperienceNum : null,\n    \"degree\": geek_expect_wrap_data ? result_word_arr[2] : null,\n    \"district\": geek_expect_wrap_data ? geek_expect_wrap_data[0] : null,\n    \"remoteTaskId\": taskExecuteId,\n    \"recordType\": 2\n});\n\nfetch(\"https://test-interview-api.itasaas.com/api/v1/business/recruit-record/filter\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      automaSetVariable('chat_pass_ai', result?.data);\n      automaSetVariable('chat_pass_ai_reason', result?.data?.reason);\n      if(result?.data?.result === true || result?.data?.result === 'true') {\n        automaNextBlock({},{nextBlockId:\"bewju8s\"})   \n        return\n        //简历通过 AI 筛选\n      } else if (result?.data?.result === false || result?.data?.result === 'false') {\n        //简历没有通过 AI 筛选\n        automaNextBlock({},{nextBlockId:\"qeh91lr\"})\n        return\n      } else if (result?.code === 400) {\n        if (result?.msg === '积分不足') {\n          automaNextBlock({},{nextBlockId:\"gt2ario\"}) \n          return\n        } else {\n          automaNextBlock({},{nextBlockId:\"rojpoyo\"}) \n          return\n        }\n      } else {\n        automaNextBlock({},{nextBlockId:\"rojpoyo\"}) \n        return\n      }\n    })\n    .catch(error => {\n      automaNextBlock({},{nextBlockId:\"i1ne7lj\"})\n      console.log(error)\n      return\n    });\n",
-                    "context": "website",
-                    "description": "生成候选人记录",
                     "disableBlock": false,
-                    "everyNewTab": false,
+                    "description": "生成候选人记录",
+                    "timeout": 100000,
+                    "context": "website",
+                    "code": "const globalData = automaRefData('globalData');\nconst taskExecuteId = globalData?.taskExecuteId || null\nconst resume_name = automaRefData('variables', 'geek_plural_name');\nconst resume_id = automaRefData('variables', 'geek_plural_id');\nconst resume_resume = automaRefData('variables', 'chat_html_resum_detail');\nconst resume_nohtml_resume = automaRefData('variables', 'chat_resum_detail');\nconst result_word_arr = automaRefData('variables', 'chat_result_word_arr');\nconst bossName = automaRefData('variables', 'boss_user_name') || null;\nconst jdPrompt = automaRefData('variables', 'jdPrompt') || null;\nconst geek_expect_wrap_data = automaRefData('variables', 'chat_expect_wrap_data') || null;\nconst positionValue_word = globalData.positionValue_word\nconst edu = globalData.edu || '';\nconst resumeEvaluationCriteria = globalData.resumeEvaluationCriteria;\nconst isPreciseMatch = globalData.isPreciseMatch || null;\n//组装简历和简历判断标准\nlet prompt = \"\\n\\n ## 简历内容为\\n\\n\"\nlet recruitmentId = null;\nif (globalData?.source === 'systeam') {\n  recruitmentId = globalData.recruitmentId\n} else {\n  recruitmentId = automaRefData('variables', 'res_recruitmentId') || null;\n}\nlet searchStr = \"牛人分析器\";\nlet resume_new_resume = null;\nconst indexText = resume_nohtml_resume.indexOf(searchStr);\nif (indexText !== -1) {\n  resume_new_resume = resume_nohtml_resume.substring(0, indexText);\n} else {\n  searchStr = \"为妥善保护牛人在BOSS直聘平台提交\"\n  const indexText2 = resume_nohtml_resume.indexOf(searchStr);\n  if (indexText2 !== -1) {\n    resume_new_resume = resume_nohtml_resume.substring(0, indexText2);\n  } else {\n    resume_new_resume = resume_nohtml_resume\n  }\n}\nconsole.log(resume_new_resume)\nfunction formatDate(date) {\n    // 获取年份、月份、日期、小时、分钟、秒\n    const year = date.getFullYear();\n    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要加1\n    const day = String(date.getDate()).padStart(2, '0');\n    const hours = String(date.getHours()).padStart(2, '0');\n    const minutes = String(date.getMinutes()).padStart(2, '0');\n    const seconds = String(date.getSeconds()).padStart(2, '0');\n \n    // 组装成YYYY-MM-DD HH:mm:ss格式\n    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n}\nconst now_time = new Date();\nconst now_time_item = formatDate(now_time)\n\nvar data = null;\nprompt += resume_new_resume;\nlet inputs = {\n  query: prompt,\n  standard: resumeEvaluationCriteria,\n  position: positionValue_word,\n  jd: jdPrompt,\n  edu: edu\n}\n\nlet workingExperienceNum = 0;\nif (result_word_arr[1]) {\n  if (result_word_arr[1].indexOf('应届') > -1) {\n    workingExperienceNum = 0;\n  } else {\n    const yearTitle = result_word_arr[1].split('年') || []\n    const o_num = (yearTitle[0]) * 1\n    if (o_num) {\n      workingExperienceNum = o_num\n    }\n  }\n}\ndata = JSON.stringify({\n    \"recruitmentId\": recruitmentId,\n    \"recordIdx\": resume_id,\n    \"name\":resume_name,\n    \"resume\": resume_resume,\n    \"account\": bossName,\n    \"matchParams\": result_word_arr[0] + ',' + result_word_arr[1] + ',' + result_word_arr[2],\n    \"viewedAt\": now_time_item,\n    \"position\": positionValue_word,\n    \"inputs\": JSON.stringify(inputs),\n    \"filterMode\": (isPreciseMatch === true || isPreciseMatch === 'true') ? 1 : 0,\n    \"expectedPosition\": geek_expect_wrap_data ? geek_expect_wrap_data[1] : null,\n    \"expectedSalary\": geek_expect_wrap_data ? geek_expect_wrap_data[3] : null,\n    \"workingExperience\": geek_expect_wrap_data ? workingExperienceNum : null,\n    \"degree\": geek_expect_wrap_data ? result_word_arr[2] : null,\n    \"district\": geek_expect_wrap_data ? geek_expect_wrap_data[0] : null,\n    \"remoteTaskId\": taskExecuteId,\n    \"recordType\": 2\n});\n\nfetch(\"https://test-interview-api.itasaas.com/api/v1/business/recruit-record/filter-remote\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      automaSetVariable('chat_pass_ai', result?.data);\n      automaSetVariable('chat_pass_ai_reason', result?.data?.reason);\n      if(result?.data?.result === true || result?.data?.result === 'true') {\n        automaNextBlock({},{nextBlockId:\"bewju8s\"})   \n        return\n        //简历通过 AI 筛选\n      } else if (result?.data?.result === false || result?.data?.result === 'false') {\n        //简历没有通过 AI 筛选\n        automaNextBlock({},{nextBlockId:\"qeh91lr\"})\n        return\n      } else if (result?.code === 400) {\n        if (result?.msg === '积分不足') {\n          automaNextBlock({},{nextBlockId:\"gt2ario\"}) \n          return\n        } else {\n          automaNextBlock({},{nextBlockId:\"rojpoyo\"}) \n          return\n        }\n      } else {\n        automaNextBlock({},{nextBlockId:\"rojpoyo\"}) \n        return\n      }\n    })\n    .catch(error => {\n      automaNextBlock({},{nextBlockId:\"i1ne7lj\"})\n      console.log(error)\n      return\n    });\n",
                     "preloadScripts": [],
+                    "everyNewTab": false,
                     "runBeforeLoad": false,
                     "settings": {
                         "blockTimeout": 100000,
                         "debugMode": false
-                    },
-                    "timeout": 100000
+                    }
                 },
                 "events": {},
                 "id": "6m6cir3",
@@ -7569,14 +7569,14 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "disableBlock": false,
-                    "description": "执行截图失败",
-                    "timeout": 20000,
-                    "context": "website",
                     "code": "const globalData = automaRefData('globalData');\nconst timedSearchCvTasksObjId = globalData?.timedSearchCvTasksObjId || null;\nconst tasksObjId = globalData?.tasksObjId || null;\nconst boss_user_name = automaRefData('variables', 'boss_user_name');\nconst resume_name = automaRefData('variables', 'geek_plural_name');\nconst taskExecuteId = globalData?.taskExecuteId || null\nif (taskExecuteId) {  \n  const postMsg = JSON.stringify({\n    content: `${resume_name}的在线简历，截图分析失败，继续查看下一个求职者`,\n    remoteTaskId: taskExecuteId,\n    logType: 3\n  })\n  fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log(error)\n      })\n      .catch(error => {\n        console.log(error)\n      });\n}\n// if (taskExecuteId) {\n//   const data = JSON.stringify({\n//     id: taskExecuteId,\n//     taskStatus: 3\n//   })\n//   fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n//       headers: {\n//           \"accept\": \"application/json, text/plain, */*\",\n//           \"content-type\": \"application/json\"\n//       },\n//       method: \"PUT\",\n//       body: data,\n//   })\n//   .then(response => response.json())\n//   .then(result => {\n//       console.log('任务状态', result);\n//   })\n//   .catch(error => console.log('任务状态错误', error));\n// }\nvar data = JSON.stringify({\n    \"status\": \"error\",\n    \"logs\": \"截图分析失败\",\n    \"errorMessage\": \"截图分析失败\"+ \",BOSS账号：\" + boss_user_name + \"&&UserId：\" + (globalData?.myUserId || globalData.token || '') + \"&&出错地址：\" + (window?.location?.href || ''),\n    \"service\": \"rpa\",\n});\n\nfetch(\"https://alert-api.itasaas.com/log\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      let element = document.querySelector('.add_status');\n      if(element) {\n          element.remove();\n      }\n        console.log('日志', result);\n    })\n    .catch(error => console.log('错误', error));\n\nlet element = document.querySelector('.add_status');\nif(element) {\n    element.remove();\n}\nautomaNextBlock()",
-                    "preloadScripts": [],
+                    "context": "website",
+                    "description": "执行截图失败",
+                    "disableBlock": false,
                     "everyNewTab": false,
-                    "runBeforeLoad": false
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
                 },
                 "events": {},
                 "id": "k7gk7mq",
@@ -7589,14 +7589,14 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "disableBlock": false,
-                    "description": "成功执行截图",
-                    "timeout": 20000,
-                    "context": "website",
                     "code": "const globalData = automaRefData('globalData');\nconst result_r_obj = automaRefData('variables', 'result_r_obj');\nconst resume_name = automaRefData('variables', 'geek_plural_name');\nconsole.log(result_r_obj,'成功返回')\nconst taskExecuteId = globalData?.taskExecuteId || null\nif (taskExecuteId) {  \n  const postMsg = JSON.stringify({\n    content: `求职者${resume_name}的基本信息匹配，接下来使用AI智能分析简历判断标签`,\n    remoteTaskId: taskExecuteId,\n    logType: 2\n  })\n  fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log(error)\n      })\n      .catch(error => {\n        console.log(error)\n      });\n}\nautomaSetVariable('chat_resum_detail', result_r_obj?.data?.message?.content || result_r_obj?.data || '');\nautomaSetVariable('chat_html_resum_detail', result_r_obj?.data?.message?.content || result_r_obj?.data || '');\nautomaNextBlock()",
-                    "preloadScripts": [],
+                    "context": "website",
+                    "description": "成功执行截图",
+                    "disableBlock": false,
                     "everyNewTab": false,
-                    "runBeforeLoad": false
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
                 },
                 "events": {},
                 "id": "83wldks",
@@ -8122,7 +8122,7 @@
                 "id": "vueflow__edge-6b2ynhf6b2ynhf-output-1-58pdujh58pdujh-input-1",
                 "sourceX": 1624.2830920192148,
                 "sourceY": -1538.0420920206866,
-                "targetX": 1653.4393700743783,
+                "targetX": 1653.4392480040658,
                 "targetY": -1707.9643535793052
             },
             {
@@ -8174,7 +8174,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-sdr9kxssdr9kxs-output-1-g6pnz6zg6pnz6z-input-1",
-                "sourceX": 1781.3477416692172,
+                "sourceX": 1781.3476195989047,
                 "sourceY": -1319.246907713224,
                 "targetX": 1270.4703912580192,
                 "targetY": -1127.0129289764059
@@ -9147,7 +9147,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-stnz6gbstnz6gb-output-1-tv7ckestv7ckes-input-1",
-                "sourceX": 7881.9029825440375,
+                "sourceX": 7881.9024942627875,
                 "sourceY": -881.5157908305232,
                 "targetX": 6287.132314283218,
                 "targetY": -694.2468169455783
@@ -9219,7 +9219,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-ypb1nzqypb1nzq-output-1-4kotze54kotze5-input-1",
-                "sourceX": 4164.114332928824,
+                "sourceX": 4164.114577069449,
                 "sourceY": 1529.9535994892653,
                 "targetX": 5636.311634024555,
                 "targetY": 1939.8088440087247
@@ -9237,7 +9237,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-ypb1nzqypb1nzq-output-2-3w5lzod3w5lzod-input-1",
-                "sourceX": 4164.114332928824,
+                "sourceX": 4164.114577069449,
                 "sourceY": 1574.5473494892653,
                 "targetX": 3964.1478423176814,
                 "targetY": 1796.193199815828
@@ -9417,7 +9417,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-t2ckznmt2ckznm-output-1-ax4are4ax4are4-input-1",
-                "sourceX": 8008.047411858299,
+                "sourceX": 8008.046923577049,
                 "sourceY": 2137.1076992747803,
                 "targetX": 7861.063580176651,
                 "targetY": 1862.1762640713039
@@ -9435,7 +9435,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-t2ckznmt2ckznm-output-2-m8tyifnm8tyifn-input-1",
-                "sourceX": 8008.047411858299,
+                "sourceX": 8008.046923577049,
                 "sourceY": 2181.7014492747803,
                 "targetX": 8126.289191406449,
                 "targetY": 2241.9674933996425
@@ -9471,7 +9471,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-ktyfq1sktyfq1s-output-1-o7ws1cqo7ws1cq-input-1",
-                "sourceX": 8329.83769470893,
+                "sourceX": 8329.83720642768,
                 "sourceY": 1965.1471138415338,
                 "targetX": 7781.3007211842605,
                 "targetY": 953.6385550580488
@@ -9651,7 +9651,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-zqk50bizqk50bi-output-1-5unedq35unedq3-input-1",
-                "sourceX": 1054.3764542474025,
+                "sourceX": 1054.3763932122463,
                 "sourceY": -1310.0172230902845,
                 "targetX": 1183.9363669157196,
                 "targetY": -1320.0454284405644
@@ -9723,7 +9723,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-zm934dczm934dc-output-1-2onwanh2onwanh-input-1",
-                "sourceX": 35.79301563376953,
+                "sourceX": 35.79303089255859,
                 "sourceY": -1380.6981492221985,
                 "targetX": 181.83834817792524,
                 "targetY": -1540.9658529149012
@@ -9759,7 +9759,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-feelhfqfeelhfq-output-1-ggogr4tggogr4t-input-1",
-                "sourceX": 490.1285401802362,
+                "sourceX": 490.1285096626581,
                 "sourceY": -1909.3953458993801,
                 "targetX": 604.8768489948518,
                 "targetY": -1541.3408617976186
@@ -10138,7 +10138,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-vjr8fw9vjr8fw9-output-1-zvucjf5zvucjf5-input-1",
-                "sourceX": 8244.76181828557,
+                "sourceX": 8244.76230656682,
                 "sourceY": -1441.504925205873,
                 "targetX": 12696.502376472903,
                 "targetY": -504.9255617367769
@@ -10228,7 +10228,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-g6pnz6zg6pnz6z-output-1-01vrea501vrea5-input-1",
-                "sourceX": 1802.9034788990682,
+                "sourceX": 1802.9033568287557,
                 "sourceY": -1123.8980390676984,
                 "targetX": 1826.691708809985,
                 "targetY": -1122.4604357984217
@@ -10283,7 +10283,7 @@
                 "label": "",
                 "class": "source-tcbqzsv-output-1 target-ldthljy-input-1",
                 "id": "vueflow__edge-tcbqzsvtcbqzsv-output-1-ldthljyldthljy-input-1",
-                "sourceX": 3892.708754287566,
+                "sourceX": 3892.708998428191,
                 "sourceY": -1281.6106752820133,
                 "targetX": 2923.2246536409884,
                 "targetY": -1099.2793629103287
@@ -10465,7 +10465,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-zqk50bizqk50bi-output-fallback-j7pv2v8j7pv2v8-input-1",
-                "sourceX": 1054.3764542474025,
+                "sourceX": 1054.3763932122463,
                 "sourceY": -1288.0172230902845,
                 "targetX": 342.7344586826316,
                 "targetY": -1078.2598600527813
@@ -10483,7 +10483,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-j7pv2v8j7pv2v8-output-1-0fqq2xj0fqq2xj-input-1",
-                "sourceX": 574.7344892002097,
+                "sourceX": 574.7344586826316,
                 "sourceY": -1078.2598600527813,
                 "targetX": 689.6899107760967,
                 "targetY": -1085.3674961319878
@@ -10717,7 +10717,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-w0hbvrtw0hbvrt-output-1-t8m4qupt8m4qup-input-1",
-                "sourceX": 728.6817018722913,
+                "sourceX": 728.6816408371351,
                 "sourceY": -660.0316411557552,
                 "targetX": 1045.2434091128707,
                 "targetY": -670.3036188153851
@@ -10736,7 +10736,7 @@
                 "label": "",
                 "class": "connected-edges",
                 "id": "vueflow__edge-9v244739v24473-output-1-9be0ejp9be0ejp-input-1",
-                "sourceX": 292.38598620291805,
+                "sourceX": 292.3860014617071,
                 "sourceY": -661.5655744024856,
                 "targetX": 283.4697508790033,
                 "targetY": -462.11478835313267
@@ -10754,7 +10754,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-9be0ejp9be0ejp-output-1-w0hbvrtw0hbvrt-input-1",
-                "sourceX": 515.4697203614252,
+                "sourceX": 515.4697508790033,
                 "sourceY": -462.11478835313267,
                 "targetX": 496.68170187229134,
                 "targetY": -660.0316411557552
@@ -10956,7 +10956,7 @@
                 "id": "vueflow__edge-f8mlbzuf8mlbzu-output-1-4xcw8lj4xcw8lj-input-1",
                 "sourceX": 943.5011710554097,
                 "sourceY": -1774.2330812088508,
-                "targetX": 943.425654598718,
+                "targetX": 943.4255935635617,
                 "targetY": -1915.1391178598858
             },
             {
@@ -11557,7 +11557,7 @@
                 "id": "vueflow__edge-dxcuxgqdxcuxgq-output-1-sw1jeabsw1jeab-input-1",
                 "sourceX": -40.43747251023336,
                 "sourceY": -2189.707205852437,
-                "targetX": -68.54351831295713,
+                "targetX": -68.54351449825987,
                 "targetY": -2081.9183278568235
             },
             {
@@ -11573,9 +11573,9 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-2wdxgkv2wdxgkv-output-1-sw1jeabsw1jeab-input-1",
-                "sourceX": -30.641914935129563,
+                "sourceX": -30.6418996763405,
                 "sourceY": -1954.000971794583,
-                "targetX": -68.54351831295713,
+                "targetX": -68.54351449825987,
                 "targetY": -2081.9183278568235
             },
             {
@@ -11591,7 +11591,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-sw1jeabsw1jeab-output-1-grtfyj2grtfyj2-input-1",
-                "sourceX": 163.45648168704287,
+                "sourceX": 163.45648550174013,
                 "sourceY": -2081.9183278568235,
                 "targetX": -29.296320702527908,
                 "targetY": -2392.643915235246
@@ -11609,7 +11609,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-grtfyj2grtfyj2-output-1-vjaxgzxvjaxgzx-input-1",
-                "sourceX": 202.70367548277483,
+                "sourceX": 202.7036792974721,
                 "sourceY": -2392.643915235246,
                 "targetX": 251.17752764258137,
                 "targetY": -2384.4088946727097
@@ -11627,7 +11627,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-vjaxgzxvjaxgzx-output-1-j3k3zv9j3k3zv9-input-1",
-                "sourceX": 483.17749712500324,
+                "sourceX": 483.17752764258137,
                 "sourceY": -2384.4088946727097,
                 "targetX": 253.09202490090956,
                 "targetY": -2194.4934489982584
@@ -11645,7 +11645,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-j3k3zv9j3k3zv9-output-1-y8rpwzvy8rpwzv-input-1",
-                "sourceX": 485.0920554184877,
+                "sourceX": 485.09202490090956,
                 "sourceY": -2194.4934489982584,
                 "targetX": 252.13477627174575,
                 "targetY": -2064.687852531868
@@ -12371,7 +12371,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-ytha5dgytha5dg-output-1-o34k9w3o34k9w3-input-1",
-                "sourceX": 3845.523581363922,
+                "sourceX": 3845.523337223297,
                 "sourceY": 2221.521133915105,
                 "targetX": 3114.112697048242,
                 "targetY": 2381.2982905161944
@@ -12479,7 +12479,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-31zywu731zywu7-output-2-r5p0hfxr5p0hfx-input-1",
-                "sourceX": 7992.563944069041,
+                "sourceX": 7992.564432350291,
                 "sourceY": -2482.132310562282,
                 "targetX": 7763.109285146753,
                 "targetY": -2332.481303679374
@@ -12497,7 +12497,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-31zywu731zywu7-output-1-5c6794b5c6794b-input-1",
-                "sourceX": 7992.563944069041,
+                "sourceX": 7992.564432350291,
                 "sourceY": -2526.726060562282,
                 "targetX": 7958.854734491013,
                 "targetY": -2777.4040265180033
@@ -12733,7 +12733,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-yifz6uxyifz6ux-output-1-5qpl4ou5qpl4ou-input-1",
-                "sourceX": 7957.486612101659,
+                "sourceX": 7957.486123820409,
                 "sourceY": -4009.114589840822,
                 "targetX": 7985.438378664452,
                 "targetY": -3786.5887204821875
@@ -12967,7 +12967,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-rel8senrel8sen-output-1-t27396lt27396l-input-1",
-                "sourceX": 8211.222525988946,
+                "sourceX": 8211.223014270196,
                 "sourceY": -3401.212933180261,
                 "targetX": 6516.437527030413,
                 "targetY": -3209.697668258418
@@ -13183,7 +13183,7 @@
                 "events": {},
                 "label": "",
                 "id": "edge-ahfh85m",
-                "sourceX": 16500.277615416402,
+                "sourceX": 16500.276638853902,
                 "sourceY": -398.4786065362357,
                 "targetX": 16566.783942027083,
                 "targetY": -399.233652002506
@@ -13453,7 +13453,7 @@
                 "events": {},
                 "label": "",
                 "id": "edge-j8pm5e4",
-                "sourceX": 16169.256352635486,
+                "sourceX": 16169.257329197986,
                 "sourceY": 484.41296037860155,
                 "targetX": 14810.59540083746,
                 "targetY": 678.8873585952689
@@ -13471,7 +13471,7 @@
                 "events": {},
                 "label": "",
                 "id": "edge-en76n46",
-                "sourceX": 16169.256352635486,
+                "sourceX": 16169.257329197986,
                 "sourceY": 439.81921037860155,
                 "targetX": 16250.305239535948,
                 "targetY": 438.73782938753055
@@ -13489,7 +13489,7 @@
                 "events": {},
                 "label": "",
                 "id": "edge-n74j5hb",
-                "sourceX": 16482.30426297345,
+                "sourceX": 16482.30523953595,
                 "sourceY": 438.73782938753055,
                 "targetX": 16546.538790796498,
                 "targetY": 438.37195985190687
@@ -13561,7 +13561,7 @@
                 "events": {},
                 "label": "",
                 "id": "edge-x6a8q0q",
-                "sourceX": 16034.44858756388,
+                "sourceX": 16034.44956412638,
                 "sourceY": 782.7651230691407,
                 "targetX": 16101.45726519723,
                 "targetY": 782.0255397358077
@@ -13653,7 +13653,7 @@
                 "label": "",
                 "class": "connected-edges",
                 "id": "edge-vminzsu",
-                "sourceX": 16019.426715234804,
+                "sourceX": 16019.425738672304,
                 "sourceY": 2340.926064511971,
                 "targetX": 17328.953501104268,
                 "targetY": 692.7295186508692
@@ -14395,7 +14395,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-2ylxi0x2ylxi0x-output-1-dpv2kzedpv2kze-input-1",
-                "sourceX": 16493.40654096216,
+                "sourceX": 16493.40556439966,
                 "sourceY": -954.7567211850084,
                 "targetX": 15304.411008000392,
                 "targetY": -786.4565099249278
@@ -14557,7 +14557,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-9vhiev09vhiev0-output-1-mma4pmsmma4pms-input-1",
-                "sourceX": 16104.077051295173,
+                "sourceX": 16104.078027857673,
                 "sourceY": 1312.6416892314203,
                 "targetX": 16181.810082646953,
                 "targetY": 1309.9317716652056
@@ -14650,7 +14650,8 @@
                 "sourceX": 15342.94057991067,
                 "sourceY": 1501.690137888859,
                 "targetX": 15537.173212415131,
-                "targetY": 1496.9353664783794
+                "targetY": 1496.9353664783794,
+                "class": "connected-edges"
             },
             {
                 "type": "custom",
@@ -14881,7 +14882,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-qeh91lrqeh91lr-output-1-docbjiqdocbjiq-input-1",
-                "sourceX": 16083.745232928568,
+                "sourceX": 16083.746209491068,
                 "sourceY": 1957.4548072074851,
                 "targetX": 16212.011035773492,
                 "targetY": 2245.08625266136
@@ -14899,7 +14900,7 @@
                 "events": {},
                 "label": "",
                 "id": "vueflow__edge-docbjiqdocbjiq-output-1-z088o3az088o3a-input-1",
-                "sourceX": 16444.012012335992,
+                "sourceX": 16444.011035773492,
                 "sourceY": 2245.08625266136,
                 "targetX": 16571.325996967167,
                 "targetY": 2683.6558849006274
@@ -15315,12 +15316,12 @@
                 "data": {},
                 "events": {},
                 "label": "",
+                "class": "connected-edges",
                 "id": "edge-b72mq6s",
                 "sourceX": 13777.052453303595,
                 "sourceY": 1864.361387618826,
                 "targetX": 13825.393278997322,
-                "targetY": 1833.9972032577134,
-                "class": "connected-edges"
+                "targetY": 1833.9972032577134
             },
             {
                 "type": "custom",
@@ -15389,12 +15390,12 @@
                 "data": {},
                 "events": {},
                 "label": "",
+                "class": "connected-edges",
                 "id": "vueflow__edge-k7gk7mqk7gk7mq-output-1-i1ne7lji1ne7lj-input-1",
                 "sourceX": 14057.393278997322,
                 "sourceY": 1833.9972032577134,
                 "targetX": 15787.426715234804,
-                "targetY": 2340.926064511971,
-                "class": "connected-edges"
+                "targetY": 2340.926064511971
             },
             {
                 "type": "custom",
@@ -15934,7 +15935,7 @@
                 "data": {},
                 "events": {},
                 "id": "vueflow__edge-euxhf8feuxhf8f-output-1-0999glo0999glo-input-1",
-                "sourceX": 8148.236232043767,
+                "sourceX": 8148.236720325017,
                 "sourceY": 150.3264594360982,
                 "targetX": 8444.715237755167,
                 "targetY": -69.42129086156487
@@ -15993,14 +15994,14 @@
             }
         ],
         "position": [
-            -3640.330605101931,
-            -222.6517208740832
+            -11776.210806443794,
+            -785.7399264287312
         ],
-        "zoom": 0.3,
+        "zoom": 0.7917047464637371,
         "viewport": {
-            "x": -3640.330605101931,
-            "y": -222.6517208740832,
-            "zoom": 0.3
+            "x": -11776.210806443794,
+            "y": -785.7399264287312,
+            "zoom": 0.7917047464637371
         }
     },
     "settings": {
