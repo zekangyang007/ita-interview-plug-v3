@@ -2052,7 +2052,7 @@ const retrieved = ref(false);
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc.json
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-v3.json
 const API_URL =
-  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-v3.json';
+  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc.json';
 const loadData = async () => {
   const { workflowsData, isFirstTime } = await browser.storage.local.get([
     'workflows',
@@ -2114,7 +2114,7 @@ const versionMit = async () => {
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json
   const API_VERSION_URL =
-    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json';
+    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json';
   try {
     // 添加no-cache参数避免缓存
     const response = await fetch(API_VERSION_URL, {

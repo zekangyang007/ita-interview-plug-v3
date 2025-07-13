@@ -88,352 +88,969 @@
               :rules="FORM_RULES"
               :data="formData"
               :colon="true"
-              @reset="onReset"
-              @submit="onSubmit"
             >
               <div class="Group_container" style="margin-bottom: 24px">
-                <t-image
-                  :src="Group1"
-                  fit="cover"
-                  style="width: 90px; height: 25px; margin-bottom: 12px"
-                />
-                <t-form-item label="" label-width="18px" name="position">
-                  <div class="disflex fl_dir_c">
-                    <t-space>
+                <div class="test_body bw100 juc_b">
+                  <div class="test_body" style="gap: 1px; padding: 0 18px">
+                    <t-image
+                      :src="Group1"
+                      fit="cover"
+                      style="width: 14px; height: 24px"
+                    />
+                    <div class="f16 grey0">选择职位:</div>
+                  </div>
+                  <div
+                    class="test_body cur_p"
+                    style="gap: 2px; padding-right: 18px"
+                    @click="getPositionList"
+                  >
+                    <t-button theme="primary" shape="circle" variant="text">
+                      <RefreshIcon />
+                    </t-button>
+                    <div class="f14 grey1 dark_blue">同步BOSS职位</div>
+                  </div>
+                </div>
+                <t-divider style="margin: 8px 0 5px" />
+                <div class="disflex fl_dir_c bw100">
+                  <t-form-item label="" label-width="18px" name="position">
+                    <div class="disflex fl_dir_c bw100">
                       <t-select
                         v-model="positionValue"
-                        style="width: 224px"
+                        style="width: 100%; padding-right: 18px"
+                        placeholder="请先同步BOSS职位"
                         :options="positionOptions"
                         @change="positionChange"
                       />
-                      <div class="test_body" style="gap: 2px">
-                        <t-button shape="circle" variant="text" class="grey1">
-                          <RefreshIcon class="grey1" @click="getPositionList" />
-                        </t-button>
-                        <div class="f14 grey1">刷新</div>
+                      <div
+                        v-show="isError && !positionValue"
+                        class="red f12 pos_a_err"
+                      >
+                        职位不能为空！
                       </div>
-                    </t-space>
-                    <div
-                      v-show="isError && !positionValue"
-                      class="red f12 pos_a_err"
-                    >
-                      职位不能为空！
                     </div>
+                  </t-form-item>
+                  <div class="test_body" style="padding: 15px 18px; gap: 2px">
+                    <FilterIcon class="f18 grey1" />
+                    <div class="f16 grey1">筛选条件</div>
                   </div>
-                </t-form-item>
-              </div>
-              <div class="Group_container" style="margin-bottom: 24px">
-                <t-image
-                  :src="Group2"
-                  fit="cover"
-                  style="width: 92px; height: 21px; margin-bottom: 12px"
-                />
-                <div class="ws_b" style="margin-left: 15px">
-                  <t-form-item
-                    label="年龄范围(岁)"
-                    label-width="140px"
-                    label-align="left"
-                    name="age"
+                  <div
+                    class="ws_b"
+                    style="margin-left: 15px; padding: 0 18px 0 22px"
                   >
-                    <div
-                      style="display: flex; flex-direction: column; width: 100%"
-                    >
-                      <div style="margin-bottom: 8px">
-                        <div style="display: flex; align-items: center">
-                          <div style="font-size: 14px; margin-right: 15px">
-                            {{ ageValue[0] }}
-                          </div>
-                          <t-slider
-                            v-model="ageValue"
-                            range
-                            :max="55"
-                            :min="16"
-                            style="width: 90%"
-                            @change-end="ageChange"
-                          />
-                          <div style="font-size: 14px; margin-left: 15px">
-                            {{ ageValue[1] }}
+                    <div v-if="!isShowMore" class="disflex fl_dir_c bw100">
+                      <t-form-item
+                        label="年龄范围(岁)"
+                        label-width="140px"
+                        label-align="left"
+                        name="age"
+                      >
+                        <div
+                          style="
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                          "
+                        >
+                          <div style="margin-bottom: 8px">
+                            <div style="display: flex; align-items: center">
+                              <div style="font-size: 14px; margin-right: 15px">
+                                {{ ageValue[0] }}
+                              </div>
+                              <t-slider
+                                v-model="ageValue"
+                                range
+                                :max="55"
+                                :min="16"
+                                style="width: 90%"
+                                @change-end="ageChange"
+                              />
+                              <div style="font-size: 14px; margin-left: 15px">
+                                {{ ageValue[1] }}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </t-form-item>
-                  <t-form-item
-                    v-if="professionOptions && professionOptions.length > 0"
-                    label="专业"
-                    name="profession"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <div style="display: flex; flex-direction: column">
-                      <div style="margin-bottom: 8px">
-                        <t-check-tag-group
-                          v-model="professionValue"
-                          :options="professionOptions"
-                          :checked-props="STYLE_C_CHECKED_PROPS"
-                          :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                          multiple
-                          @change="professionChange"
-                        />
-                      </div>
-                    </div>
-                  </t-form-item>
-                  <t-form-item
-                    label="活跃度[单选]"
-                    name="vitality"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="vitalityValue"
-                      :options="vitalityOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      @change="vitalityChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    label="性别[单选]"
-                    name="sex"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="sexValue"
-                      :options="sexOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      @change="sexChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    label="近期没有看过"
-                    name="latelyChat"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="latelyChatValue"
-                      :options="latelyChatOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      @change="latelyChatChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    label="与同事交换简历"
-                    name="interchange"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="interchangeValue"
-                      :options="interchangeOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      @change="interchangeChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    label="院校"
-                    name="jobIntention"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <div style="display: flex; flex-direction: column">
-                      <div style="margin-bottom: 8px">
-                        <t-check-tag-group
-                          v-model="academyValue"
-                          :options="academyOptions"
-                          :checked-props="STYLE_C_CHECKED_PROPS"
-                          :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                          multiple
-                          @change="academyChange"
-                        />
-                      </div>
-                      <t-checkbox
-                        v-if="
-                          academyValue.filter((num) => num !== 0).length > 0
-                        "
-                        v-model="academyCheckbox"
+                      </t-form-item>
+                      <t-form-item
+                        label="院校"
+                        name="jobIntention"
+                        label-width="140px"
+                        label-align="left"
                       >
-                        只看第一学历
-                      </t-checkbox>
-                    </div>
-                  </t-form-item>
-
-                  <t-form-item
-                    label="跳槽频率[单选]"
-                    name="vitality"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="jobHoppingValue"
-                      :options="jobHoppingOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      @change="jobHoppingChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    v-if="keyWordsOptions && keyWordsOptions.length > 0"
-                    label="牛人关键词"
-                    name="profession"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <div style="display: flex; flex-direction: column">
-                      <div style="margin-bottom: 8px">
+                        <div style="display: flex; flex-direction: column">
+                          <div style="margin-bottom: 8px">
+                            <t-check-tag-group
+                              v-model="academyValue"
+                              :options="academyOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              multiple
+                              @change="academyChange"
+                            />
+                          </div>
+                          <t-checkbox
+                            v-if="
+                              academyValue.filter((num) => num !== 0).length > 0
+                            "
+                            v-model="academyCheckbox"
+                          >
+                            只看第一学历
+                          </t-checkbox>
+                        </div>
+                      </t-form-item>
+                      <t-form-item
+                        label="经验要求"
+                        name="experience"
+                        label-width="140px"
+                        label-align="left"
+                      >
                         <t-check-tag-group
-                          v-model="keyWordsValue"
-                          :options="keyWordsOptions"
+                          v-model="experienceValue"
+                          :options="experienceOptions"
                           :checked-props="STYLE_C_CHECKED_PROPS"
                           :unchecked-props="STYLE_B_UNCHECKED_PROPS"
                           multiple
-                          @change="keyWordsChange"
+                          @change="experienceChange"
                         />
-                      </div>
+                      </t-form-item>
+                      <t-form-item
+                        label="学历要求"
+                        name="educational"
+                        label-width="140px"
+                        label-align="left"
+                      >
+                        <t-check-tag-group
+                          v-model="educationalValue"
+                          :options="educationalOptions"
+                          :checked-props="STYLE_C_CHECKED_PROPS"
+                          :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                          multiple
+                          @change="educationalChange"
+                        />
+                      </t-form-item>
                     </div>
-                  </t-form-item>
-
-                  <t-form-item
-                    label="经验要求"
-                    name="experience"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="experienceValue"
-                      :options="experienceOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      multiple
-                      @change="experienceChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    label="学历要求"
-                    name="educational"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="educationalValue"
-                      :options="educationalOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      multiple
-                      @change="educationalChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    label="薪资待遇[单选]"
-                    name="salary"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="salaryValue"
-                      :options="salaryOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      @change="salaryChange"
-                    />
-                  </t-form-item>
-
-                  <t-form-item
-                    label="求职意向"
-                    name="jobIntention"
-                    label-width="140px"
-                    label-align="left"
-                  >
-                    <t-check-tag-group
-                      v-model="jobIntentionValue"
-                      :options="jobIntentionOptions"
-                      :checked-props="STYLE_C_CHECKED_PROPS"
-                      :unchecked-props="STYLE_B_UNCHECKED_PROPS"
-                      multiple
-                      @change="jobIntentionChange"
-                    />
-                  </t-form-item>
+                    <el-collapse-transition>
+                      <div v-show="isShowMore" class="disflex fl_dir_c bw100">
+                        <t-form-item
+                          label="年龄范围(岁)"
+                          label-width="140px"
+                          label-align="left"
+                          name="age"
+                        >
+                          <div
+                            style="
+                              display: flex;
+                              flex-direction: column;
+                              width: 100%;
+                            "
+                          >
+                            <div style="margin-bottom: 8px">
+                              <div style="display: flex; align-items: center">
+                                <div
+                                  style="font-size: 14px; margin-right: 15px"
+                                >
+                                  {{ ageValue[0] }}
+                                </div>
+                                <t-slider
+                                  v-model="ageValue"
+                                  range
+                                  :max="55"
+                                  :min="16"
+                                  style="width: 90%"
+                                  @change-end="ageChange"
+                                />
+                                <div style="font-size: 14px; margin-left: 15px">
+                                  {{ ageValue[1] }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </t-form-item>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            v-if="
+                              professionOptions && professionOptions.length > 0
+                            "
+                            label="专业"
+                            name="profession"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <div style="display: flex; flex-direction: column">
+                              <div style="margin-bottom: 8px">
+                                <t-check-tag-group
+                                  v-model="professionValue"
+                                  :options="professionOptions"
+                                  :checked-props="STYLE_C_CHECKED_PROPS"
+                                  :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                                  multiple
+                                  @change="professionChange"
+                                />
+                              </div>
+                            </div>
+                          </t-form-item>
+                        </div>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            label="活跃度[单选]"
+                            name="vitality"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <t-check-tag-group
+                              v-model="vitalityValue"
+                              :options="vitalityOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              @change="vitalityChange"
+                            />
+                          </t-form-item>
+                        </div>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            label="性别[单选]"
+                            name="sex"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <t-check-tag-group
+                              v-model="sexValue"
+                              :options="sexOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              @change="sexChange"
+                            />
+                          </t-form-item>
+                        </div>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            label="近期没有看过"
+                            name="latelyChat"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <t-check-tag-group
+                              v-model="latelyChatValue"
+                              :options="latelyChatOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              @change="latelyChatChange"
+                            />
+                          </t-form-item>
+                        </div>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            label="与同事交换简历"
+                            name="interchange"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <t-check-tag-group
+                              v-model="interchangeValue"
+                              :options="interchangeOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              @change="interchangeChange"
+                            />
+                          </t-form-item>
+                        </div>
+                        <t-form-item
+                          label="院校"
+                          name="jobIntention"
+                          label-width="140px"
+                          label-align="left"
+                        >
+                          <div style="display: flex; flex-direction: column">
+                            <div style="margin-bottom: 8px">
+                              <t-check-tag-group
+                                v-model="academyValue"
+                                :options="academyOptions"
+                                :checked-props="STYLE_C_CHECKED_PROPS"
+                                :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                                multiple
+                                @change="academyChange"
+                              />
+                            </div>
+                            <t-checkbox
+                              v-if="
+                                academyValue.filter((num) => num !== 0).length >
+                                0
+                              "
+                              v-model="academyCheckbox"
+                            >
+                              只看第一学历
+                            </t-checkbox>
+                          </div>
+                        </t-form-item>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            label="跳槽频率[单选]"
+                            name="vitality"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <t-check-tag-group
+                              v-model="jobHoppingValue"
+                              :options="jobHoppingOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              @change="jobHoppingChange"
+                            />
+                          </t-form-item>
+                        </div>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            v-if="keyWordsOptions && keyWordsOptions.length > 0"
+                            label="牛人关键词"
+                            name="profession"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <div style="display: flex; flex-direction: column">
+                              <div style="margin-bottom: 8px">
+                                <t-check-tag-group
+                                  v-model="keyWordsValue"
+                                  :options="keyWordsOptions"
+                                  :checked-props="STYLE_C_CHECKED_PROPS"
+                                  :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                                  multiple
+                                  @change="keyWordsChange"
+                                />
+                              </div>
+                            </div>
+                          </t-form-item>
+                        </div>
+                        <t-form-item
+                          label="经验要求"
+                          name="experience"
+                          label-width="140px"
+                          label-align="left"
+                        >
+                          <t-check-tag-group
+                            v-model="experienceValue"
+                            :options="experienceOptions"
+                            :checked-props="STYLE_C_CHECKED_PROPS"
+                            :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                            multiple
+                            @change="experienceChange"
+                          />
+                        </t-form-item>
+                        <t-form-item
+                          label="学历要求"
+                          name="educational"
+                          label-width="140px"
+                          label-align="left"
+                        >
+                          <t-check-tag-group
+                            v-model="educationalValue"
+                            :options="educationalOptions"
+                            :checked-props="STYLE_C_CHECKED_PROPS"
+                            :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                            multiple
+                            @change="educationalChange"
+                          />
+                        </t-form-item>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            label="薪资待遇[单选]"
+                            name="salary"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <t-check-tag-group
+                              v-model="salaryValue"
+                              :options="salaryOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              @change="salaryChange"
+                            />
+                          </t-form-item>
+                        </div>
+                        <div v-show="isShowMore">
+                          <t-form-item
+                            label="求职意向"
+                            name="jobIntention"
+                            label-width="140px"
+                            label-align="left"
+                          >
+                            <t-check-tag-group
+                              v-model="jobIntentionValue"
+                              :options="jobIntentionOptions"
+                              :checked-props="STYLE_C_CHECKED_PROPS"
+                              :unchecked-props="STYLE_B_UNCHECKED_PROPS"
+                              multiple
+                              @change="jobIntentionChange"
+                            />
+                          </t-form-item>
+                        </div>
+                      </div>
+                    </el-collapse-transition>
+                    <t-button
+                      variant="text"
+                      theme="primary"
+                      style="margin-left: -24px"
+                      @click="isShowMore = !isShowMore"
+                    >
+                      <template #icon>
+                        <ChevronRightIcon class="f18" v-if="!isShowMore" />
+                        <ChevronUpIcon class="f18" v-else />
+                      </template>
+                      更多筛选条件
+                    </t-button>
+                  </div>
                 </div>
               </div>
               <div class="Group_container" style="margin-bottom: 24px">
-                <t-image
-                  :src="Group3"
-                  fit="cover"
-                  style="width: 105px; height: 21px; margin-bottom: 12px"
-                />
-                <div class="ws_b" style="margin-left: 15px">
-                  <t-form-item
-                    label="简历判断标准"
-                    name="resumeEvaluationCriteria"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 24px"
+                <div class="test_body" style="gap: 3px; padding: 0 18px">
+                  <t-image
+                    :src="Group2"
+                    fit="cover"
+                    style="width: 16px; height: 24px"
+                  />
+                  <div class="f14 grey0">简历判断标准:</div>
+                </div>
+                <t-divider style="margin: 8px 0 5px" />
+                <t-collapse
+                  v-model="panelValue1"
+                  expandIconPlacement="right"
+                  @change="handlePanelChange"
+                >
+                  <t-collapse-panel :value="1">
+                    <template #expandIcon>
+                      <ChevronUpIcon
+                        v-if="panelValue1.length > 0"
+                        class="f18"
+                      />
+                      <ChevronDownIcon v-else class="f18" />
+                    </template>
+                    <template #header>
+                      <div class="test_body">
+                        <div class="f14 grey1">关键词匹配</div>
+                        <div class="f12 grey3">（可选）</div>
+                        <t-tag
+                          variant="light"
+                          :theme="
+                            mitAttachmentArray.length > 0
+                              ? 'primary'
+                              : 'default'
+                          "
+                          >已设置{{ mitAttachmentArray.length || 0 }}项</t-tag
+                        >
+                      </div>
+                    </template>
+                    <template #content>
+                      <div class="attachment_body bw100 disflex fl_dir_c">
+                        <t-tag theme="warning" variant="light"
+                          >插件会在候选人的在线简历中搜索您设置的关键词,根据内容直接进行匹配,填写需慎重</t-tag
+                        >
+                        <div class="disflex bw100 fl_dir_c t_mt10">
+                          <t-form-item
+                            v-if="mitAttachmentArray.includes('recent_entry')"
+                            name="recent_entry"
+                            label-width="140px"
+                            label-align="left"
+                            style="margin-bottom: 16px"
+                          >
+                            <template #label>
+                              <span class="posItem_r">
+                                <t-button
+                                  shape="square"
+                                  variant="text"
+                                  class="pi_close"
+                                  @click="
+                                    removeAttachment({
+                                      content: '近期任职',
+                                      value: 'recent_entry',
+                                    })
+                                  "
+                                >
+                                  <template #icon><CloseIcon /></template>
+                                </t-button>
+                                <span class="f14">近期任职</span>
+                              </span>
+                            </template>
+                            <div class="test_body" style="gap: 12px">
+                              <div class="f12 grey3" style="width: 125px">
+                                包含职位关键词
+                              </div>
+                              <t-input
+                                v-model="recentEntry"
+                                placeholder="请输入单个职位关键词"
+                                @change="recentEntryChange"
+                              />
+                            </div>
+                          </t-form-item>
+                          <t-form-item
+                            v-if="mitAttachmentArray.includes('empty_period')"
+                            name="empty_period"
+                            label-width="140px"
+                            label-align="left"
+                            style="margin-bottom: 16px"
+                          >
+                            <template #label>
+                              <span class="posItem_r">
+                                <t-button
+                                  shape="square"
+                                  variant="text"
+                                  class="pi_close"
+                                  @click="
+                                    removeAttachment({
+                                      content: '空窗期',
+                                      value: 'empty_period',
+                                    })
+                                  "
+                                >
+                                  <template #icon><CloseIcon /></template>
+                                </t-button>
+                                <span class="f14">空窗期</span>
+                              </span>
+                            </template>
+                            <div class="test_body" style="gap: 12px">
+                              <div class="f12 grey3" style="width: 86px">
+                                最近空窗少于
+                              </div>
+                              <t-input-number
+                                v-model="emptyPeriod"
+                                theme="normal"
+                                placeholder="请输入空窗期范围"
+                                :min="0"
+                                @change="emptyPeriodChange"
+                              >
+                                <template #suffix>
+                                  <span>月</span>
+                                </template>
+                              </t-input-number>
+                            </div>
+                          </t-form-item>
+                          <t-form-item
+                            v-if="mitAttachmentArray.includes('profession')"
+                            name="profession_word"
+                            label-width="140px"
+                            label-align="left"
+                            style="margin-bottom: 16px"
+                          >
+                            <template #label>
+                              <span class="posItem_r">
+                                <t-button
+                                  shape="square"
+                                  variant="text"
+                                  class="pi_close"
+                                  @click="
+                                    removeAttachment({
+                                      content: '专业',
+                                      value: 'profession',
+                                    })
+                                  "
+                                >
+                                  <template #icon><CloseIcon /></template>
+                                </t-button>
+                                <span class="f14">专业</span>
+                              </span>
+                            </template>
+                            <div class="test_body" style="gap: 12px">
+                              <div class="f12 grey3" style="width: 125px">
+                                包含专业关键词
+                              </div>
+                              <t-input
+                                v-model="professionWord"
+                                placeholder="请输入单个专业关键词"
+                                @change="professionWordChange"
+                              />
+                            </div>
+                          </t-form-item>
+                          <t-form-item
+                            v-if="
+                              mitAttachmentArray.includes('expected_position')
+                            "
+                            name="expected_position"
+                            label-width="140px"
+                            label-align="left"
+                            style="margin-bottom: 16px"
+                          >
+                            <template #label>
+                              <span class="posItem_r">
+                                <t-button
+                                  shape="square"
+                                  variant="text"
+                                  class="pi_close"
+                                  @click="
+                                    removeAttachment({
+                                      content: '期望职位',
+                                      value: 'expected_position',
+                                    })
+                                  "
+                                >
+                                  <template #icon><CloseIcon /></template>
+                                </t-button>
+                                <span class="f14">期望职位</span>
+                              </span>
+                            </template>
+                            <div class="test_body" style="gap: 12px">
+                              <div class="f12 grey3" style="width: 170px">
+                                包含期望职位关键词
+                              </div>
+                              <t-input
+                                v-model="expectedPosition"
+                                placeholder="请输入单个期望职位关键词"
+                                @change="expectedPositionChange"
+                              />
+                            </div>
+                          </t-form-item>
+                          <t-form-item
+                            v-if="mitAttachmentArray.includes('company_name')"
+                            name="company_name"
+                            label-width="140px"
+                            label-align="left"
+                            style="margin-bottom: 16px"
+                          >
+                            <template #label>
+                              <span class="posItem_r">
+                                <t-button
+                                  shape="square"
+                                  variant="text"
+                                  class="pi_close"
+                                  @click="
+                                    removeAttachment({
+                                      content: '公司名称',
+                                      value: 'company_name',
+                                    })
+                                  "
+                                >
+                                  <template #icon><CloseIcon /></template>
+                                </t-button>
+                                <span class="f14">公司名称</span>
+                              </span>
+                            </template>
+                            <div class="test_body" style="gap: 12px">
+                              <div class="f12 grey3" style="width: 170px">
+                                包含公司名称关键词
+                              </div>
+                              <t-input
+                                v-model="companyName"
+                                placeholder="请输入单个公司名称关键词"
+                                @change="companyNameChange"
+                              />
+                            </div>
+                          </t-form-item>
+                          <t-form-item
+                            v-if="mitAttachmentArray.includes('resume_text')"
+                            name="resume_text"
+                            label-width="140px"
+                            label-align="left"
+                            style="margin-bottom: 16px"
+                          >
+                            <template #label>
+                              <span class="posItem_r">
+                                <t-button
+                                  shape="square"
+                                  variant="text"
+                                  class="pi_close"
+                                  @click="
+                                    removeAttachment({
+                                      content: '简历文本',
+                                      value: 'resume_text',
+                                    })
+                                  "
+                                >
+                                  <template #icon><CloseIcon /></template>
+                                </t-button>
+                                <span class="f14">简历文本</span>
+                              </span>
+                            </template>
+                            <div class="disflex fl_dir_c">
+                              <div class="r_test_ul">
+                                <div
+                                  class="r_test_li"
+                                  v-for="(item, index) in resumeTextList"
+                                  :key="index"
+                                >
+                                  <t-input
+                                    v-model="item.wordName"
+                                    placeholder="请输入任意简历文本关键词"
+                                    @change="resumeTextChange(item.wordName)"
+                                  />
+                                  <t-icon
+                                    name="close"
+                                    @click="removeResumeText(item)"
+                                  />
+                                </div>
+                              </div>
+                              <t-link
+                                theme="primary"
+                                hover="color"
+                                @click="addResumeText"
+                              >
+                                <template #prefixIcon><AddIcon /></template>
+                                添加简历文本关键词
+                              </t-link>
+                            </div>
+                          </t-form-item>
+                        </div>
+                        <div
+                          v-if="attachmentOptions.length > 0"
+                          class="disflex fl_dir_c"
+                        >
+                          <t-dropdown
+                            :options="attachmentOptions"
+                            @click="addAttachment"
+                          >
+                            <t-button
+                              variant="outline"
+                              theme="primary"
+                              class="bw100"
+                              >添加附加条件</t-button
+                            >
+                          </t-dropdown>
+                        </div>
+                      </div>
+                    </template>
+                  </t-collapse-panel>
+                </t-collapse>
+
+                <div
+                  class="disflex bw100 fl_dir_c t_mt10"
+                  style="padding: 0 18px"
+                >
+                  <div class="test_body">
+                    <div class="f14 grey1">AI智能分析</div>
+                    <div class="f12 grey3">（推荐使用）</div>
+                    <t-tag
+                      variant="light"
+                      :theme="tagList.length > 0 ? 'primary' : 'default'"
+                      >已设置{{ tagList.length || 0 }}项</t-tag
+                    >
+                  </div>
+                  <div class="f12 grey3 t_mb10">
+                    Al会根据以下关键词智能分析简历,综合评估候选人与职位的匹配度
+                  </div>
+                  <div
+                    class="test_body fl_wr"
+                    style="display: flex; gap: 12px; margin-bottom: 5px"
                   >
-                    <t-loading
-                      size="small"
-                      :loading="isLoading"
-                      show-overlay
+                    <t-tooltip
+                      content="为确保简历筛选更精准，建议标签数量控制在5个以内。"
+                    >
+                      <t-button theme="primary" size="small" @click="addTag">
+                        <template #icon>
+                          <AddIcon />
+                        </template>
+                        添加简历判断标准
+                      </t-button>
+                    </t-tooltip>
+                  </div>
+                  <div class="test_body fl_wr" style="gap: 12px">
+                    <div v-for="item in tagList" :key="item.value">
+                      <t-tooltip
+                        :content="item.label ? item.label : '请输入判断标准'"
+                      >
+                        <div class="test_body" style="gap: 8px">
+                          <t-input
+                            v-model="item.label"
+                            size="medium"
+                            :autoWidth="true"
+                            placeholder="请输入判断标准"
+                            :autofocus="item.label === ''"
+                            style="width: 240px"
+                            @blur="blurItemChange(item)"
+                          />
+                          <DeleteIcon
+                            class="cur_p"
+                            @click="handleClose(item)"
+                          />
+                        </div>
+                      </t-tooltip>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="disflex bw100 fl_dir_c t_mt10">
+                  <t-collapse
+                    v-model="panelValue2"
+                    expandIconPlacement="right"
+                    @change="handlePanelChange"
+                  >
+                    <t-collapse-panel :value="1">
+                      <template #expandIcon>
+                        <ChevronUpIcon
+                          v-if="panelValue2.length > 0"
+                          class="f18"
+                        />
+                        <ChevronDownIcon v-else class="f18" />
+                      </template>
+                      <template #header>
+                        <div class="test_body" style="gap: 12px">
+                          <div class="f14 grey1">高级选项</div>
+                          <t-tag
+                            variant="light"
+                            :theme="p_num > 0 ? 'primary' : 'default'"
+                          >
+                            已设置{{ p_num }}项
+                          </t-tag>
+                        </div>
+                      </template>
+                      <template #content>
+                        <t-form-item
+                          label="智能去重"
+                          name="greetingMessage"
+                          label-width="85px"
+                          label-align="left"
+                          style="margin-bottom: 16px"
+                        >
+                          <div
+                            style="
+                              display: flex;
+                              flex-direction: column;
+                              width: 100%;
+                            "
+                          >
+                            <div
+                              style="
+                                display: flex;
+                                width: 100%;
+                                margin-top: 5px;
+                                margin-bottom: 5px;
+                              "
+                            >
+                              <t-switch
+                                v-model="isAnalysis"
+                                @change="isAnalysisChange"
+                              />
+                              <div style="font-size: 12px; color: #86909c">
+                                （自动跳过插件已经分析过的候选人,避免重复打扰）
+                              </div>
+                            </div>
+                          </div>
+                        </t-form-item>
+                        <t-form-item
+                          label="深度分析"
+                          name="preciseMatch"
+                          label-width="85px"
+                          label-align="left"
+                          style="margin-bottom: 16px"
+                        >
+                          <div
+                            style="
+                              display: flex;
+                              flex-direction: column;
+                              width: 100%;
+                            "
+                          >
+                            <div
+                              style="
+                                display: flex;
+                                width: 100%;
+                                margin-top: 5px;
+                                margin-bottom: 5px;
+                              "
+                            >
+                              <t-switch
+                                v-model="isPreciseMatch"
+                                @change="isPreciseMatchChange"
+                              />
+                              <div style="font-size: 12px; color: #86909c">
+                                （启用高级AI模型进行深度推理分析,匹配更精准但速度会慢2-3倍）
+                              </div>
+                            </div>
+                          </div>
+                        </t-form-item>
+                        <t-form-item
+                          label="岗位匹配"
+                          name="isExperienceMatching"
+                          label-width="85px"
+                          label-align="left"
+                          style="margin-bottom: 16px"
+                        >
+                          <div
+                            style="
+                              display: flex;
+                              flex-direction: column;
+                              width: 100%;
+                            "
+                          >
+                            <div
+                              style="
+                                display: flex;
+                                width: 100%;
+                                margin-top: 5px;
+                                margin-bottom: 5px;
+                              "
+                            >
+                              <t-switch
+                                v-model="isExperienceMatching"
+                                @change="isExperienceMatchingChange"
+                              />
+                              <div style="font-size: 12px; color: #86909c">
+                                （要求候选人过往工作经历必须包含当前招聘职位,应届生建议不开启）
+                              </div>
+                            </div>
+                          </div>
+                        </t-form-item>
+                      </template>
+                    </t-collapse-panel>
+                  </t-collapse>
+                </div>
+              </div>
+              <div class="Group_container" style="margin-bottom: 24px">
+                <div class="test_body" style="gap: 1px; padding: 0 18px">
+                  <t-image
+                    :src="Group3"
+                    fit="cover"
+                    style="width: 16px; height: 24px"
+                  />
+                  <div class="f16 grey0">智能沟通:</div>
+                </div>
+                <t-divider style="margin: 8px 0 5px" />
+                <div class="ws_b" style="margin-left: 15px">
+                  <div class="bw100 test_body fl_dir_c juc_c">
+                    <t-radio-group
+                      v-model="chatValue"
+                      variant="primary-filled"
                       style="width: 100%"
                     >
-                      <div style="width: 100%" class="disflex fl_dir_c">
-                        <t-textarea
-                          v-model="resumeEvaluationCriteria"
-                          placeholder="请输入内容"
-                          style="width: 100%"
-                          :autosize="{ minRows: 3 }"
-                          @change="resumeEvaluationCriteriaChange"
-                        />
-                        <div
-                          v-show="isError && !positionValue"
-                          class="red f12 pos_a_err"
-                        >
-                          职位不能为空！
-                        </div>
-                        <t-link
-                          theme="primary"
-                          hover="color"
-                          @click="aiResumeEvaluationCriteria(null)"
-                        >
-                          重新生成
-                        </t-link>
-                      </div>
-                    </t-loading>
-                  </t-form-item>
-
+                      <t-radio-button
+                        :value="1"
+                        class="test_body juc_c"
+                        style="width: 50%"
+                      >
+                        自动打招呼
+                      </t-radio-button>
+                      <t-radio-button
+                        :value="2"
+                        class="test_body juc_c"
+                        style="width: 50%"
+                      >
+                        自动回复
+                      </t-radio-button>
+                    </t-radio-group>
+                  </div>
                   <t-form-item
-                    label="要简历的招呼语"
+                    v-show="chatValue === 1"
                     name="greetingMessage"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 16px"
+                    label-width="180px"
+                    label-align="top"
+                    style="margin-bottom: 16px; margin-top: 12px"
                   >
+                    <template #label>
+                      <div class="test_body" style="gap: 10px">
+                        <div class="f14">要简历的招呼语</div>
+                        <t-tooltip
+                          content="在BOSS直聘的新牛人和推荐牛人页面,自动向符合简历判断标准的求职者打招呼"
+                          placement="top-left"
+                        >
+                          <HelpCircleFilledIcon class="dark_blue f16" />：
+                        </t-tooltip>
+                        <div class="test_body">
+                          <t-switch v-model="isGreetingMessage" />
+                          <div style="font-size: 12px; color: #86909c">
+                            （开启/关闭）
+                          </div>
+                        </div>
+                      </div>
+                    </template>
                     <div
+                      class="t_mt5"
                       style="display: flex; flex-direction: column; width: 100%"
                     >
-                      <div
-                        style="
-                          display: flex;
-                          width: 100%;
-                          margin-top: 5px;
-                          margin-bottom: 5px;
-                        "
-                      >
-                        <t-switch v-model="isGreetingMessage" />
-                        <div style="font-size: 12px; color: #86909c">
-                          （开启/关闭）
-                        </div>
-                      </div>
                       <t-textarea
                         v-model="greetingMessage"
                         placeholder="请输入内容"
@@ -442,444 +1059,163 @@
                         :autosize="{ minRows: 2 }"
                         @change="greetingMessageChange"
                       />
+                      <div class="test_body bw100">
+                        <div class="test_body t_mt10" style="gap: 0px">
+                          <div class="f14">智能称呼</div>
+                          <t-tooltip>
+                            <template #content>
+                              <div class="disflex fl_dir_c">
+                                <div class="f14">智能称呼示例：</div>
+                                <div class="f12">· 张三（男） → 张先生</div>
+                                <div class="f12">· 李梅（女） → 李女士</div>
+                                <div class="f12">· 外国名字保持原样</div>
+                              </div>
+                            </template>
+                            <HelpCircleFilledIcon class="dark_blue f16" />：
+                          </t-tooltip>
+                          <div class="disflex">
+                            <t-button
+                              theme="default"
+                              size="small"
+                              @click="addGreetingMessage"
+                              >{{ `{求职者}` }}</t-button
+                            >
+                          </div>
+                          <div class="f14 grey3">
+                            （点击可直接添加到消息模板中）
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </t-form-item>
+                  <div
+                    v-show="chatValue === 2"
+                    class="bw100 disflex fl_dir_c"
+                    style="gap: 8px; padding-right: 10px"
+                  >
+                    <div class="test_body t_mt10" style="gap: 8px">
+                      <div class="f14 grey1">自动回复模板</div>
+                      <div class="dislfex">
+                        <t-tooltip
+                          content="自动回复-在BOSS直聘的新招呼页面,自动回复主动咨询的求职者,根据简历判断标准发送对应消息"
+                          placement="top-left"
+                        >
+                          <HelpCircleFilledIcon class="dark_blue f16" />
+                        </t-tooltip>
+                      </div>
+                    </div>
+                    <div class="b_card bw100 disflex fl_dir_c">
+                      <div class="test_body bw100 juc_b">
+                        <div class="test_body">
+                          <CheckCircleFilledIcon class="green f16 t_mr5" />
+                          <div class="f14">简历通过</div>
+                          <!-- <CloseCircleFilledIcon /> -->
+                        </div>
+                        <div class="test_body">
+                          <div class="test_body" style="gap: 0px">
+                            <div class="f14">智能称呼</div>
+                            <t-tooltip>
+                              <template #content>
+                                <div class="disflex fl_dir_c">
+                                  <div class="f14">智能称呼示例：</div>
+                                  <div class="f12">· 张三（男） → 张先生</div>
+                                  <div class="f12">· 李梅（女） → 李女士</div>
+                                  <div class="f12">· 外国名字保持原样</div>
+                                </div>
+                              </template>
+                              <HelpCircleFilledIcon class="dark_blue f16" />：
+                            </t-tooltip>
+                            <div class="disflex">
+                              <t-button
+                                theme="default"
+                                size="small"
+                                @click="addAutoReplySuccessMessage"
+                                >{{ `{求职者}` }}</t-button
+                              >
+                            </div>
+                            <div class="f14 grey3">
+                              （点击可直接添加到消息模板中）
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <t-textarea
+                        v-model="autoReplySuccessMessage"
+                        placeholder="请输入判断合适后回复内容"
+                        :disabled="!isAutoReply"
+                        style="width: 100%; margin-top: 10px"
+                        :autosize="{ minRows: 2 }"
+                        @change="autoReplySuccessMessageChange"
+                      />
+                    </div>
+                    <div class="b_card bw100 disflex fl_dir_c">
+                      <div class="test_body bw100 juc_b">
+                        <div class="test_body">
+                          <CloseCircleFilledIcon class="red f16 t_mr5" />
+                          <div class="f14">简历未通过</div>
+                        </div>
+                        <div class="test_body">
+                          <div class="test_body" style="gap: 0px">
+                            <div class="f14">智能称呼</div>
+                            <t-tooltip>
+                              <template #content>
+                                <div class="disflex fl_dir_c">
+                                  <div class="f14">智能称呼示例：</div>
+                                  <div class="f12">· 张三（男） → 张先生</div>
+                                  <div class="f12">· 李梅（女） → 李女士</div>
+                                  <div class="f12">· 外国名字保持原样</div>
+                                </div>
+                              </template>
+                              <HelpCircleFilledIcon class="dark_blue f16" />：
+                            </t-tooltip>
+                            <div class="disflex">
+                              <t-button
+                                theme="default"
+                                size="small"
+                                @click="addAutoReplyFailMessage"
+                                >{{ `{求职者}` }}</t-button
+                              >
+                            </div>
+                            <div class="f14 grey3">
+                              （点击可直接添加到消息模板中）
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <t-textarea
+                        v-model="autoReplyFailMessage"
+                        placeholder="请输入判断不合适后回复内容"
+                        :disabled="!isAutoReply"
+                        style="width: 100%; margin-top: 10px"
+                        :autosize="{ minRows: 2 }"
+                        @change="autoReplyFailMessageChange"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="Group_container" style="margin-bottom: 24px">
-                <div class="test_body" style="gap: 45px; margin-bottom: 12px">
-                  <t-image
-                    :src="Group11"
-                    fit="cover"
-                    style="width: 155px; height: 24px"
-                  />
-                  <div
-                    style="
-                      display: flex;
-                      width: 100%;
-                      margin-top: 5px;
-                      margin-bottom: 5px;
-                    "
-                  >
-                    <t-switch
-                      v-model="isAutoReply"
-                      @change="isAutoReplyChange"
+                <div class="disflex fl_dir_c" style="margin-bottom: 12px">
+                  <div class="test_body" style="gap: 1px; padding: 0 18px">
+                    <t-image
+                      :src="Group11"
+                      fit="cover"
+                      style="width: 16px; height: 24px"
                     />
-                    <div style="font-size: 12px; color: #86909c">
-                      （自动回复开启/关闭）
-                    </div>
+                    <div class="f16 grey0">运行设置:</div>
                   </div>
+                  <t-divider style="margin: 8px 0 5px" />
                 </div>
                 <div class="ws_b" style="margin-left: 15px">
-                  <t-form-item
-                    label="合适时回复内容"
-                    name="autoReplySuccessMessage"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 16px"
-                  >
-                    <t-textarea
-                      v-model="autoReplySuccessMessage"
-                      placeholder="请输入判断合适后回复内容"
-                      :disabled="!isAutoReply"
-                      style="width: 100%"
-                      :autosize="{ minRows: 2 }"
-                      @change="autoReplySuccessMessageChange"
-                    />
-                  </t-form-item>
-                  <t-form-item
-                    label="不合适时回复内容"
-                    name="autoReplyFailMessage"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 16px"
-                  >
-                    <t-textarea
-                      v-model="autoReplyFailMessage"
-                      placeholder="请输入判断不合适后回复内容"
-                      :disabled="!isAutoReply"
-                      style="width: 100%"
-                      :autosize="{ minRows: 2 }"
-                      @change="autoReplyFailMessageChange"
-                    />
-                  </t-form-item>
-                  <t-form-item
-                    label="是否过滤已分析简历"
-                    name="greetingMessage"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 16px"
-                  >
-                    <div
-                      style="display: flex; flex-direction: column; width: 100%"
-                    >
-                      <div
-                        style="
-                          display: flex;
-                          width: 100%;
-                          margin-top: 5px;
-                          margin-bottom: 5px;
-                        "
-                      >
-                        <t-switch
-                          v-model="isAnalysis"
-                          @change="isAnalysisChange"
-                        />
-                        <div style="font-size: 12px; color: #86909c">
-                          （开启/关闭）
-                        </div>
-                      </div>
-                    </div>
-                  </t-form-item>
-                  <t-form-item
-                    label="精准匹配"
-                    name="preciseMatch"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 16px"
-                  >
-                    <div
-                      style="display: flex; flex-direction: column; width: 100%"
-                    >
-                      <div
-                        style="
-                          display: flex;
-                          width: 100%;
-                          margin-top: 5px;
-                          margin-bottom: 5px;
-                        "
-                      >
-                        <t-switch
-                          v-model="isPreciseMatch"
-                          @change="isPreciseMatchChange"
-                        />
-                        <div style="font-size: 12px; color: #86909c">
-                          （开启后AI会深度分析简历，但需要更长的时间分析）
-                        </div>
-                      </div>
-                    </div>
-                  </t-form-item>
-                  <t-form-item
-                    label="岗位需要相同工作经验"
-                    name="isExperienceMatching"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 16px"
-                  >
-                    <div
-                      style="display: flex; flex-direction: column; width: 100%"
-                    >
-                      <div
-                        style="
-                          display: flex;
-                          width: 100%;
-                          margin-top: 5px;
-                          margin-bottom: 5px;
-                        "
-                      >
-                        <t-switch
-                          v-model="isExperienceMatching"
-                          @change="isExperienceMatchingChange"
-                        />
-                        <div style="font-size: 12px; color: #86909c">
-                          （应届生招聘不建议开启此功能）
-                        </div>
-                      </div>
-                    </div>
-                  </t-form-item>
-                  <t-form-item
-                    label="开启夜间保护"
-                    name="isProtection"
-                    label-width="140px"
-                    label-align="left"
-                    style="margin-bottom: 16px"
-                  >
-                    <div
-                      style="display: flex; flex-direction: column; width: 100%"
-                    >
-                      <div
-                        style="
-                          display: flex;
-                          width: 100%;
-                          margin-top: 5px;
-                          margin-bottom: 5px;
-                        "
-                      >
-                        <t-switch
-                          v-model="isProtection"
-                          @change="isProtectionChange"
-                        />
-                        <div style="font-size: 12px; color: #86909c">
-                          （开启后，将在凌晨0点-6点自动停止打招呼，降低被BOSS识别为插件的风险）
-                        </div>
-                      </div>
-                    </div>
-                  </t-form-item>
-                  <div class="attachment_body bw100 disflex fl_dir_c">
-                    <div class="disflex bw100 fl_dir_c">
-                      <t-form-item
-                        v-if="mitAttachmentArray.includes('recent_entry')"
-                        name="recent_entry"
-                        label-width="140px"
-                        label-align="left"
-                        style="margin-bottom: 16px"
-                      >
-                        <template #label>
-                          <span class="posItem_r">
-                            <t-button
-                              shape="square"
-                              variant="text"
-                              class="pi_close"
-                              @click="
-                                removeAttachment({
-                                  content: '近期任职',
-                                  value: 'recent_entry',
-                                })
-                              "
-                            >
-                              <template #icon><CloseIcon /></template>
-                            </t-button>
-                            <span class="f14">近期任职</span>
-                          </span>
-                        </template>
-                        <div class="test_body" style="gap: 12px">
-                          <div class="f12 grey3" style="width: 125px">
-                            包含职位关键词
-                          </div>
-                          <t-input
-                            v-model="recentEntry"
-                            placeholder="请输入单个职位关键词"
-                            @change="recentEntryChange"
-                          />
-                        </div>
-                      </t-form-item>
-                      <t-form-item
-                        v-if="mitAttachmentArray.includes('empty_period')"
-                        name="empty_period"
-                        label-width="140px"
-                        label-align="left"
-                        style="margin-bottom: 16px"
-                      >
-                        <template #label>
-                          <span class="posItem_r">
-                            <t-button
-                              shape="square"
-                              variant="text"
-                              class="pi_close"
-                              @click="
-                                removeAttachment({
-                                  content: '空窗期',
-                                  value: 'empty_period',
-                                })
-                              "
-                            >
-                              <template #icon><CloseIcon /></template>
-                            </t-button>
-                            <span class="f14">空窗期</span>
-                          </span>
-                        </template>
-                        <div class="test_body" style="gap: 12px">
-                          <div class="f12 grey3" style="width: 86px">
-                            最近空窗少于
-                          </div>
-                          <t-input-number
-                            v-model="emptyPeriod"
-                            theme="normal"
-                            placeholder="请输入空窗期范围"
-                            :min="0"
-                            @change="emptyPeriodChange"
-                          >
-                            <template #suffix>
-                              <span>月</span>
-                            </template>
-                          </t-input-number>
-                        </div>
-                      </t-form-item>
-                      <t-form-item
-                        v-if="mitAttachmentArray.includes('profession')"
-                        name="profession_word"
-                        label-width="140px"
-                        label-align="left"
-                        style="margin-bottom: 16px"
-                      >
-                        <template #label>
-                          <span class="posItem_r">
-                            <t-button
-                              shape="square"
-                              variant="text"
-                              class="pi_close"
-                              @click="
-                                removeAttachment({
-                                  content: '专业',
-                                  value: 'profession',
-                                })
-                              "
-                            >
-                              <template #icon><CloseIcon /></template>
-                            </t-button>
-                            <span class="f14">专业</span>
-                          </span>
-                        </template>
-                        <div class="test_body" style="gap: 12px">
-                          <div class="f12 grey3" style="width: 125px">
-                            包含专业关键词
-                          </div>
-                          <t-input
-                            v-model="professionWord"
-                            placeholder="请输入单个专业关键词"
-                            @change="professionWordChange"
-                          />
-                        </div>
-                      </t-form-item>
-                      <t-form-item
-                        v-if="mitAttachmentArray.includes('expected_position')"
-                        name="expected_position"
-                        label-width="140px"
-                        label-align="left"
-                        style="margin-bottom: 16px"
-                      >
-                        <template #label>
-                          <span class="posItem_r">
-                            <t-button
-                              shape="square"
-                              variant="text"
-                              class="pi_close"
-                              @click="
-                                removeAttachment({
-                                  content: '期望职位',
-                                  value: 'expected_position',
-                                })
-                              "
-                            >
-                              <template #icon><CloseIcon /></template>
-                            </t-button>
-                            <span class="f14">期望职位</span>
-                          </span>
-                        </template>
-                        <div class="test_body" style="gap: 12px">
-                          <div class="f12 grey3" style="width: 170px">
-                            包含期望职位关键词
-                          </div>
-                          <t-input
-                            v-model="expectedPosition"
-                            placeholder="请输入单个期望职位关键词"
-                            @change="expectedPositionChange"
-                          />
-                        </div>
-                      </t-form-item>
-                      <t-form-item
-                        v-if="mitAttachmentArray.includes('company_name')"
-                        name="company_name"
-                        label-width="140px"
-                        label-align="left"
-                        style="margin-bottom: 16px"
-                      >
-                        <template #label>
-                          <span class="posItem_r">
-                            <t-button
-                              shape="square"
-                              variant="text"
-                              class="pi_close"
-                              @click="
-                                removeAttachment({
-                                  content: '公司名称',
-                                  value: 'company_name',
-                                })
-                              "
-                            >
-                              <template #icon><CloseIcon /></template>
-                            </t-button>
-                            <span class="f14">公司名称</span>
-                          </span>
-                        </template>
-                        <div class="test_body" style="gap: 12px">
-                          <div class="f12 grey3" style="width: 170px">
-                            包含公司名称关键词
-                          </div>
-                          <t-input
-                            v-model="companyName"
-                            placeholder="请输入单个公司名称关键词"
-                            @change="companyNameChange"
-                          />
-                        </div>
-                      </t-form-item>
-                      <t-form-item
-                        v-if="mitAttachmentArray.includes('resume_text')"
-                        name="resume_text"
-                        label-width="140px"
-                        label-align="left"
-                        style="margin-bottom: 16px"
-                      >
-                        <template #label>
-                          <span class="posItem_r">
-                            <t-button
-                              shape="square"
-                              variant="text"
-                              class="pi_close"
-                              @click="
-                                removeAttachment({
-                                  content: '简历文本',
-                                  value: 'resume_text',
-                                })
-                              "
-                            >
-                              <template #icon><CloseIcon /></template>
-                            </t-button>
-                            <span class="f14">简历文本</span>
-                          </span>
-                        </template>
-                        <div class="disflex fl_dir_c">
-                          <div class="r_test_ul">
-                            <div
-                              class="r_test_li"
-                              v-for="(item, index) in resumeTextList"
-                              :key="index"
-                            >
-                              <t-input
-                                v-model="item.wordName"
-                                placeholder="请输入任意简历文本关键词"
-                                @change="resumeTextChange(item.wordName)"
-                              />
-                              <t-icon
-                                name="close"
-                                @click="removeResumeText(item)"
-                              />
-                            </div>
-                          </div>
-                          <t-link
-                            theme="primary"
-                            hover="color"
-                            @click="addResumeText"
-                          >
-                            <template #prefixIcon><AddIcon /></template>
-                            添加简历文本关键词
-                          </t-link>
-                        </div>
-                      </t-form-item>
-                    </div>
-                    <div
-                      v-if="attachmentOptions.length > 0"
-                      class="disflex fl_dir_c"
-                    >
-                      <t-dropdown
-                        :options="attachmentOptions"
-                        @click="addAttachment"
-                      >
-                        <t-button
-                          variant="outline"
-                          theme="primary"
-                          class="bw100"
-                          >添加附加条件</t-button
-                        >
-                      </t-dropdown>
-                    </div>
-                  </div>
+                  <div class="f14 grey1" style="width: 188px">打招呼次数</div>
                   <div
                     class="test_body"
                     style="margin-top: 24px; margin-bottom: 24px"
                   >
-                    <div class="f14 grey1" style="width: 188px">打招呼次数</div>
-                    <div class="test_body juc_b bw100">
+                    <div
+                      class="test_body juc_b bw100"
+                      style="gap: 12px; padding-right: 18px"
+                    >
                       <div class="disflex fl_dir_c posItem_r">
                         <t-checkbox
                           v-model="recommendChecked"
@@ -911,7 +1247,7 @@
                           @change="onNewTypeChange"
                         >
                           <div class="test_body">
-                            <div class="f14" style="width: 65px">新牛人</div>
+                            <div class="f14" style="width: 45px">新牛人</div>
                             <t-input-number
                               v-model="newTypeNum"
                               theme="normal"
@@ -930,8 +1266,47 @@
                           打招呼次数不能为空或为0！
                         </div>
                       </div>
+                      <div class="disflex fl_dir_c posItem_r">
+                        <t-checkbox
+                          v-model="isAutoReply"
+                          @change="isAutoReplyChange"
+                        >
+                          <div class="test_body">
+                            <div class="f14" style="width: 60px">自动回复</div>
+                            <div class="f14 grey3">不限次</div>
+                          </div>
+                        </t-checkbox>
+                      </div>
                     </div>
                   </div>
+                  <t-form-item
+                    label="开启夜间保护"
+                    name="isProtection"
+                    label-width="140px"
+                    label-align="left"
+                    style="margin-bottom: 16px"
+                  >
+                    <div
+                      style="display: flex; flex-direction: column; width: 100%"
+                    >
+                      <div
+                        style="
+                          display: flex;
+                          width: 100%;
+                          margin-top: 5px;
+                          margin-bottom: 5px;
+                        "
+                      >
+                        <t-switch
+                          v-model="isProtection"
+                          @change="isProtectionChange"
+                        />
+                        <div style="font-size: 12px; color: #86909c">
+                          （开启后，将在凌晨0点-6点自动停止打招呼，降低被BOSS识别为插件的风险）
+                        </div>
+                      </div>
+                    </div>
+                  </t-form-item>
                 </div>
               </div>
 
@@ -949,7 +1324,10 @@
                       @click="stopFlowMain"
                       >停止</t-button
                     >
-                    <t-button theme="primary" type="submit" @click="startResume"
+                    <t-button
+                      theme="primary"
+                      style="margin-right: 20px"
+                      @click="startResume"
                       >启动</t-button
                     >
                   </t-space>
@@ -1007,7 +1385,18 @@ import {
   reactive,
 } from 'vue';
 import browser from 'webextension-polyfill';
-import { ChevronDownIcon, CloseIcon, AddIcon } from 'tdesign-icons-vue-next';
+import {
+  ChevronDownIcon,
+  CloseIcon,
+  AddIcon,
+  FilterIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  DeleteIcon,
+  HelpCircleFilledIcon,
+  CheckCircleFilledIcon,
+  CloseCircleFilledIcon,
+} from 'tdesign-icons-vue-next';
 import { useUserStore } from '@/stores/user';
 import { useFolderStore } from '@/stores/folder';
 import { sendMessage } from '@/utils/message';
@@ -1024,13 +1413,14 @@ import Login from './Login.vue';
 import CurriculumVitaeTable from './curriculum-vitae-table.vue';
 import ManagementBackend from './management-backend.vue';
 import logo from '../../assets/images/logo_2.png';
-import Group1 from '../../assets/images/Group1.png';
-import Group2 from '../../assets/images/Group2.png';
-import Group3 from '../../assets/images/Group3.png';
-import Group11 from '../../assets/images/Group11.png';
+import Group1 from '../../assets/images/Group_num_1.png';
+import Group2 from '../../assets/images/Group_num_2.png';
+import Group3 from '../../assets/images/Group_num_3.png';
+import Group11 from '../../assets/images/Group_num_4.png';
 import ViewChat from '../../assets/images/view_chat.png';
 import { goodlookName, getColorById } from '../../utils/utils.js';
 import JDHome from './JD-home.vue';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 const isMV2 = browser.runtime.getManifest().manifest_version === 2;
 
@@ -1048,19 +1438,73 @@ const academyCheckbox = ref(false);
 
 const isLoading = ref(false);
 
+const isShowMore = ref(false);
+
+const panelValue1 = ref([]);
+const panelValue2 = ref([]);
+
+const tagList = ref([]);
+
+const chatValue = ref(1);
+const chatSelectVal1 = ref(false);
+
+const addTag = () => {
+  const arr = tagList.value;
+  const noDataItem = arr.find((item) => item.label === '');
+  if (noDataItem) {
+    MessagePlugin.error('有未填写的简历标签');
+    return;
+  }
+  tagList.value.push({
+    label: '',
+    value: '',
+    type: 1,
+  });
+};
+
+const handleClose = async (item) => {
+  tagList.value = tagList.value.filter((b) => b.value !== item.value);
+  await browser.storage.local.set({
+    tagList: tagList.value,
+  });
+};
+
+const blurItemChange = async (item) => {
+  if (item.label) {
+    item.value = item.label;
+    await browser.storage.local.set({
+      tagList: tagList.value,
+    });
+  }
+};
+
+watch(
+  () => tagList.value,
+  async () => {
+    await browser.storage.local.set({
+      tagList: tagList.value,
+    });
+  },
+  { deep: true }
+);
+
 const isAutoReply = ref(true);
 const isAutoReplyChange = async () => {
   await browser.storage.local.set({
     isAutoReply: isAutoReply.value,
   });
 };
-const autoReplySuccessMessage = ref('');
+const autoReplySuccessMessage = ref(
+  '你好,{求职者},我想了解一下你的基本情况和工作经历,可以发一下你的简历吗?'
+);
 const autoReplySuccessMessageChange = async () => {
   await browser.storage.local.set({
     autoReplySuccessMessage: autoReplySuccessMessage.value,
   });
 };
-const autoReplyFailMessage = ref('');
+const autoReplyFailMessage = ref(
+  '你好,{求职者},感谢你的关注,但与本岗位要求不太匹配,祝你求职顺利!'
+);
 const autoReplyFailMessageChange = async () => {
   await browser.storage.local.set({
     autoReplyFailMessage: autoReplyFailMessage.value,
@@ -1492,8 +1936,30 @@ const resumeEvaluationCriteriaChange = async () => {
 };
 
 const greetingMessage = ref(
-  '你好，我想了解一下你的基本情况和工作经历，可以发一下你的简历吗？'
+  '你好，{求职者}，我想了解一下你的基本情况和工作经历，可以发一下你的简历吗？'
 );
+
+const addGreetingMessage = async () => {
+  greetingMessage.value += '{求职者}';
+  await browser.storage.local.set({
+    greetingMessage: greetingMessage.value,
+  });
+};
+
+const addAutoReplySuccessMessage = async () => {
+  autoReplySuccessMessage.value += '{求职者}';
+  await browser.storage.local.set({
+    autoReplySuccessMessage: autoReplySuccessMessage.value,
+  });
+};
+
+const addAutoReplyFailMessage = async () => {
+  autoReplyFailMessage.value += '{求职者}';
+  await browser.storage.local.set({
+    autoReplyFailMessage: autoReplyFailMessage.value,
+  });
+};
+
 const isGreetingMessage = ref(true);
 const isAnalysis = ref(true); // 是否过滤已分析简历
 const isPreciseMatch = ref(false); // 是否精准匹配
@@ -1650,7 +2116,11 @@ const startResume = async () => {
           educationalValue: educationalValue.value,
           salaryValue: salaryValue.value,
           jobIntentionValue: jobIntentionValue.value,
-          resumeEvaluationCriteria: resumeEvaluationCriteria.value,
+          resumeEvaluationCriteria:
+            tagList.value
+              .filter((item) => item.type === 1)
+              .map((item) => item.label)
+              .join('，') || '候选人已经回复，并且回答符合逻辑',
           greetingMessage: isGreetingMessage.value
             ? greetingMessage.value || null
             : null,
@@ -1676,7 +2146,9 @@ const startResume = async () => {
           isExperienceMatching: isExperienceMatching.value,
           isProtection: isProtection.value,
           recentEntry: recentEntry.value,
-          emptyPeriod: emptyPeriod.value,
+          emptyPeriod: mitAttachmentArray.value.includes('empty_period')
+            ? emptyPeriod.value
+            : 0,
           professionWord: professionWord.value,
           expectedPosition: expectedPosition.value,
           companyName: companyName.value,
@@ -1689,6 +2161,7 @@ const startResume = async () => {
             ? autoReplyFailMessage.value
             : null,
           academyCheckbox: academyCheckbox.value,
+          tagList: tagList.value,
         };
         const JD_obj = positionOptions.value.find(
           (item) => item.label === positionValue.value
@@ -1890,7 +2363,7 @@ const versionMit = async () => {
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json
   const API_URL =
-    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json';
+    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json';
   try {
     // 添加no-cache参数避免缓存
     const response = await fetch(API_URL, {
@@ -2014,6 +2487,7 @@ onMounted(async () => {
     'autoReplySuccessMessage',
     'autoReplyFailMessage',
     'academyCheckbox',
+    'tagList',
   ]);
 
   try {
@@ -2067,7 +2541,7 @@ onMounted(async () => {
     resumeEvaluationCriteria.value = result.resumeEvaluationCriteria || null;
     greetingMessage.value =
       result.greetingMessage ||
-      '你好，我想了解一下你的基本情况和工作经历，可以发一下你的简历吗？';
+      '你好，{求职者}，我想了解一下你的基本情况和工作经历，可以发一下你的简历吗？';
     responseEvaluationCriteria.value =
       result.responseEvaluationCriteria || '候选人已经回复，并且回答符合逻辑';
     positionOptions.value = result.positionOptions
@@ -2114,18 +2588,25 @@ onMounted(async () => {
     resumeTextList.value = result.resumeTextList
       ? Object.values(result.resumeTextList)
       : [];
+    tagList.value = result.tagList ? Object.values(result.tagList) : [];
     isAutoReply.value =
-      result.isAutoReply === 'true' ||
-      result.isAutoReply === true
+      result.isAutoReply === 'true' || result.isAutoReply === true
         ? true
-        : false;
-    autoReplySuccessMessage.value = result.autoReplySuccessMessage || '';
-    autoReplyFailMessage.value = result.autoReplyFailMessage || '';
+        : result.isAutoReply === 'false' || result.isAutoReply === false
+        ? false
+        : true;
+    autoReplySuccessMessage.value =
+      result.autoReplySuccessMessage ||
+      '你好，{求职者}，我想了解一下你的基本情况和工作经历,可以发一下你的简历吗?';
+    autoReplyFailMessage.value =
+      result.autoReplyFailMessage ||
+      '你好，{求职者}，感谢你的关注,但与本岗位要求不太匹配,祝你求职顺利!';
     academyCheckbox.value =
-      result.academyCheckbox === 'true' ||
-      result.academyCheckbox === true
+      result.academyCheckbox === 'true' || result.academyCheckbox === true
         ? true
-        : false;
+        : result.academyCheckbox === 'false' || result.academyCheckbox === false
+        ? false
+        : true;
   } catch (e) {
     console.error(e);
   }
@@ -2244,6 +2725,15 @@ onMounted(async () => {
     await getPointBalance();
     await getPositionRequirementList();
   }
+});
+
+const p_num = computed(() => {
+  const arr = [
+    isAnalysis.value,
+    isPreciseMatch.value,
+    isExperienceMatching.value,
+  ];
+  return arr.filter((item) => item).length || 0;
 });
 
 // 添加这个格式化函数到script部分
@@ -2428,6 +2918,12 @@ const positionChange = async () => {
         filterConditionsObj.ageMinValue,
         filterConditionsObj.ageMaxValue,
       ];
+      const c_tagList = filterConditionsObj.tagList;
+      if (c_tagList.length > 0) {
+        tagList.value = c_tagList;
+      } else {
+        tagList.value = [];
+      }
       browser.storage.local.set({
         ageMinValue: filterConditionsObj.ageMinValue,
       });
@@ -2759,7 +3255,7 @@ const startJD = async (type) => {
 }
 .plug_container {
   margin: 14px 8px 8px !important;
-  padding: 24px;
+  padding: 24px 0;
   border-radius: 8px;
   border: 1px solid #f2f3f5;
 }
@@ -2772,5 +3268,27 @@ const startJD = async (type) => {
 .pi_close {
   position: absolute;
   left: -32px;
+}
+:deep(.t-collapse) {
+  border: none;
+}
+:deep(.t-collapse-panel__header) {
+  border: none !important;
+}
+:deep(
+    .t-radio-group.t-radio-group--primary-filled .t-radio-button.t-is-checked
+  ) {
+  color: #ffffff !important;
+}
+:deep(.t-form__label--top) {
+  display: flex;
+}
+.b_card {
+  background-color: #f7f8fa;
+  border-radius: 4px;
+  padding: 12px;
+}
+:deep(.t-radio-group.t-radio-group--filled) {
+  background-color: #eee;
 }
 </style>
