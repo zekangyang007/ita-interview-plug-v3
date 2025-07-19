@@ -598,7 +598,7 @@ const getLoginCode = async (phone) => {
       method: 'GET',
     };
     const response = await fetch(
-      `https://interview-api.itasaas.com/resource/sms/code?phonenumber=${phone}`,
+      `https://test-interview-api.itasaas.com/resource/sms/code?phonenumber=${phone}`,
       requestOptions
     );
 
@@ -1040,7 +1040,7 @@ const bosssAnalysis = async () => {
     };
     try {
       const response = await fetch(
-        'https://interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
+        'https://test-interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
         requestOptions
       );
       const result = await response.json();
@@ -1095,7 +1095,7 @@ const bosssAnalysiscommunication = async () => {
     };
     try {
       const response = await fetch(
-        'https://interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
+        'https://test-interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
         requestOptions
       );
       const result = await response.json();
@@ -1152,7 +1152,7 @@ const bosssAnalysiscommunicationSearch = async () => {
     };
     try {
       const response = await fetch(
-        'https://interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
+        'https://test-interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
         requestOptions
       );
       const result = await response.json();
@@ -1201,7 +1201,7 @@ const addCandidateInfo = async () => {
   };
   try {
     const response = await fetch(
-      'https://interview-api.itasaas.com/api/v1/business/candidate/online-create',
+      'https://test-interview-api.itasaas.com/api/v1/business/candidate/online-create',
       requestOptions
     );
     const result = await response.json();
@@ -1232,7 +1232,7 @@ const getJobList = async () => {
   };
   try {
     const response = await fetch(
-      'https://interview-api.itasaas.com/api/v1/business/position/list',
+      'https://test-interview-api.itasaas.com/api/v1/business/position/list',
       requestOptions
     );
     const result = await response.json();
@@ -1454,7 +1454,7 @@ const repetitionVerify = async (name, matchParams) => {
   };
   try {
     const response = await fetch(
-      `https://interview-api.itasaas.com/api/v1/business/candidate/list?name=${name}&matchParams=${matchParams}`,
+      `https://test-interview-api.itasaas.com/api/v1/business/candidate/list?name=${name}&matchParams=${matchParams}`,
       requestOptions
     );
     const result = await response.json();
@@ -1755,7 +1755,7 @@ const postLogin = async () => {
   };
   try {
     const response = await fetch(
-      'https://interview-api.itasaas.com/auth/login',
+      'https://test-interview-api.itasaas.com/auth/login',
       requestOptions
     );
     if (!response.ok) {
@@ -1785,7 +1785,7 @@ const getInfo = async () => {
   };
   try {
     const response = await fetch(
-      'https://interview-api.itasaas.com/system/user/getInfo',
+      'https://test-interview-api.itasaas.com/system/user/getInfo',
       requestOptions
     );
     const result = await response.json();
@@ -2051,8 +2051,9 @@ const retrieved = ref(false);
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows.json
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc.json
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-v3.json
+// https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc-ceshi.json
 const API_URL =
-  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc.json';
+  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc-ceshi.json';
 const loadData = async () => {
   const { workflowsData, isFirstTime } = await browser.storage.local.get([
     'workflows',
@@ -2113,8 +2114,9 @@ const versionMit = async () => {
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json
+  // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json
   const API_VERSION_URL =
-    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json';
+    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json';
   try {
     // 添加no-cache参数避免缓存
     const response = await fetch(API_VERSION_URL, {
@@ -2205,24 +2207,26 @@ document.addEventListener('launchExtension', async (event) => {
     const getDetail = event.detail;
     console.log(isStop.value, 'wewewewewewewew');
     if (getDetail.fromType === 'synchronization') {
-      await browser.storage.local.set({
-        token: getDetail.token,
-      });
       const electron = getDetail?.isElectron || '';
-      await browser.storage.local.set({ clientId: getDetail.clientId });
-      token.value = getDetail.token;
-      clientId.value = getDetail.clientId;
-      const user = await getInfo();
-      if (user.code === 200) {
-        await browser.storage.local.set({ userInfo: user.data.user });
-        loginData.username = null;
-        loginData.verificationCode = null;
-        userInfo.userName = user.data.user.nickName;
-        userInfo.userId = user.data.user.userId;
-        isPlugIn.value = false;
-        isLogin.value = false;
-        await startSynchronization(electron);
-        return;
+      if (getDetail?.token) {
+        await browser.storage.local.set({
+          token: getDetail.token,
+        });
+        await browser.storage.local.set({ clientId: getDetail.clientId });
+        token.value = getDetail.token;
+        clientId.value = getDetail.clientId;
+        const user = await getInfo();
+        if (user.code === 200) {
+          await browser.storage.local.set({ userInfo: user.data.user });
+          loginData.username = null;
+          loginData.verificationCode = null;
+          userInfo.userName = user.data.user.nickName;
+          userInfo.userId = user.data.user.userId;
+          isPlugIn.value = false;
+          isLogin.value = false;
+          await startSynchronization(electron);
+          return;
+        }
       }
       await startSynchronization(electron);
     } else if (getDetail.fromType === 'initiate') {
@@ -2263,6 +2267,19 @@ document.addEventListener('launchExtension', async (event) => {
       for (const element of data.workflows) {
         if (element.name === 'ITA 获取登录二维码') {
           element.globalData = event.detail;
+          executeWorkflow(element);
+        }
+      }
+    } else if (getDetail.fromType === 'newSynchronization') {
+      const data = await browser.storage.local.get(['workflows', 'isFirstTime']);
+      const Arr = Array.isArray(data?.workflows)
+        ? data.workflows
+        : Object.values(data.workflows);
+      for (const element of Arr) {
+        if (element.name === '远端同步岗位') {
+          element.globalData = {
+            taskExecuteId: getDetail.taskExecuteId,
+          };
           executeWorkflow(element);
         }
       }

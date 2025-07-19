@@ -170,7 +170,7 @@ const getLoginCode = async (phone) => {
       method: 'GET',
     };
     const response = await fetch(
-      `https://interview-api.itasaas.com/resource/sms/code?phonenumber=${phone}`,
+      `https://test-interview-api.itasaas.com/resource/sms/code?phonenumber=${phone}`,
       requestOptions
     );
 
@@ -206,7 +206,7 @@ const postLogin = async () => {
   };
   try {
     const response = await fetch(
-      'https://interview-api.itasaas.com/auth/login',
+      'https://test-interview-api.itasaas.com/auth/login',
       requestOptions
     );
     if (!response.ok) {
@@ -237,7 +237,7 @@ const getInfo = async () => {
   };
   try {
     const response = await fetch(
-      'https://interview-api.itasaas.com/system/user/getInfo',
+      'https://test-interview-api.itasaas.com/system/user/getInfo',
       requestOptions
     );
     const result = await response.json();

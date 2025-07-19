@@ -346,7 +346,7 @@ const getPointTransactionList = async (createAfter, createBefore, createBy) => {
   };
 
   try {
-    const url = `https://interview-api.itasaas.com/api/v1/point/point-transaction/count?${queryParams}`;
+    const url = `https://test-interview-api.itasaas.com/api/v1/point/point-transaction/count?${queryParams}`;
     const response = await fetch(url, requestOptions);
     const result = await response.json();
     console.log(result);
@@ -377,7 +377,7 @@ const getPointBalance = async () => {
   };
   try {
     const response = await fetch(
-      'https://interview-api.itasaas.com/api/v1/point/point-balance/detail',
+      'https://test-interview-api.itasaas.com/api/v1/point/point-balance/detail',
       requestOptions
     );
     const result = await response.json();
@@ -404,7 +404,7 @@ const getDifferentUserList = async () => {
     method: 'GET',
     headers: myHeaders,
   };
-  const url = `https://interview-api.itasaas.com/api/v1/admin/user/list`;
+  const url = `https://test-interview-api.itasaas.com/api/v1/admin/user/list`;
   const response = await fetch(url, requestOptions);
   const result = await response.json();
   if (response.status === 200) {
