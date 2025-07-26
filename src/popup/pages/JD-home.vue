@@ -418,7 +418,7 @@ const getPositionRequirementList = async (obj) => {
   };
   try {
     const response = await fetch(
-      `https://test-interview-api.itasaas.com/api/v1/business/recruitment/list?createBy=${userInfo.userInfo.userId}`,
+      `https://interview-api.itasaas.com/api/v1/business/recruitment/list?createBy=${userInfo.userInfo.userId}`,
       requestOptions
     );
     if (!response.ok) {
@@ -472,7 +472,7 @@ const changePositionRequirementList = async () => {
   };
   try {
     const response = await fetch(
-      `https://test-interview-api.itasaas.com/api/v1/business/recruitment/list?createBy=${userInfo.userInfo.userId}`,
+      `https://interview-api.itasaas.com/api/v1/business/recruitment/list?createBy=${userInfo.userInfo.userId}`,
       requestOptions
     );
     if (!response.ok) {
@@ -766,7 +766,7 @@ const delDemand = async (item, type) => {
   };
   try {
     const response = await fetch(
-      `https://test-interview-api.itasaas.com/api/v1/business/recruitment/${delId}`,
+      `https://interview-api.itasaas.com/api/v1/business/recruitment/${delId}`,
       requestOptions
     );
     if (!response.ok) {

@@ -473,7 +473,7 @@ const getRecruitRecordList = async (
   };
 
   try {
-    const url = `https://test-interview-api.itasaas.com/api/v1/business/recruit-record/list?${queryParams}`;
+    const url = `https://interview-api.itasaas.com/api/v1/business/recruit-record/list?${queryParams}`;
     const response = await fetch(url, requestOptions);
     const result = await response.json();
     console.log(result);
@@ -544,7 +544,7 @@ const getPositionGroupList = async () => {
   };
   try {
     const response = await fetch(
-      'https://test-interview-api.itasaas.com/api/v1/business/position/list',
+      'https://interview-api.itasaas.com/api/v1/business/position/list',
       requestOptions
     );
     const result = await response.json();
@@ -630,7 +630,7 @@ const getTodayViewVitaeList = async (
   };
 
   try {
-    const url = `https://test-interview-api.itasaas.com/api/v1/business/recruit-record/list?${queryParams}`;
+    const url = `https://interview-api.itasaas.com/api/v1/business/recruit-record/list?${queryParams}`;
     const response = await fetch(url, requestOptions);
     const result = await response.json();
     console.log(result);

@@ -269,7 +269,7 @@ const getRecruitmentMain = async (id) => {
 
   try {
     const response = await fetch(
-      `https://test-interview-api.itasaas.com/api/v1/business/job-sync/${id}`,
+      `https://interview-api.itasaas.com/api/v1/business/job-sync/${id}`,
       requestOptions
     );
     const result = await response.json();
@@ -476,7 +476,7 @@ const aiResumeEvaluationCriteria = async () => {
     };
     try {
       const response = await fetch(
-        `https://test-interview-api.itasaas.com/api/v1/business/job-sync/jd-optimize/${mitJdData.value?.id}`,
+        `https://interview-api.itasaas.com/api/v1/business/job-sync/jd-optimize/${mitJdData.value?.id}`,
         requestOptions
       );
       if (!response.ok) {

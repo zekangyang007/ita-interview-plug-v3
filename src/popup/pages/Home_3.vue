@@ -1350,6 +1350,7 @@ const versionMit = async () => {
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json
+  // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-scroll-ceshi.json
   const API_URL =
     'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config.json';
   try {

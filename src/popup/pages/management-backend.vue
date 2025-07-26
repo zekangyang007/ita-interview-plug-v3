@@ -224,7 +224,7 @@ const getDifferentUserList = async () => {
     method: 'GET',
     headers: myHeaders,
   };
-  const url = `https://test-interview-api.itasaas.com/api/v1/admin/user/list?isAsc=desc&orderByColumn=updateTime&pageSize=${pagination.value.defaultPageSize}&pageNum=${pagination.value.defaultCurrent}`;
+  const url = `https://interview-api.itasaas.com/api/v1/admin/user/list?isAsc=desc&orderByColumn=updateTime&pageSize=${pagination.value.defaultPageSize}&pageNum=${pagination.value.defaultCurrent}`;
   const response = await fetch(url, requestOptions);
   const result = await response.json();
   if (response.status === 200) {
@@ -269,7 +269,7 @@ const addUser = async (data) => {
     headers: myHeaders,
     body: JSON.stringify(data),
   };
-  const url = `https://test-interview-api.itasaas.com/api/v1/admin/user`;
+  const url = `https://interview-api.itasaas.com/api/v1/admin/user`;
   const response = await fetch(url, requestOptions);
   const result = await response.json();
   console.log(result);
@@ -289,7 +289,7 @@ const modifyUser = async (data) => {
     headers: myHeaders,
     body: JSON.stringify(data),
   };
-  const url = `https://test-interview-api.itasaas.com/api/v1/admin/user`;
+  const url = `https://interview-api.itasaas.com/api/v1/admin/user`;
   const response = await fetch(url, requestOptions);
   const result = await response.json();
   console.log(result);
@@ -312,7 +312,7 @@ const deleteUser = async () => {
     method: 'DELETE',
     headers: myHeaders,
   };
-  const url = `https://test-interview-api.itasaas.com/api/v1/admin/user/${deleteUserId.value}`;
+  const url = `https://interview-api.itasaas.com/api/v1/admin/user/${deleteUserId.value}`;
   const response = await fetch(url, requestOptions);
   const result = await response.json();
   console.log(result);
@@ -365,7 +365,7 @@ const getAllDeptList = async () => {
     method: 'GET',
     headers: myHeaders,
   };
-  const url = `https://test-interview-api.itasaas.com/api/v1/admin/dept/list`;
+  const url = `https://interview-api.itasaas.com/api/v1/admin/dept/list`;
   const response = await fetch(url, requestOptions);
   const result = await response.json();
   deptList.value = result.data;

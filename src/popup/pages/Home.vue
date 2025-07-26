@@ -2229,7 +2229,7 @@ const getPositionRequirementList = async () => {
   };
   try {
     const response = await fetch(
-      `https://test-interview-api.itasaas.com/api/v1/business/recruitment/list?createBy=${userInfo.userInfo.userId}`,
+      `https://interview-api.itasaas.com/api/v1/business/recruitment/list?createBy=${userInfo.userInfo.userId}`,
       requestOptions
     );
     if (!response.ok) {
@@ -2292,7 +2292,7 @@ const getPointBalance = async () => {
   };
   try {
     const response = await fetch(
-      'https://test-interview-api.itasaas.com/api/v1/point/point-balance/detail',
+      'https://interview-api.itasaas.com/api/v1/point/point-balance/detail',
       requestOptions
     );
     const result = await response.json();
@@ -2331,7 +2331,7 @@ const logout = async () => {
   };
   try {
     const response = await fetch(
-      'https://test-interview-api.itasaas.com/auth/logout',
+      'https://interview-api.itasaas.com/auth/logout',
       requestOptions
     );
     if (!response.ok) {
@@ -2362,8 +2362,9 @@ const versionMit = async () => {
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json
+  // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-scroll-ceshi.json
   const API_URL =
-    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json';
+    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-scroll.json';
   try {
     // 添加no-cache参数避免缓存
     const response = await fetch(API_URL, {
@@ -2632,7 +2633,7 @@ onMounted(async () => {
 
   try {
     const responseText = await fetch(
-      'https://test-interview-api.itasaas.com/system/user/getInfo',
+      'https://interview-api.itasaas.com/system/user/getInfo',
       requestOptions
     );
     const response = await responseText.json();

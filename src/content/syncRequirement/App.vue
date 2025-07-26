@@ -598,7 +598,7 @@ const getLoginCode = async (phone) => {
       method: 'GET',
     };
     const response = await fetch(
-      `https://test-interview-api.itasaas.com/resource/sms/code?phonenumber=${phone}`,
+      `https://interview-api.itasaas.com/resource/sms/code?phonenumber=${phone}`,
       requestOptions
     );
 
@@ -1040,7 +1040,7 @@ const bosssAnalysis = async () => {
     };
     try {
       const response = await fetch(
-        'https://test-interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
+        'https://interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
         requestOptions
       );
       const result = await response.json();
@@ -1095,7 +1095,7 @@ const bosssAnalysiscommunication = async () => {
     };
     try {
       const response = await fetch(
-        'https://test-interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
+        'https://interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
         requestOptions
       );
       const result = await response.json();
@@ -1152,7 +1152,7 @@ const bosssAnalysiscommunicationSearch = async () => {
     };
     try {
       const response = await fetch(
-        'https://test-interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
+        'https://interview-api.itasaas.com/api/v1/business/candidate/analyze-online',
         requestOptions
       );
       const result = await response.json();
@@ -1201,7 +1201,7 @@ const addCandidateInfo = async () => {
   };
   try {
     const response = await fetch(
-      'https://test-interview-api.itasaas.com/api/v1/business/candidate/online-create',
+      'https://interview-api.itasaas.com/api/v1/business/candidate/online-create',
       requestOptions
     );
     const result = await response.json();
@@ -1232,7 +1232,7 @@ const getJobList = async () => {
   };
   try {
     const response = await fetch(
-      'https://test-interview-api.itasaas.com/api/v1/business/position/list',
+      'https://interview-api.itasaas.com/api/v1/business/position/list',
       requestOptions
     );
     const result = await response.json();
@@ -1454,7 +1454,7 @@ const repetitionVerify = async (name, matchParams) => {
   };
   try {
     const response = await fetch(
-      `https://test-interview-api.itasaas.com/api/v1/business/candidate/list?name=${name}&matchParams=${matchParams}`,
+      `https://interview-api.itasaas.com/api/v1/business/candidate/list?name=${name}&matchParams=${matchParams}`,
       requestOptions
     );
     const result = await response.json();
@@ -1755,7 +1755,7 @@ const postLogin = async () => {
   };
   try {
     const response = await fetch(
-      'https://test-interview-api.itasaas.com/auth/login',
+      'https://interview-api.itasaas.com/auth/login',
       requestOptions
     );
     if (!response.ok) {
@@ -1785,7 +1785,7 @@ const getInfo = async () => {
   };
   try {
     const response = await fetch(
-      'https://test-interview-api.itasaas.com/system/user/getInfo',
+      'https://interview-api.itasaas.com/system/user/getInfo',
       requestOptions
     );
     const result = await response.json();
@@ -2052,8 +2052,9 @@ const retrieved = ref(false);
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc.json
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-v3.json
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc-ceshi.json
+// https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-scroll-ceshi.json
 const API_URL =
-  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc-ceshi.json';
+  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-scroll.json';
 const loadData = async () => {
   const { workflowsData, isFirstTime } = await browser.storage.local.get([
     'workflows',
@@ -2115,8 +2116,9 @@ const versionMit = async () => {
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-v3.json
   // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json
+  // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-scroll-ceshi.json
   const API_VERSION_URL =
-    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-orc-ceshi.json';
+    'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/version-config-scroll.json';
   try {
     // 添加no-cache参数避免缓存
     const response = await fetch(API_VERSION_URL, {

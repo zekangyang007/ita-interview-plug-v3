@@ -971,14 +971,14 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "disableBlock": false,
-                    "description": "元素 selector",
-                    "timeout": 20000,
-                    "context": "website",
                     "code": "const selector = automaRefData('loopData', 'df_AaU.data');\nautomaSetVariable('retryNum', 0);\n\nautomaNextBlock()",
-                    "preloadScripts": [],
+                    "context": "website",
+                    "description": "元素 selector",
+                    "disableBlock": false,
                     "everyNewTab": false,
-                    "runBeforeLoad": false
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
                 },
                 "events": {},
                 "id": "90fgkw7",
@@ -1095,23 +1095,23 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "code": "const globalData = automaRefData('globalData');\nconst recruitmentId = globalData?.recruitmentId || null\nconst myUserId = globalData?.myUserId || null\nconst resume_img = automaRefData('variables', 'geek_img');\nconst resume_name = automaRefData('variables', 'geek_name');\nconst resume_user_data = automaRefData('variables', 'geek_user_data');\nconst resume_user_html_data = automaRefData('variables', 'geek_user_html_data');\nconst isProtection = globalData.isProtection || null;\nconst resume_user_age = resume_user_data.slice(0,2)\nconst isAnalysis = globalData.isAnalysis || null;\nautomaSetVariable('resume_user_age_num', resume_user_age);\nconst maxNum = globalData.ageMaxValue\nconst minNum = globalData.ageMinValue\nconst ssnum = localStorage.getItem('ssnum')\nconst interview_filter_type = automaRefData('variables', 'interview_filter_type');\nconst recommendNum = localStorage.getItem('recommendNum')\nconst newTypeNum = localStorage.getItem('newTypeNum')\nconst instanceId = globalData?.instanceId || null\nconst taskExecuteId = globalData?.taskExecuteId || null\n\nconst element_item = resume_user_html_data\nlet result_word_arr = element_item.split(/<i[^>]*>[^<]*<\\/i>/).map(item => item.replace(/<[^>]*>/g, '').trim()).filter(item => item);\nautomaSetVariable('result_word_arr', result_word_arr);\n\n/**\n判断时间是否在服务内\n**/\nconst now = new Date();\n    \n// 获取当前小时数（0-23）\nconst currentHour = now.getHours();\n\n// 判断是否在0点到6点之间（包含0点，不包含6点）\nif (isProtection === true || isProtection === 'true') { \n  if (currentHour >= 0 && currentHour < 6) {\n    automaNextBlock({},{nextBlockId:\"8nndc2g\"})\n    return\n  }\n}\n\nif ((recommendNum * 1 <= 0) && (newTypeNum * 1 <= 0)) {\n  automaNextBlock({},{nextBlockId:\"ll8r8ui\"})\n  return\n}\n\nfunction stringToHash(string) {  \n    // 使用CryptoJS.SHA256生成哈希值  \n    const hash = CryptoJS.SHA256(string).toString();  \n    return hash;  \n}  \n  \n// 示例使用  \nconst hashValue = stringToHash(resume_img + '-' +resume_name);\nautomaSetVariable('geek_id', hashValue);\n\nif (taskExecuteId) {\n  const postMsg = JSON.stringify({\n    content: `查看牛人${resume_name}的基本信息，未消耗查看权益`,\n    remoteTaskId: taskExecuteId,\n    logType: 1\n  })\n  fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log(error)\n      })\n      .catch(error => {\n        console.log(error)\n      });\n}\n\nif (isAnalysis === true || isAnalysis === 'true') {\n  fetch(`https://test-interview-api.itasaas.com/api/v1/business/recruit-record/count?recordIdx=${hashValue}`, {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"get\",\n    })\n    .then(response => response.json())\n    .then(result => {\n      if (result?.data?.count) {\n        automaNextBlock({},{nextBlockId:\"ocvlym8\"})\n        return\n      } else {\n        if (interview_filter_type === 'newType') {\n          if ((newTypeNum * 1) > 0) {\n            if (resume_user_age !== null) {\n             if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n               console.log('年龄合适')\n               automaNextBlock()\n               return\n             } else {\n                console.log('年龄不合适')\n               automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n               return\n             }\n            }\n            automaNextBlock()\n            return\n          } else {\n            if ((recommendNum * 1) > 0) {\n              automaNextBlock({},{nextBlockId: 'euxhf8f'})\n              return\n            }\n          }\n        } else {\n          if ((recommendNum * 1) > 0) {\n            if (resume_user_age !== null) {\n             if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n               console.log('年龄合适')\n               automaNextBlock()\n               return\n             } else {\n                console.log('年龄不合适')\n               automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n               return\n             }\n            }\n            automaNextBlock()\n            return\n          } else {\n            if ((newTypeNum * 1) > 0) {\n              automaNextBlock({},{nextBlockId: 'euxhf8f'})\n              return\n            }\n          }\n        }\n      }\n    })\n    .catch(error => {\n      const rpa_data = JSON.stringify({\n        recruitmentId: recruitmentId,\n        userId: myUserId,\n        status: 'failed',\n        message: 'RPA流程运行失败'\n      })\n      fetch(\"https://ws.itasaas.com/rpa/update-status\", {\n              headers: {\n                  \"accept\": \"application/json, text/plain, */*\",\n                  \"content-type\": \"application/json\"\n              },\n              method: \"POST\",\n              body: rpa_data,\n          })\n          .then(response => response.json())\n          .then(result => {\n              // alert('插件异常，请联系插件服务人员！')\n              console.log('插件异常，请联系插件服务人员！')\n              console.log('rpa状态', result);\n          })\n          .catch(error => {\n            console.log('插件异常，请联系插件服务人员！')\n            // alert('插件异常，请联系插件服务人员！')\n          });\n      if (taskExecuteId) {\n        const data = JSON.stringify({\n          id: taskExecuteId,\n          taskStatus: 3\n        })\n        fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n            headers: {\n                \"accept\": \"application/json, text/plain, */*\",\n                \"content-type\": \"application/json\"\n            },\n            method: \"PUT\",\n            body: data,\n        })\n        .then(response => response.json())\n        .then(result => {\n            console.log('任务状态', result);\n        })\n        .catch(error => console.log('任务状态错误', error));\n      }\n      console.log(error)\n    });\n} else {\n  if (interview_filter_type === 'newType') {\n    if ((newTypeNum * 1) > 0) {\n      if (resume_user_age !== null) {\n       if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n         console.log('年龄合适')\n         automaNextBlock()\n         return\n       } else {\n          console.log('年龄不合适')\n         automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n         return\n       }\n      }\n      automaNextBlock()\n      return\n    } else {\n      if ((recommendNum * 1) > 0) {\n        automaNextBlock({},{nextBlockId: 'euxhf8f'})\n        return\n      }\n    }\n  } else {\n    if ((recommendNum * 1) > 0) {\n      if (resume_user_age !== null) {\n       if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n         console.log('年龄合适')\n         automaNextBlock()\n         return\n       } else {\n          console.log('年龄不合适')\n         automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n         return\n       }\n      }\n      automaNextBlock()\n      return\n    } else {\n      if ((newTypeNum * 1) > 0) {\n        automaNextBlock({},{nextBlockId: 'euxhf8f'})\n        return\n      }\n    }\n  }  \n}\n\n\n\n\n\n\n",
-                    "context": "website",
-                    "description": "用户头像和名称生成哈希值",
                     "disableBlock": false,
-                    "everyNewTab": false,
+                    "description": "用户头像和名称生成哈希值",
+                    "timeout": 20000,
+                    "context": "website",
+                    "code": "const globalData = automaRefData('globalData');\nconst recruitmentId = globalData?.recruitmentId || null\nconst myUserId = globalData?.myUserId || null\nconst resume_img = automaRefData('variables', 'geek_img');\nconst resume_name = automaRefData('variables', 'geek_name');\nconst resume_user_data = automaRefData('variables', 'geek_user_data');\nconst resume_user_html_data = automaRefData('variables', 'geek_user_html_data');\nconst isProtection = globalData.isProtection || null;\nconst resume_user_age = resume_user_data.slice(0,2)\nconst isAnalysis = globalData.isAnalysis || null;\nautomaSetVariable('resume_user_age_num', resume_user_age);\nconst maxNum = globalData.ageMaxValue\nconst minNum = globalData.ageMinValue\nconst ssnum = localStorage.getItem('ssnum')\nconst interview_filter_type = automaRefData('variables', 'interview_filter_type');\nconst recommendNum = localStorage.getItem('recommendNum')\nconst newTypeNum = localStorage.getItem('newTypeNum')\nconst instanceId = globalData?.instanceId || null\nconst taskExecuteId = globalData?.taskExecuteId || null\n\nconst element_item = resume_user_html_data\nlet result_word_arr = element_item.split(/<i[^>]*>[^<]*<\\/i>/).map(item => item.replace(/<[^>]*>/g, '').trim()).filter(item => item);\nautomaSetVariable('result_word_arr', result_word_arr);\n\n/**\n判断时间是否在服务内\n**/\nconst now = new Date();\n    \n// 获取当前小时数（0-23）\nconst currentHour = now.getHours();\n\n// 判断是否在0点到6点之间（包含0点，不包含6点）\nif (isProtection === true || isProtection === 'true') { \n  if (currentHour >= 0 && currentHour < 6) {\n    automaNextBlock({},{nextBlockId:\"8nndc2g\"})\n    return\n  }\n}\n\nif ((recommendNum * 1 <= 0) && (newTypeNum * 1 <= 0)) {\n  automaNextBlock({},{nextBlockId:\"ll8r8ui\"})\n  return\n}\n\nfunction stringToHash(string) {  \n    // 使用CryptoJS.SHA256生成哈希值  \n    const hash = CryptoJS.SHA256(string).toString();  \n    return hash;  \n}  \n  \n// 示例使用  \nconst hashValue = stringToHash(resume_img + '-' +resume_name);\nautomaSetVariable('geek_id', hashValue);\n\nif (taskExecuteId) {\n  const postMsg = JSON.stringify({\n    content: `查看牛人${resume_name}的基本信息，未消耗查看权益`,\n    remoteTaskId: taskExecuteId,\n    logType: 1\n  })\n  fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log(error)\n      })\n      .catch(error => {\n        console.log(error)\n      });\n}\n\nif (isAnalysis === true || isAnalysis === 'true') {\n  fetch(`https://test-interview-api.itasaas.com/api/v1/business/recruit-record/count?recordIdx=${hashValue}`, {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"get\",\n    })\n    .then(response => response.json())\n    .then(result => {\n      if (result?.data?.count) {\n        automaNextBlock({},{nextBlockId:\"ocvlym8\"})\n        return\n      } else {\n        if (interview_filter_type === 'newType') {\n          if ((newTypeNum * 1) > 0) {\n            if (resume_user_age !== null) {\n             if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n               console.log('年龄合适')\n               automaNextBlock()\n               return\n             } else {\n                console.log('年龄不合适')\n               automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n               return\n             }\n            }\n            automaNextBlock()\n            return\n          } else {\n            if ((recommendNum * 1) > 0) {\n              automaNextBlock({},{nextBlockId: 'euxhf8f'})\n              return\n            }\n          }\n        } else {\n          if ((recommendNum * 1) > 0) {\n            if (resume_user_age !== null) {\n             if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n               console.log('年龄合适')\n               automaNextBlock()\n               return\n             } else {\n                console.log('年龄不合适')\n               automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n               return\n             }\n            }\n            automaNextBlock()\n            return\n          } else {\n            if ((newTypeNum * 1) > 0) {\n              automaNextBlock({},{nextBlockId: 'euxhf8f'})\n              return\n            }\n          }\n        }\n      }\n    })\n    .catch(error => {\n      const rpa_data = JSON.stringify({\n        recruitmentId: recruitmentId,\n        userId: myUserId,\n        status: 'failed',\n        message: 'RPA流程运行失败'\n      })\n      fetch(\"https://ws.itasaas.com/rpa/update-status\", {\n              headers: {\n                  \"accept\": \"application/json, text/plain, */*\",\n                  \"content-type\": \"application/json\"\n              },\n              method: \"POST\",\n              body: rpa_data,\n          })\n          .then(response => response.json())\n          .then(result => {\n              alert('插件异常，请联系插件服务人员！')\n              console.log('插件异常，请联系插件服务人员！')\n              console.log('rpa状态', result);\n          })\n          .catch(error => {\n            console.log('插件异常，请联系插件服务人员！')\n            alert('插件异常，请联系插件服务人员！')\n          });\n      if (taskExecuteId) {\n        const data = JSON.stringify({\n          id: taskExecuteId,\n          taskStatus: 3\n        })\n        fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n            headers: {\n                \"accept\": \"application/json, text/plain, */*\",\n                \"content-type\": \"application/json\"\n            },\n            method: \"PUT\",\n            body: data,\n        })\n        .then(response => response.json())\n        .then(result => {\n            console.log('任务状态', result);\n        })\n        .catch(error => console.log('任务状态错误', error));\n      }\n      console.log(error)\n    });\n} else {\n  if (interview_filter_type === 'newType') {\n    if ((newTypeNum * 1) > 0) {\n      if (resume_user_age !== null) {\n       if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n         console.log('年龄合适')\n         automaNextBlock()\n         return\n       } else {\n          console.log('年龄不合适')\n         automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n         return\n       }\n      }\n      automaNextBlock()\n      return\n    } else {\n      if ((recommendNum * 1) > 0) {\n        automaNextBlock({},{nextBlockId: 'euxhf8f'})\n        return\n      }\n    }\n  } else {\n    if ((recommendNum * 1) > 0) {\n      if (resume_user_age !== null) {\n       if (minNum <= (resume_user_age * 1) && (resume_user_age * 1) <= maxNum) {\n         console.log('年龄合适')\n         automaNextBlock()\n         return\n       } else {\n          console.log('年龄不合适')\n         automaNextBlock({},{nextBlockId:\"g6yh26e\"})\n         return\n       }\n      }\n      automaNextBlock()\n      return\n    } else {\n      if ((newTypeNum * 1) > 0) {\n        automaNextBlock({},{nextBlockId: 'euxhf8f'})\n        return\n      }\n    }\n  }  \n}\n\n\n\n\n\n\n",
                     "preloadScripts": [
                         {
                             "removeAfterExec": false,
                             "src": "https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/crypto-js.min.js"
                         }
                     ],
+                    "everyNewTab": false,
                     "runBeforeLoad": false,
                     "settings": {
                         "blockTimeout": 0,
                         "debugMode": false
-                    },
-                    "timeout": 20000
+                    }
                 },
                 "events": {},
                 "id": "rsvxwbu",
@@ -3450,8 +3450,8 @@
                 "id": "6w2fx51",
                 "label": "javascript-code",
                 "position": {
-                    "x": 3030.8939117430773,
-                    "y": -1982.0829216492289
+                    "x": 2889.227245076411,
+                    "y": -1972.0829216492289
                 }
             },
             {
@@ -3925,14 +3925,14 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "code": "const globalData = automaRefData('globalData');\nconst recruitmentId = globalData?.recruitmentId || null\nconst myUserId = globalData?.myUserId || null\nconst snum = localStorage.getItem('ssnum') * 1\nconst instanceId = globalData?.instanceId || null\nconst taskExecuteId = globalData?.taskExecuteId || null\nif (typeof snum === 'number') {\n    localStorage.removeItem('ssnum')\n    localStorage.removeItem('recommendNum')\n    localStorage.removeItem('newTypeNum')\n}\nlet element = document.querySelector('.add_status');\nif(element) {\n    element.remove();\n}\n/** 更改实例状态 **/\n// if (instanceId) {\n//   const data = JSON.stringify({\n//     instanceId: instanceId,\n//     status: 'idle'\n//   })\n//   fetch(\"https://ws.itasaas.com/instance/update\", {\n//         headers: {\n//             \"accept\": \"application/json, text/plain, */*\",\n//             \"content-type\": \"application/json\"\n//         },\n//         method: \"POST\",\n//         body: data,\n//     })\n//     .then(response => response.json())\n//     .then(result => {\n//         console.log('实例状态', result);\n//     })\n//     .catch(error => console.log('实例状态错误', error));\n// }\n// if (instanceId) {\n//   fetch(\"http://127.0.0.1:5000/reset-processing\", {\n//         headers: {\n//             \"accept\": \"application/json, text/plain, */*\",\n//             \"content-type\": \"application/json\"\n//         },\n//         method: \"POST\",\n//     })\n//     .then(response => response.json())\n//     .then(result => {\n//         console.log('实例状态', result);\n//     })\n//     .catch(error => console.log('实例状态错误', error));\n// }\nif (taskExecuteId) {\n  const data = JSON.stringify({\n    id: taskExecuteId,\n    taskStatus: 4\n  })\n  fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n      headers: {\n          \"accept\": \"application/json, text/plain, */*\",\n          \"content-type\": \"application/json\"\n      },\n      method: \"PUT\",\n      body: data,\n  })\n  .then(response => response.json())\n  .then(result => {\n      console.log('任务状态', result);\n  })\n  .catch(error => console.log('任务状态错误', error));\n}\nif (taskExecuteId) {\n  const postMsg = JSON.stringify({\n      content: `没有合适的人才，插件流程结束`,\n      remoteTaskId: taskExecuteId,\n      logType: 1\n    })\n    fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"post\",\n        body: postMsg\n    })\n    .then(response => response.json())\n    .then(result => {\n      console.log('没有匹配合适的牛人，流程结束~')\n    })\n    .catch(error => {\n      console.log('失败')\n    });\n}\nautomaNextBlock()",
-                    "context": "website",
-                    "description": "没有合适人才",
                     "disableBlock": false,
-                    "everyNewTab": false,
+                    "description": "没有合适人才",
+                    "timeout": 20000,
+                    "context": "website",
+                    "code": "const globalData = automaRefData('globalData');\nconst recruitmentId = globalData?.recruitmentId || null\nconst myUserId = globalData?.myUserId || null\nconst snum = localStorage.getItem('ssnum') * 1\nconst instanceId = globalData?.instanceId || null\nconst taskExecuteId = globalData?.taskExecuteId || null\nif (typeof snum === 'number') {\n    localStorage.removeItem('ssnum')\n    localStorage.removeItem('recommendNum')\n    localStorage.removeItem('newTypeNum')\n}\nlet element = document.querySelector('.add_status');\nif(element) {\n    element.remove();\n}\n/** 更改实例状态 **/\n// if (instanceId) {\n//   const data = JSON.stringify({\n//     instanceId: instanceId,\n//     status: 'idle'\n//   })\n//   fetch(\"https://ws.itasaas.com/instance/update\", {\n//         headers: {\n//             \"accept\": \"application/json, text/plain, */*\",\n//             \"content-type\": \"application/json\"\n//         },\n//         method: \"POST\",\n//         body: data,\n//     })\n//     .then(response => response.json())\n//     .then(result => {\n//         console.log('实例状态', result);\n//     })\n//     .catch(error => console.log('实例状态错误', error));\n// }\n// if (instanceId) {\n//   fetch(\"http://127.0.0.1:5000/reset-processing\", {\n//         headers: {\n//             \"accept\": \"application/json, text/plain, */*\",\n//             \"content-type\": \"application/json\"\n//         },\n//         method: \"POST\",\n//     })\n//     .then(response => response.json())\n//     .then(result => {\n//         console.log('实例状态', result);\n//     })\n//     .catch(error => console.log('实例状态错误', error));\n// }\nif (taskExecuteId) {\n  const data = JSON.stringify({\n    id: taskExecuteId,\n    taskStatus: 4\n  })\n  fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n      headers: {\n          \"accept\": \"application/json, text/plain, */*\",\n          \"content-type\": \"application/json\"\n      },\n      method: \"PUT\",\n      body: data,\n  })\n  .then(response => response.json())\n  .then(result => {\n      console.log('任务状态', result);\n  })\n  .catch(error => console.log('任务状态错误', error));\n}\nif (taskExecuteId) {\n  const postMsg = JSON.stringify({\n      content: `没有合适的人才，插件流程结束`,\n      remoteTaskId: taskExecuteId,\n      logType: 1\n    })\n    fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"post\",\n        body: postMsg\n    })\n    .then(response => response.json())\n    .then(result => {\n      console.log('没有匹配合适的牛人，流程结束~')\n    })\n    .catch(error => {\n      console.log('失败')\n    });\n}\nalert('没有匹配合适的牛人，流程结束~')\nautomaNextBlock()",
                     "preloadScripts": [],
-                    "runBeforeLoad": false,
-                    "timeout": 20000
+                    "everyNewTab": false,
+                    "runBeforeLoad": false
                 },
                 "events": {},
                 "id": "bopxqm1",
@@ -4880,14 +4880,14 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "code": "const globalData = automaRefData('globalData');\nconst taskExecuteId = globalData?.taskExecuteId || null\nif (taskExecuteId) {\n  const data = JSON.stringify({\n    id: taskExecuteId,\n    taskStatus: 4\n  })\n  fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n      headers: {\n          \"accept\": \"application/json, text/plain, */*\",\n          \"content-type\": \"application/json\"\n      },\n      method: \"PUT\",\n      body: data,\n  })\n  .then(response => response.json())\n  .then(result => {\n      console.log('任务状态', result);\n  })\n  .catch(error => console.log('任务状态错误', error));\n}\nif (taskExecuteId) {\n  const postMsg = JSON.stringify({\n      content: `当前时间段不可用`,\n      remoteTaskId: taskExecuteId,\n      logType: 1\n    })\n    fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"post\",\n        body: postMsg\n    })\n    .then(response => response.json())\n    .then(result => {\n      console.log('当前时间段不可用')\n    })\n    .catch(error => {\n      console.log('失败')\n    });\n}\nautomaNextBlock()",
-                    "context": "website",
-                    "description": "时间范围不可用",
                     "disableBlock": false,
-                    "everyNewTab": false,
+                    "description": "时间范围不可用",
+                    "timeout": 20000,
+                    "context": "website",
+                    "code": "const globalData = automaRefData('globalData');\nconst taskExecuteId = globalData?.taskExecuteId || null\nif (taskExecuteId) {\n  const data = JSON.stringify({\n    id: taskExecuteId,\n    taskStatus: 4\n  })\n  fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n      headers: {\n          \"accept\": \"application/json, text/plain, */*\",\n          \"content-type\": \"application/json\"\n      },\n      method: \"PUT\",\n      body: data,\n  })\n  .then(response => response.json())\n  .then(result => {\n      console.log('任务状态', result);\n  })\n  .catch(error => console.log('任务状态错误', error));\n}\nif (taskExecuteId) {\n  const postMsg = JSON.stringify({\n      content: `当前时间段不可用`,\n      remoteTaskId: taskExecuteId,\n      logType: 1\n    })\n    fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"authorization\": globalData.token,\n            \"clientid\": globalData.clientId,\n            \"content-type\": \"application/json\"\n        },\n        method: \"post\",\n        body: postMsg\n    })\n    .then(response => response.json())\n    .then(result => {\n      console.log('当前时间段不可用')\n    })\n    .catch(error => {\n      console.log('失败')\n    });\n}\nalert('当前时间段不可用')\nautomaNextBlock()",
                     "preloadScripts": [],
-                    "runBeforeLoad": false,
-                    "timeout": 20000
+                    "everyNewTab": false,
+                    "runBeforeLoad": false
                 },
                 "events": {},
                 "id": "678ben5",
@@ -5907,23 +5907,23 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "disableBlock": false,
-                    "description": "生成存储到后台的候选人对象",
-                    "timeout": 20000,
-                    "context": "website",
                     "code": "const globalData = automaRefData('globalData');\nconst resume_img = automaRefData('variables', 'geek_plural_img');\nconst resume_name = automaRefData('variables', 'geek_plural_name');\nautomaSetVariable('chat_retryNum', 0);\nconst taskExecuteId = globalData?.taskExecuteId || null\nfunction stringToHash(string) {  \n    // 使用CryptoJS.SHA256生成哈希值  \n    const hash = CryptoJS.SHA256(string).toString();  \n    return hash;  \n}  \n  \n// 示例使用  \nconst hashValue = stringToHash(resume_img + '-' +resume_name);\nautomaSetVariable('geek_plural_id', hashValue);\n\nconst postMsg = JSON.stringify({\n    content: `解析求职者${resume_name}的基本信息，未消耗查看权益`,\n    remoteTaskId: taskExecuteId,\n    logType: 1\n  })\n  fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n      headers: {\n          \"accept\": \"application/json, text/plain, */*\",\n          \"authorization\": globalData.token,\n          \"clientid\": globalData.clientId,\n          \"content-type\": \"application/json\"\n      },\n      method: \"post\",\n      body: postMsg\n  })\n  .then(response => response.json())\n  .then(result => {\n    console.log('成功')\n  })\n  .catch(error => {\n    console.log('失败')\n  });\n\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "生成存储到后台的候选人对象",
+                    "disableBlock": false,
+                    "everyNewTab": false,
                     "preloadScripts": [
                         {
                             "removeAfterExec": false,
                             "src": "https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/crypto-js.min.js"
                         }
                     ],
-                    "everyNewTab": false,
                     "runBeforeLoad": false,
                     "settings": {
                         "blockTimeout": 0,
                         "debugMode": false
-                    }
+                    },
+                    "timeout": 20000
                 },
                 "events": {},
                 "id": "0v0ndzi",
@@ -7470,14 +7470,14 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "disableBlock": false,
-                    "description": "执行截图失败",
-                    "timeout": 20000,
+                    "code": "const globalData = automaRefData('globalData');\nconst timedSearchCvTasksObjId = globalData?.timedSearchCvTasksObjId || null;\nconst tasksObjId = globalData?.tasksObjId || null;\nconst boss_user_name = automaRefData('variables', 'boss_user_name');\nlet retryNum = automaRefData('variables', 'retryNum');\nconst taskExecuteId = globalData?.taskExecuteId || null\nvar data = JSON.stringify({\n    \"status\": \"error\",\n    \"logs\": \"截图分析失败\",\n    \"errorMessage\": \"截图分析失败\"+ \",BOSS账号：\" + boss_user_name + \"&&UserId：\" + (globalData?.myUserId || globalData.token || '') + \"&&出错地址：\" + (window?.location?.href || ''),\n    \"service\": \"rpa\",\n});\n\nfetch(\"https://alert-api.itasaas.com/log\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      let element = document.querySelector('.add_status');\n      if(element) {\n          element.remove();\n      }\n        console.log('日志', result);\n    })\n    .catch(error => console.log('错误'));\n\nif (retryNum <= 2) {\n  retryNum = retryNum + 1;\n  automaSetVariable('retryNum', retryNum);\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `在线简历分析异常，正在重试~`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('在线简历分析异常，正在重试~')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock({},{nextBlockId:\"oyq1zjn\"})\n  return\n} else {\n  if (taskExecuteId) {\n    const data = JSON.stringify({\n      id: taskExecuteId,\n      taskStatus: 3\n    })\n    fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"PUT\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n        console.log('任务状态', result);\n    })\n    .catch(error => console.log('任务状态错误', error));\n  }\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `插件执行异常，请重新启动云托管任务！`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('插件执行异常，请重新启动云托管任务！')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock()\n  return\n}\n",
                     "context": "website",
-                    "code": "const globalData = automaRefData('globalData');\nconst timedSearchCvTasksObjId = globalData?.timedSearchCvTasksObjId || null;\nconst tasksObjId = globalData?.tasksObjId || null;\nconst boss_user_name = automaRefData('variables', 'boss_user_name');\nlet retryNum = automaRefData('variables', 'retryNum');\nconst taskExecuteId = globalData?.taskExecuteId || null\nvar data = JSON.stringify({\n    \"status\": \"error\",\n    \"logs\": \"截图分析失败\",\n    \"errorMessage\": \"截图分析失败\"+ \",BOSS账号：\" + boss_user_name + \"&&UserId：\" + (globalData?.myUserId || globalData.token || '') + \"&&出错地址：\" + (window?.location?.href || ''),\n    \"service\": \"rpa\",\n});\n\nfetch(\"https://alert-api.itasaas.com/log\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      let element = document.querySelector('.add_status');\n      if(element) {\n          element.remove();\n      }\n        console.log('日志', result);\n    })\n    .catch(error => console.log('错误', error));\n\nlet element = document.querySelector('.add_status');\nif(element) {\n    element.remove();\n}\nif (retryNum <= 2) {\n  retryNum = retryNum + 1;\n  automaSetVariable('retryNum', retryNum);\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `在线简历分析异常，正在重试~`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('在线简历分析异常，正在重试~')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock({},{nextBlockId:\"oyq1zjn\"})\n  return\n} else {\n  if (taskExecuteId) {\n    const data = JSON.stringify({\n      id: taskExecuteId,\n      taskStatus: 3\n    })\n    fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"PUT\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n        console.log('任务状态', result);\n    })\n    .catch(error => console.log('任务状态错误', error));\n  }\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `插件执行异常，请重新启动云托管任务！`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('插件执行异常，请重新启动云托管任务！')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock()\n  return\n}\n",
-                    "preloadScripts": [],
+                    "description": "执行截图失败",
+                    "disableBlock": false,
                     "everyNewTab": false,
-                    "runBeforeLoad": false
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
                 },
                 "events": {},
                 "id": "rc9sco9",
@@ -7582,14 +7582,14 @@
             {
                 "type": "BlockBasic",
                 "data": {
-                    "disableBlock": false,
-                    "description": "执行截图失败",
-                    "timeout": 20000,
+                    "code": "const globalData = automaRefData('globalData');\nconst timedSearchCvTasksObjId = globalData?.timedSearchCvTasksObjId || null;\nconst tasksObjId = globalData?.tasksObjId || null;\nconst boss_user_name = automaRefData('variables', 'boss_user_name');\nconst resume_name = automaRefData('variables', 'geek_plural_name');\nlet chat_retryNum = automaRefData('variables', 'chat_retryNum');\nconst taskExecuteId = globalData?.taskExecuteId || null\nvar data = JSON.stringify({\n    \"status\": \"error\",\n    \"logs\": \"截图分析失败\",\n    \"errorMessage\": \"截图分析失败\"+ \",BOSS账号：\" + boss_user_name + \"&&UserId：\" + (globalData?.myUserId || globalData.token || '') + \"&&出错地址：\" + (window?.location?.href || ''),\n    \"service\": \"rpa\",\n});\n\nfetch(\"https://alert-api.itasaas.com/log\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      let element = document.querySelector('.add_status');\n      if(element) {\n          element.remove();\n      }\n        console.log('日志', result);\n    })\n    .catch(error => console.log('错误'));\n\nif (chat_retryNum <= 2) {\n  chat_retryNum = chat_retryNum + 1;\n  automaSetVariable('chat_retryNum', chat_retryNum);\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `在线简历分析异常，正在重试~`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('在线简历分析异常，正在重试~')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock({},{nextBlockId:\"fdbnis2\"})\n  return\n} else {\n  if (taskExecuteId) {\n    const data = JSON.stringify({\n      id: taskExecuteId,\n      taskStatus: 3\n    })\n    fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"PUT\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n        console.log('任务状态', result);\n    })\n    .catch(error => console.log('任务状态错误', error));\n  }\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `插件执行异常，请重新启动云托管任务！`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('插件执行异常，请重新启动云托管任务！')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock()\n  return\n}",
                     "context": "website",
-                    "code": "const globalData = automaRefData('globalData');\nconst timedSearchCvTasksObjId = globalData?.timedSearchCvTasksObjId || null;\nconst tasksObjId = globalData?.tasksObjId || null;\nconst boss_user_name = automaRefData('variables', 'boss_user_name');\nconst resume_name = automaRefData('variables', 'geek_plural_name');\nlet chat_retryNum = automaRefData('variables', 'chat_retryNum');\nconst taskExecuteId = globalData?.taskExecuteId || null\n// if (taskExecuteId) {\n//   const data = JSON.stringify({\n//     id: taskExecuteId,\n//     taskStatus: 3\n//   })\n//   fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n//       headers: {\n//           \"accept\": \"application/json, text/plain, */*\",\n//           \"content-type\": \"application/json\"\n//       },\n//       method: \"PUT\",\n//       body: data,\n//   })\n//   .then(response => response.json())\n//   .then(result => {\n//       console.log('任务状态', result);\n//   })\n//   .catch(error => console.log('任务状态错误', error));\n// }\nvar data = JSON.stringify({\n    \"status\": \"error\",\n    \"logs\": \"截图分析失败\",\n    \"errorMessage\": \"截图分析失败\"+ \",BOSS账号：\" + boss_user_name + \"&&UserId：\" + (globalData?.myUserId || globalData.token || '') + \"&&出错地址：\" + (window?.location?.href || ''),\n    \"service\": \"rpa\",\n});\n\nfetch(\"https://alert-api.itasaas.com/log\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"POST\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n      let element = document.querySelector('.add_status');\n      if(element) {\n          element.remove();\n      }\n        console.log('日志', result);\n    })\n    .catch(error => console.log('错误', error));\n\nlet element = document.querySelector('.add_status');\nif(element) {\n    element.remove();\n}\n\nif (chat_retryNum <= 2) {\n  chat_retryNum = chat_retryNum + 1;\n  automaSetVariable('chat_retryNum', chat_retryNum);\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `在线简历分析异常，正在重试~`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('在线简历分析异常，正在重试~')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock({},{nextBlockId:\"fdbnis2\"})\n  return\n} else {\n  if (taskExecuteId) {\n    const data = JSON.stringify({\n      id: taskExecuteId,\n      taskStatus: 3\n    })\n    fetch(\"https://test-interview-api.itasaas.com/api/v1/business/remote-task\", {\n        headers: {\n            \"accept\": \"application/json, text/plain, */*\",\n            \"content-type\": \"application/json\"\n        },\n        method: \"PUT\",\n        body: data,\n    })\n    .then(response => response.json())\n    .then(result => {\n        console.log('任务状态', result);\n    })\n    .catch(error => console.log('任务状态错误', error));\n  }\n  if (taskExecuteId) {\n    const postMsg = JSON.stringify({\n        content: `插件执行异常，请重新启动云托管任务！`,\n        remoteTaskId: taskExecuteId,\n        logType: 3\n      })\n      fetch(`https://test-interview-api.itasaas.com/api/v1/business/remote-task-log`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": globalData.token,\n              \"clientid\": globalData.clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"post\",\n          body: postMsg\n      })\n      .then(response => response.json())\n      .then(result => {\n        console.log('插件执行异常，请重新启动云托管任务！')\n      })\n      .catch(error => {\n        console.log('失败')\n      });\n  }\n  automaNextBlock()\n  return\n}",
-                    "preloadScripts": [],
+                    "description": "执行截图失败",
+                    "disableBlock": false,
                     "everyNewTab": false,
-                    "runBeforeLoad": false
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
                 },
                 "events": {},
                 "id": "k7gk7mq",
@@ -7984,8 +7984,8 @@
                 "id": "udf7648",
                 "label": "javascript-code",
                 "position": {
-                    "x": 1860.7742102080663,
-                    "y": -878.8998230642394
+                    "x": 1771.0943133562012,
+                    "y": -896.5831830068607
                 }
             },
             {
@@ -11274,7 +11274,6 @@
                 "data": {},
                 "events": {},
                 "label": "",
-                "class": "connected-edges",
                 "id": "vueflow__edge-rsvxwbursvxwbu-output-1-2vnrtdy2vnrtdy-input-1",
                 "sourceX": 7272.379523944165,
                 "sourceY": -1137.611023539569,
@@ -13470,7 +13469,7 @@
                 "sourceX": 16383.913057308167,
                 "sourceY": -24.33998866895773,
                 "targetX": 16534.78802937301,
-                "targetY": -4.492865848357759
+                "targetY": -4.492862033660494
             },
             {
                 "type": "custom",
@@ -13486,7 +13485,7 @@
                 "label": "",
                 "id": "edge-b3fnen1",
                 "sourceX": 16766.78802937301,
-                "sourceY": -4.492865848357759,
+                "sourceY": -4.492862033660494,
                 "targetX": 14830.24135386694,
                 "targetY": 353.32769197683496
             },
@@ -14204,7 +14203,6 @@
                 "data": {},
                 "events": {},
                 "label": "",
-                "class": "connected-edges",
                 "id": "vueflow__edge-62f8w6662f8w66-output-1-rsvxwbursvxwbu-input-1",
                 "sourceX": 6152.240051528661,
                 "sourceY": -1081.9616854944202,
@@ -15240,6 +15238,7 @@
                 "data": {},
                 "events": {},
                 "label": "",
+                "class": "connected-edges",
                 "id": "edge-bdzt5z3",
                 "sourceX": 4374.916610529054,
                 "sourceY": 1063.4087004970888,
@@ -15350,7 +15349,6 @@
                 "data": {},
                 "events": {},
                 "label": "",
-                "class": "connected-edges",
                 "id": "edge-b72mq6s",
                 "sourceX": 13777.052453303595,
                 "sourceY": 1864.361387618826,
@@ -16205,22 +16203,66 @@
                 "sourceY": 1425.028438151143,
                 "targetX": 15110.94057991067,
                 "targetY": 1501.690137888859
+            },
+            {
+                "sourceHandle": "gvqz2rq-output-1",
+                "targetHandle": "udf7648-input-1",
+                "type": "custom",
+                "source": "gvqz2rq",
+                "target": "udf7648",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "events": {},
+                "markerEnd": "arrowclosed",
+                "id": "vueflow__edge-gvqz2rqgvqz2rq-output-1-udf7648udf7648-input-1",
+                "sourceX": 1800.093460924635,
+                "sourceY": -948.8551554587459,
+                "targetX": 1751.0943133562012,
+                "targetY": -860.5831830068607
+            },
+            {
+                "sourceHandle": "j4h2i9k-output-1",
+                "targetHandle": "6w2fx51-input-1",
+                "type": "custom",
+                "source": "j4h2i9k",
+                "target": "6w2fx51",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "events": {},
+                "markerEnd": "arrowclosed",
+                "id": "vueflow__edge-j4h2i9kj4h2i9k-output-1-6w2fx516w2fx51-input-1",
+                "sourceX": 2806.784130388718,
+                "sourceY": -1938.3411079825921,
+                "targetX": 2869.227245076411,
+                "targetY": -1936.0829216492289
             }
         ],
         "position": [
-            -8878.000701133917,
-            -562.4733833905501
+            770.3139719037104,
+            987.9191059199995
         ],
-        "zoom": 0.6892190129982214,
+        "zoom": 0.30000000000000016,
         "viewport": {
-            "x": -8878.000701133917,
-            "y": -562.4733833905501,
-            "zoom": 0.6892190129982214
+            "x": 770.3139719037104,
+            "y": 987.9191059199995,
+            "zoom": 0.30000000000000016
         }
     },
     "settings": {
+        "publicId": "",
         "blockDelay": 0,
+        "saveLog": true,
         "debugMode": false,
+        "restartTimes": 200,
+        "notification": true,
+        "execContext": "popup",
+        "reuseLastState": false,
+        "inputAutocomplete": true,
+        "onError": "stop-workflow",
+        "executedBlockOnWeb": false,
+        "insertDefaultColumn": false,
         "defaultColumnName": "column",
         "events": [
             {
@@ -16269,16 +16311,6 @@
                 "name": "远端任务（失败）"
             }
         ],
-        "execContext": "popup",
-        "executedBlockOnWeb": false,
-        "inputAutocomplete": true,
-        "insertDefaultColumn": false,
-        "notification": true,
-        "onError": "stop-workflow",
-        "publicId": "",
-        "restartTimes": 200,
-        "reuseLastState": false,
-        "saveLog": true,
         "tabLoadTimeout": 30000
     },
     "globalData": "{\n\t\"key\": \"value\"\n}",
