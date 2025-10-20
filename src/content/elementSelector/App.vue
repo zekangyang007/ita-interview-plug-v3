@@ -449,4 +449,437 @@ onBeforeUnmount(() => {
 .main-tab .ui-tab.is-active.fill {
   @apply bg-accent text-white !important;
 }
+.plug_in_main {
+  position: relative;
+  cursor: pointer;
+}
+.plug_in:hover .plug_in_item {
+  visibility: visible;
+}
+.plug_in_bg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 4px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e3e7ed54;
+}
+.plug_in_img {
+  width: 78px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  padding: 3px;
+}
+.plug_in_item {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1d2129;
+  opacity: 0.9;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  transition: all 0.5s;
+  left: -30px;
+  top: -4px;
+  cursor: pointer;
+}
+.plug_in_item img {
+  width: 20px;
+}
+.user_button {
+  position: absolute;
+  top: 80px;
+  padding: 7px 5px;
+  background: #1d2129;
+  border-radius: 4px;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  flex-wrap: wrap;
+  right: -20px;
+  cursor: pointer;
+}
+.user_b_main {
+  display: flex;
+  align-items: center;
+  padding: 0px 5px;
+}
+.user_b_main img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.user_b_name {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #fff;
+  line-height: 22px;
+  white-space: nowrap;
+  padding: 0 5px;
+}
+.u_overflow {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plug_content_main_in {
+  text-align: left;
+  position: fixed;
+  z-index: 99999999;
+  left: auto !important;
+  right: -360px !important;
+  bottom: 35px;
+  width: 0px;
+  height: 652px;
+  background: #fff;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box !important;
+  font-family: PingFang SC !important;
+  transition: right 0.4s;
+  overflow: hidden;
+}
+.plug_content_main_out {
+  text-align: left;
+  position: fixed;
+  z-index: 99999999;
+  bottom: 35px;
+  width: 360px;
+  height: 652px;
+  background: #fff;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid #dadbdf;
+  box-sizing: border-box !important;
+  font-family: PingFang SC !important;
+  right: 10px;
+  left: auto;
+  transition: right 0.4s;
+  overflow: hidden;
+}
+.plug_content_top {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 52px !important;
+  border-bottom: 1px solid #dadbdf;
+}
+.p_c_t_user {
+  font-size: 13px;
+  font-weight: bold;
+  color: rgb(29, 33, 41);
+  margin: 0px 20px;
+  display: flex;
+  align-items: center;
+}
+.p_c_t_u_icon {
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+  font-weight: normal;
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  border-radius: 4px;
+  background: linear-gradient(
+    134deg,
+    rgb(122, 149, 255) 0%,
+    rgb(68, 109, 255) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.p_c_t_u_right {
+  margin-left: auto;
+  margin-right: 18px;
+  font-size: 13px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #86909c;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.plug_content_body {
+  height: 600px;
+  max-height: 95vh;
+
+}
+.p_c_b_detail {
+  height: 100%;
+  padding: 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box !important;
+  font-family: PingFang SC !important;
+}
+.p_c_b_d_top {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding: 0 20px;
+}
+.p_c_b_d_avator_box img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.p_c_b_d_box_right {
+  margin-left: 8px;
+  flex: 1;
+  -webkit-flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.p_c_b_d_b_r_first {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.p_c_b_d_b_r_first_left {
+  display: flex;
+  align-items: center;
+}
+.p_c_b_d_b_r_first_left span {
+  font-size: 16px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #1d2129;
+  line-height: 24px;
+}
+.p_c_b_d_b_r_tag {
+  background: #fff !important;
+  border-radius: 12px;
+  border: 1px solid #ff9e0b !important;
+  color: #ff9e0b !important;
+  margin-left: 12px;
+  font-size: 12px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+}
+
+.p_c_b_d_b_r_tag2 {
+  background: #fff !important;
+  border-radius: 12px;
+  border: 1px solid #6dd400 !important;
+  color: #00d435 !important;
+  margin-left: 12px;
+  font-size: 12px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+}
+.p_c_b_d_b_r_second {
+  margin-top: 4px;
+  font-size: 13px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #4e5969;
+  line-height: 22px;
+}
+.p_activation {
+  margin-left: 12px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #86909c;
+  line-height: 22px;
+  min-width: 80px;
+}
+.p_a_dot {
+  display: inline-block;
+  margin-right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f7b500;
+}
+.p_a_dot_green {
+  background: #6dd400;
+}
+.p_c_b_d_b_r_tag_list {
+  display: flex;
+  flex-flow: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.pp--tag {
+  background-color: #ecf5ff;
+  border-color: #d9ecff;
+  color: #409eff;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  padding: 0 9px;
+  font-size: 12px;
+  line-height: 1;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.tag_first_tag {
+  background: #f9f0ff !important;
+  color: #964aff !important;
+}
+.tag_b {
+  border-radius: 4px;
+  border: none !important;
+}
+.p_c_b_d_info {
+  padding: 0 0 0 20px;
+}
+.p_c_b_d_info_box {
+  margin-top: 20px;
+  width: 140px;
+  display: inline-block;
+  margin-left: 8px;
+}
+.p_c_b_d_info_box div {
+  display: flex;
+  align-items: center;
+}
+.p_c_b_d_info_box img {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+}
+.input-ui input {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+.p_c_b_d_experience {
+  max-height: none;
+  flex: 1;
+  overflow: auto;
+}
+.p_c_b_d_nextBody {
+  padding: 0 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.p_c_b_d_bottom {
+  width: 100%;
+  border-top: 1px solid #dadbdf;
+  padding: 10px 20px;
+}
+.p_c_b_d_bottom_btn {
+  width: 100%;
+  margin-bottom: 10px;
+  height: 32px;
+  color: #fff !important;
+  background: #165dff;
+  border-radius: 4px;
+  border-color: #fff !important;
+}
+.l_w_r {
+  font-size: 14px;
+  color: #409eff;
+  padding: 3px;
+}
+.test_body {
+  display: flex;
+  align-items: center;
+}
+.f14 {
+  font-size: 14px;
+}
+.f16 {
+  font-size: 16px;
+}
+.f40 {
+  font-size: 40px;
+}
+.t_mr10 {
+  margin-right: 10px;
+}
+.p_c_b_d_e_body {
+  border-bottom: 1px solid #dadbdf;
+  margin-bottom: 12px;
+}
+.b_pt {
+  width: 4px;
+  height: 16px;
+  border-radius: 26px;
+  background-color: #2b68ff;
+}
+.area_body {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  padding-left: 15px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.p_c_b_d_experience {
+  scrollbar-width: thin;
+  scrollbar-color: #8888884d #f1f1f100;
+}
+.disflex {
+  display: flex;
+}
+.fl_dir_c {
+  flex-direction: column;
+}
+.p_20 {
+  padding: 12px 20px 0;
+}
+.u_select_main {
+  padding: 0 20px 15px;
+}
+.t_mb10 {
+  margin-bottom: 10px;
+}
+/* .p_c_b_d_experience ::-webkit-scrollbar {
+  width: 8px;
+}
+.p_c_b_d_experience ::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+.p_c_b_d_experience ::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+.p_c_b_d_experience ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} */
+
+/* .p_c_b_d_experience::-webkit-scrollbar {
+  display: none;
+} */
+/* .plug_in_item {
+  left: -30px;
+  top: -4px;
+} */
+.plug_in_btn {
+  position: fixed;
+  top: 65px;
+  right: 50px;
+  z-index: 9999999999999999999999999999999999999999999999999999999;
+  background-color: red;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
 </style>
