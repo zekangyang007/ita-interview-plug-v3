@@ -1,212 +1,200 @@
 <template>
+  <!-- v-if="!isDemand" -->
   <div
     id="draggable"
     class="plug_in"
     style="position: fixed; bottom: 180px; right: 100px; z-index: 10000"
   >
+    <!-- <div class="plug_in_body">v1.28.36</div> -->
     <div
       :class="
         !isOpen && !isDemand ? 'plug_content_main_in' : 'plug_content_main_out'
       "
     >
-      <div class="panel-container">
-        <!-- 头部导航 -->
-        <div class="panel-header">
-          <div class="header-left">
-            <div class="user-avatar-small">
-              <span v-if="!isLogin">U</span>
-              <span v-else>?</span>
-            </div>
-            <div class="user-info">
-              <div class="user-name">{{ isLogin ? '请登录' : userInfo.userName }}</div>
-              <div v-if="!isLogin" class="connection-indicator">
-                <span class="dot"></span>
-                <span>在线</span>
-              </div>
-            </div>
+      <div v-if="isPlugIn">
+        <!-- 头部 -->
+        <div v-if="!isLogin && !isDemand" class="plug_content_top">
+          <div class="p_c_t_user">
+            <div class="p_c_t_u_icon">U</div>
+            <div class="p_c_t_u_name">{{ userInfo.userName }}</div>
           </div>
-          <button class="header-close-btn" @click.stop="closePlug">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
+          <div class="p_c_t_u_right" @click.stop="closePlug">
+            <span>收起 >></span>
+          </div>
         </div>
-
-        <!-- 内容区域 -->
-        <div class="panel-content">
-          <!-- 登录界面 -->
-          <div v-if="isLogin && !isDemand" class="login-wrapper">
-            <div class="login-card">
-              <div class="login-header">
-                <div class="login-icon">
-                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-                </div>
-                <h2>智能招聘助手</h2>
-                <p>请登录以继续使用</p>
-              </div>
-              <div class="login-form">
-                <div class="form-group">
-                  <label>手机号</label>
+        <div v-if="isLogin && !isDemand" class="plug_content_top">
+          <div class="p_c_t_user">
+            <div class="p_c_t_u_name">请登录</div>
+          </div>
+          <div class="p_c_t_u_right" @click.stop="closePlug">
+            <span>收起 >></span>
+          </div>
+        </div>
+        <!-- 未登录 -->
+        <div v-if="isLogin && !isDemand">
+          <div class="plug_content_body">
+            <div class="p_c_b_detail" style="padding: 0 16px">
+              <div class="p_c_b_d_info_box" style="width: 100%">
+                <div>
+                  <span>手机号：</span>
                   <ui-input
                     v-model="loginData.username"
-                    placeholder="请输入手机号"
+                    placeholder="填写手机号"
                   />
                 </div>
-                <div class="form-group">
-                  <label>验证码</label>
-                  <div class="sms-input-group">
-                    <ui-input
-                      v-model="loginData.verificationCode"
-                      placeholder="验证码"
-                    />
-                    <button v-if="basicData.timeif" class="sms-btn" @click="clickCountSet">
-                      获取验证码
-                    </button>
-                    <div v-else class="sms-timer">
-                      {{ basicData.countDownNum }}s
-                    </div>
-                  </div>
-                </div>
-                <button
-                  class="login-submit-btn"
-                  @click="login"
-                >
-                  登录并启动
-                </button>
               </div>
-            </div>
-          </div>
-
-          <!-- 主界面 -->
-          <div v-else-if="!isDemand" class="main-wrapper">
-            <div v-if="!userInfoMain.name" class="empty-state">
-              <div class="loader"></div>
-              <p>{{ loadingTitle }}</p>
-            </div>
-            <div v-else class="candidate-container">
-              <!-- 候选人识别卡片 -->
-              <div class="candidate-card-new">
-                <div class="card-header-new">
-                  <div class="candidate-avatar-large">
-                    {{ userInfoMain.name[0] }}
-                  </div>
-                  <div class="candidate-basic-info">
-                    <div class="name-badge-row">
-                      <span class="candidate-name-new">{{ userInfoMain.name }}</span>
-                      <span v-if="userInfoMain.isExistSys" class="sys-badge">库内</span>
-                    </div>
-                    <div class="candidate-tags-new">
-                      <span v-if="userInfoMain.age" class="tag-item">{{ userInfoMain.age }}</span>
-                      <span v-if="userInfoMain.education" class="tag-item">{{ userInfoMain.education }}</span>
-                      <span v-if="userInfoMain.workExperience" class="tag-item">{{ userInfoMain.workExperience }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 识别状态指示 -->
-                <div :class="['status-alert', userInfoMain.isExistSys ? 'alert-success' : 'alert-warning']">
-                  <div class="alert-icon">
-                    <svg v-if="userInfoMain.isExistSys" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <svg v-else viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                  </div>
-                  <span>{{ userInfoMain.isExistSys ? '已在人才库中' : '未在系统中找到此人' }}</span>
-                </div>
-
-                <!-- 表单详情 -->
-                <div class="details-form-new">
-                  <div class="form-field-new">
-                    <label>
-                      <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                      识别到的面试时间
-                    </label>
-                    <div class="time-display-new">
-                      {{ userInfoMain.interviewTime || '未识别到面试时间' }}
-                      <span class="hint-text">* 系统自动提取</span>
-                    </div>
-                  </div>
-
-                  <div v-if="userInfoMain.isExistSys" class="form-field-new">
-                    <label>
-                      <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                      关联面试需求
-                    </label>
-                    <div class="native-select-wrapper">
-                      <select
-                        :value="demandId"
-                        class="styled-native-select"
-                        @change="changeDemandMain($event.target.value)"
-                      >
-                        <option value="" disabled>请选择招聘需求...</option>
-                        <option
-                          v-for="(item, index) in typeOptions"
-                          :key="index"
-                          :value="item.value"
-                        >
-                          {{ item.label }}
-                        </option>
-                      </select>
-                      <div class="select-chevron-new">
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 操作按钮 -->
-                <div v-if="userInfoMain.isExistSys" class="action-section-new">
-                  <button
-                    v-if="userInfoMain.recruitmentStatus == 0"
-                    class="btn-primary-new"
-                    @click="startInterviewFromTalents"
-                  >
-                    一键发起面试
+              <div class="p_c_b_d_info_box" style="width: 100%">
+                <div>
+                  <span>验证码：</span>
+                  <ui-input
+                    v-model="loginData.verificationCode"
+                    placeholder="填写验证码"
+                  />
+                  <button v-if="basicData.timeif" @click="clickCountSet">
+                    发送验证码
                   </button>
-                  <div v-else class="status-disabled-box">
-                    候选人已在面试中
+                  <div v-else class="l_w_r">
+                    {{ basicData.countDownNum }}秒后重新获取
                   </div>
                 </div>
               </div>
-
-              <!-- 底部提示 -->
-              <div class="system-tip-new">
-                <span class="tip-icon">💡</span>
-                <p>若候选人已在流程中，发起面试将自动更新状态。</p>
-              </div>
+              <button
+                class="p_c_b_d_bottom_btn"
+                style="margin-top: 20px"
+                @click="login"
+              >
+                登录
+              </button>
             </div>
           </div>
         </div>
-
-        <!-- 底部栏 -->
-        <div class="panel-footer-new">
-          <div class="footer-status">
-            <span class="status-dot-active"></span>
-            <span>系统连接正常</span>
+      </div>
+      <div v-else style="display: flex; flex-direction: column; height: 100%">
+        <!-- 头部 -->
+        <div v-if="!isLogin && !isDemand" class="plug_content_top">
+          <div class="p_c_t_user">
+            <div class="p_c_t_u_icon">U</div>
+            <div class="p_c_t_u_name">{{ userInfo.userName }}</div>
           </div>
-          <button v-if="!isLogin" class="logout-btn-new" @click="isLogin = true" title="退出登录">
-            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          </button>
+          <div class="p_c_t_u_right" @click.stop="closePlug">
+            <span>收起 >></span>
+          </div>
+        </div>
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div v-if="!userInfoMain.name" class="f16">{{ loadingTitle }}</div>
+          <div class="" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;" v-else>
+            <div class="p_c_b_d_info" style="width: 100%; height: 100%;">
+              <div class="p_c_b_d_info_box" style="width: 100%">
+                <div class="p_c_b_d_info_box_item">
+                  <div class="f16">姓名：</div>
+                  <div class="f14">{{ userInfoMain.name }}</div>
+                </div>
+                <!-- <div class="p_c_b_d_info_box_item">
+                  <div class="f16">年龄：</div>
+                  <div class="f14">{{ userInfoMain.age }}</div>
+                </div>
+                <div class="p_c_b_d_info_box_item">
+                  <div class="f16">学历：</div>
+                  <div class="f14">{{ userInfoMain.education }}</div>
+                </div>
+                <div class="p_c_b_d_info_box_item">
+                  <div class="f16">工作年限：</div>
+                  <div class="f14">{{ userInfoMain.workExperience }}</div>
+                </div> -->
+                <div class="p_c_b_d_info_box_item">
+                  <div class="f16">状态：</div>
+                  <div :class="userInfoMain.isExistSys ? 'p_c_b_d_b_r_tag2' : 'p_c_b_d_b_r_tag'">
+                    {{
+                      userInfoMain.isExistSys
+                        ? '面试系统已收到附件简历'
+                        : '未找到简历'
+                    }}
+                  </div>
+                </div>
+                <div class="p_c_b_d_info_box_item">
+                  <div class="f16">识别面试时间：</div>
+                  <div class="f14">
+                    {{ userInfoMain.interviewTime || '未识别到面试时间' }}
+                  </div>
+                </div>
+                <div v-if="userInfoMain.isExistSys" class="p_c_b_d_info_box_item disflex fl_dir_c" style="align-items: flex-start;">
+                  <div class="f16" style="margin-bottom: 4px;">面试需求：</div>
+                  <ui-select
+                    :model-value="demandId"
+                    style="width: 100%;"
+                    placeholder="请选择面试需求"
+                    filterable
+                    @change="changeDemandMain"
+                  >
+                    <option
+                      v-for="(item, index) in typeOptions"
+                      :key="index"
+                      :value="item.value"
+                    >
+                      {{ item.label }}
+                    </option>
+                  </ui-select>
+                </div>
+              </div>
+              <div v-if="userInfoMain.isExistSys">
+                <button
+                  v-if="userInfoMain.recruitmentStatus == 0"
+                  class="p_c_b_d_bottom_btn"
+                  style="margin-top: 20px"
+                  @click="startInterviewFromTalents"
+                >
+                  一键发起面试
+                </button>
+                <div v-else class="c_obs">候选人已在面试中</div>
+              </div>
+              <div class="bo_word" style="width: 100%;">
+                <div class="f14"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
     <!-- 悬浮球 -->
     <div
-      v-show="!isOpen && !isDemand"
-      class="floating-trigger"
+      v-show="!isPlugIn && !isDemand"
+      class="plug_in_main"
       @click="togglePlug"
     >
-      <div class="trigger-ball">
-        <span class="trigger-text">面</span>
-        <div class="trigger-badge"></div>
+      <div class="plug_in_bg">
+        <div class="f40">面</div>
       </div>
     </div>
-
-    <!-- 批量管理小图标 -->
-    <div v-if="!isOpen && !isDemand" class="batch-trigger-item">
+    <!-- 未登录 -->
+    <div v-if="isLogin && !isDemand" class="user_button" style="right: -4px">
+      <div>
+        <div class="user_b_main">
+          <span class="user_b_name u_overflow">未登录</span>
+        </div>
+      </div>
+    </div>
+    <!-- 悬浮球-后台管理 -->
+    <div v-if="!isOpen && !isDemand" class="plug_in_item">
       <img
         src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/plug-in-home-icon.png"
-        alt="批量管理"
+        alt=""
         @click="startInterviewBatch"
       />
     </div>
+    <!-- <ui-button
+      class="plug_in_button"
+      variant="accent"
+      @click="startSynchronization"
+    >
+      同步需求
+    </ui-button> -->
   </div>
 </template>
 <script setup>

@@ -1,5 +1,5 @@
 <template>
-  <div class="test_body grey3" style="padding: 12px;">
+  <div class="test_body grey3" style="padding: 12px;" @dblclick="openDashboard">
    当前版本：V1.3.28
   </div>
 </template>
@@ -13,7 +13,20 @@ import {
   reactive,
 } from 'vue';
 import browser from 'webextension-polyfill';
-
+import automa from '@business';
+import { ChevronDownIcon, CloseIcon } from 'tdesign-icons-vue-next';
+import { useUserStore } from '@/stores/user';
+import { useFolderStore } from '@/stores/folder';
+import { sendMessage } from '@/utils/message';
+import { useWorkflowStore } from '@/stores/workflow';
+import { useGroupTooltip } from '@/composable/groupTooltip';
+import { useTeamWorkflowStore } from '@/stores/teamWorkflow';
+import { useHostedWorkflowStore } from '@/stores/hostedWorkflow';
+import { parseJSON, arraySorter } from '@/utils/helper';
+import BackgroundUtils from '@/background/BackgroundUtils';
+function openDashboard(url) {
+  BackgroundUtils.openDashboard(url);
+}
 </script>
 <style scoped>
 :deep(.t-check-tag-group) {
