@@ -747,13 +747,13 @@ onBeforeUnmount(() => {
   border: none !important;
 }
 .p_c_b_d_info {
-  padding: 0 0 0 20px;
+  padding: 0 20px 0 20px;
 }
 .p_c_b_d_info_box {
   margin-top: 20px;
   width: 140px;
   display: inline-block;
-  margin-left: 8px;
+  /* margin-left: 8px; */
 }
 .p_c_b_d_info_box div {
   display: flex;
@@ -881,5 +881,19 @@ onBeforeUnmount(() => {
   color: white;
   border-radius: 10px;
   text-align: center;
+}
+.c_obs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #ccc;
+    margin-top: 10px;
+}
+.p_c_b_d_info_box_item {
+  margin-bottom: 8px;
 }
 </style>

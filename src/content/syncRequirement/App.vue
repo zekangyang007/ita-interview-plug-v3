@@ -1,10 +1,16 @@
 <template>
   <!-- v-if="!isDemand" -->
-  <div id="draggable" class="plug_in" style="position: fixed; bottom: 180px; right: 100px; z-index: 10000"
-    @click="togglePlug">
+  <div
+    id="draggable"
+    class="plug_in"
+    style="position: fixed; bottom: 180px; right: 100px; z-index: 10000"
+  >
     <!-- <div class="plug_in_body">v1.28.36</div> -->
-    <div :class="!isOpen && !isDemand ? 'plug_content_main_in' : 'plug_content_main_out'
-      ">
+    <div
+      :class="
+        !isOpen && !isDemand ? 'plug_content_main_in' : 'plug_content_main_out'
+      "
+    >
       <div v-if="isPlugIn">
         <!-- 头部 -->
         <div v-if="!isLogin && !isDemand" class="plug_content_top">
@@ -24,123 +30,6 @@
             <span>收起 >></span>
           </div>
         </div>
-        <!-- 内容 -->
-        <div v-if="!isLogin && !isDemand">
-          <div class="plug_content_body">
-            <div class="p_c_b_detail p_c_b_d_experience">
-              <div class="p_c_b_d_top">
-                <div class="p_c_b_d_avator_box">
-                  <img :src="candidate.avatar" alt="" />
-                </div>
-                <div class="p_c_b_d_box_right">
-                  <div class="p_c_b_d_b_r_first">
-                    <div class="p_c_b_d_b_r_first_left">
-                      <span>{{ candidate.name }}</span>
-                      <div></div>
-                      <span :class="addStatus === '未加入'
-                        ? 'pp--tag p_c_b_d_b_r_tag'
-                        : 'pp--tag p_c_b_d_b_r_tag2'
-                        ">{{ addStatus }}</span>
-                    </div>
-                  </div>
-                  <div class="p_c_b_d_b_r_second">
-                    <span v-if="candidate.age">{{ candidate.age }}</span>
-                    <span v-if="candidate.age">·</span>
-                    <span v-if="candidate.experienceLevel">{{
-                      candidate.experienceLevel
-                    }}</span>
-                    <span class="p_activation">
-                      <span :class="candidate.status.includes('活跃')
-                        ? 'p_a_dot_green'
-                        : 'p_a_dot'
-                        "></span>
-                      {{ candidate.status || '不活跃' }}
-                    </span>
-                  </div>
-                  <div class="p_c_b_d_b_r_tag_list">
-                    <span v-for="(tag, index) in tags" :key="index" :class="`pp--tag tag_first_tag tag_b`">{{ tag
-                    }}</span>
-                  </div>
-                </div>
-              </div>
-              <div class="p_c_b_d_info">
-                <div class="p_c_b_d_info_box">
-                  <div>
-                    <img src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/plug-in-icon.png" alt="" />
-                    <ui-input :model-value="candidate.phone" placeholder="填写手机号" />
-                  </div>
-                </div>
-                <div class="p_c_b_d_info_box">
-                  <div>
-                    <img src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/plug-in-icon2.png" alt="" />
-                    <ui-input :model-value="candidate.wechat" placeholder="填写微信号" />
-                  </div>
-                </div>
-                <div class="p_c_b_d_info_box">
-                  <div>
-                    <img src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/plug-in-icon-email.png" alt="" />
-                    <ui-input :model-value="candidate.email" placeholder="填写email" />
-                  </div>
-                </div>
-              </div>
-              <div class="p_c_b_d_nextBody">
-                <!--  -->
-                <div v-if="candidate.schoolTags.length > 0" class="p_c_b_d_e_body">
-                  <div class="top_title test_body">
-                    <div class="b_pt t_mr10" />
-                    <div class="f16">高校亮点:</div>
-                  </div>
-                  <div class="area_body">
-                    <div class="p_c_b_d_b_r_tag_list">
-                      <span v-for="(i, index) in candidate.schoolTags" :key="index"
-                        :class="`pp--tag tag_first_tag tag_b`">{{ i }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="!isLoading && !isDemand">
-                  <!--  -->
-                  <div v-if="analysisResult?.potential" class="p_c_b_d_e_body">
-                    <div class="top_title test_body">
-                      <div class="b_pt t_mr10" />
-                      <div class="f16">发展潜力:</div>
-                    </div>
-                    <div class="area_body">
-                      {{ analysisResult?.potential }}
-                    </div>
-                  </div>
-                  <!--  -->
-                  <div v-if="analysisResult?.gapAnalysis" class="p_c_b_d_e_body">
-                    <div class="top_title test_body">
-                      <div class="b_pt t_mr10" />
-                      <div class="f16">空窗期分析:</div>
-                    </div>
-                    <div class="area_body">
-                      {{ analysisResult?.gapAnalysis }}
-                    </div>
-                  </div>
-                  <!--  -->
-                  <div v-if="analysisResult?.jobHopAnalysis" class="p_c_b_d_e_body" style="border-bottom: 0">
-                    <div class="top_title test_body">
-                      <div class="b_pt t_mr10" />
-                      <div class="f16">跳槽频率分析:</div>
-                    </div>
-                    <div class="area_body">
-                      {{ analysisResult?.jobHopAnalysis }}
-                    </div>
-                  </div>
-                </div>
-                <div v-else style="text-align: center; padding: 10px; height: 200px">
-                  <div class="f16">简历分析中,请稍后...</div>
-                </div>
-              </div>
-              <div v-if="addStatus === '未加入'" class="p_c_b_d_bottom">
-                <button v-if="noSearch" class="p_c_b_d_bottom_btn" @click="addCandidateInfo">
-                  加入人才库
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
         <!-- 未登录 -->
         <div v-if="isLogin && !isDemand">
           <div class="plug_content_body">
@@ -148,13 +37,19 @@
               <div class="p_c_b_d_info_box" style="width: 100%">
                 <div>
                   <span>手机号：</span>
-                  <ui-input v-model="loginData.username" placeholder="填写手机号" />
+                  <ui-input
+                    v-model="loginData.username"
+                    placeholder="填写手机号"
+                  />
                 </div>
               </div>
               <div class="p_c_b_d_info_box" style="width: 100%">
                 <div>
                   <span>验证码：</span>
-                  <ui-input v-model="loginData.verificationCode" placeholder="填写验证码" />
+                  <ui-input
+                    v-model="loginData.verificationCode"
+                    placeholder="填写验证码"
+                  />
                   <button v-if="basicData.timeif" @click="clickCountSet">
                     发送验证码
                   </button>
@@ -163,7 +58,11 @@
                   </div>
                 </div>
               </div>
-              <button class="p_c_b_d_bottom_btn" style="margin-top: 20px" @click="login">
+              <button
+                class="p_c_b_d_bottom_btn"
+                style="margin-top: 20px"
+                @click="login"
+              >
                 登录
               </button>
             </div>
@@ -181,16 +80,18 @@
             <span>收起 >></span>
           </div>
         </div>
-        <div style="
+        <div
+          style="
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-          ">
-          <div v-if="!userInfoMain.name" class="f16">未识别到候选人信息</div>
-          <div v-else>
-            <div class="p_c_b_d_info">
-              <div class="p_c_b_d_info_box">
+          "
+        >
+          <div v-if="!userInfoMain.name" class="f16">{{ loadingTitle }}</div>
+          <div class="" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;" v-else>
+            <div class="p_c_b_d_info" style="width: 100%; height: 100%;">
+              <div class="p_c_b_d_info_box" style="width: 100%">
                 <div class="p_c_b_d_info_box_item">
                   <div class="f16">姓名：</div>
                   <div class="f14">{{ userInfoMain.name }}</div>
@@ -207,6 +108,51 @@
                   <div class="f16">工作年限：</div>
                   <div class="f14">{{ userInfoMain.workExperience }}</div>
                 </div>
+                <div class="p_c_b_d_info_box_item">
+                  <div class="f16">状态：</div>
+                  <div class="f14">
+                    {{
+                      userInfoMain.isExistSys
+                        ? '面试系统已收到附件简历'
+                        : '未找到简历'
+                    }}
+                  </div>
+                </div>
+                <div class="p_c_b_d_info_box_item">
+                  <div class="f16">识别面试时间：</div>
+                  <div class="f14">
+                    {{ userInfoMain.interviewTime || '未识别到面试时间' }}
+                  </div>
+                </div>
+                <div class="p_c_b_d_info_box_item disflex fl_dir_c" style="align-items: flex-start;">
+                  <div class="f16" style="margin-bottom: 4px;">面试需求：</div>
+                  <ui-select
+                    :model-value="demandId"
+                    style="width: 100%;"
+                    placeholder="请选择面试需求"
+                    filterable
+                    @change="changeDemandMain"
+                  >
+                    <option
+                      v-for="(item, index) in typeOptions"
+                      :key="index"
+                      :value="item.value"
+                    >
+                      {{ item.label }}
+                    </option>
+                  </ui-select>
+                </div>
+              </div>
+              <div v-if="userInfoMain.isExistSys">
+                <button
+                  v-if="userInfoMain.recruitmentStatus == 0"
+                  class="p_c_b_d_bottom_btn"
+                  style="margin-top: 20px"
+                  @click="startInterviewFromTalents"
+                >
+                  一键发起面试
+                </button>
+                <div v-else class="c_obs">候选人已在面试中</div>
               </div>
             </div>
           </div>
@@ -214,7 +160,11 @@
       </div>
     </div>
     <!-- 悬浮球 -->
-    <div v-show="!isPlugIn && !isDemand" class="plug_in_main">
+    <div
+      v-show="!isPlugIn && !isDemand"
+      class="plug_in_main"
+      @click="togglePlug"
+    >
       <div class="plug_in_bg">
         <div class="f40">面</div>
       </div>
@@ -229,9 +179,11 @@
     </div>
     <!-- 悬浮球-后台管理 -->
     <div v-if="!isOpen && !isDemand" class="plug_in_item">
-      <a href="https://test-hr.itasaas.com/#/" target="_blank" title="ITA面试后台管理">
-        <img src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/plug-in-home-icon.png" alt="" />
-      </a>
+      <img
+        src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/plug-in-home-icon.png"
+        alt=""
+        @click="startInterviewBatch"
+      />
     </div>
     <!-- <ui-button
       class="plug_in_button"
@@ -259,28 +211,24 @@ import workflowParameters from '@business/parameters';
 import { sendMessage } from '@/utils/message';
 import { debounce } from '@/utils/helper';
 import { nanoid } from 'nanoid';
-import ParameterInputValue from '@/components/newtab/workflow/edit/Parameter/ParameterInputValue.vue';
-import ParameterJsonValue from '@/components/newtab/workflow/edit/Parameter/ParameterJsonValue.vue';
 import { tasks } from '@/utils/shared';
 import defu from 'defu';
-import { set } from 'object-path';
 
 const isDemand = ref(false);
 
 const isLogin = ref(false);
-const isLoading = ref(false);
 const loginData = reactive({
   username: '',
   verificationCode: '',
 });
-
-const addStatus = ref('未加入');
 
 // 发送验证码的一些数据
 const basicData = reactive({
   countDownNum: 60, // 重新发送验证码的倒计时
   timeif: true, // 是否可以点击发送验证码的按钮
 });
+
+const loadingTitle = ref('未识别到候选人信息');
 
 const token = ref('');
 const clientId = ref('');
@@ -318,12 +266,6 @@ const selectOptions = ref([
     label: '岗位2',
   },
 ]);
-
-const analysisResult = ref(null);
-const tags = ref([]);
-const candidateInfo = ref({
-  name: '',
-});
 
 const getLoginCode = async (phone) => {
   try {
@@ -379,53 +321,81 @@ const clickCountSet = async () => {
   }
 };
 
-/**
- * 获取简历内容-并分析
- */
-const resumeContentData = ref('');
+const inputRef = ref(null);
+const state = shallowReactive({
+  query: '',
+  active: false,
+  workflows: [],
+  shortcutKeys: [],
+  selectedIndex: -1,
+});
+const paramsState = reactive({
+  items: [],
+  workflow: {},
+  active: false,
+  paramNames: [],
+  activeIndex: 0,
+  inputtedVal: '',
+});
 
-/**
- * 添加候选人信息到人才库
- */
-const addCandidateInfo = async () => {
-  candidateInfo.value.name = candidate.name;
-  candidateInfo.value.degree = candidate.degree;
-  candidateInfo.value.experienceLevel = candidate.experienceLevel;
-  candidateInfo.value.email = candidate.email;
-  candidateInfo.value.phoneNumber = candidate.phone;
-  const data = {
-    resume: resumeContentData.value,
-    matchParams: `${candidate.age},${candidate.degree},${candidate.experienceLevel}`,
-  };
-  delete candidateInfo.value.id;
-  const myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    token.value // 请替换为您的实际令牌
-  );
-  myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Clientid', clientId.value); // 请替换为您的实际客户端 ID
+const rootElement = inject('rootElement');
 
-  const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: JSON.stringify(data),
+const workflows = computed(() =>
+  state.workflows.filter((workflow) =>
+    workflow.name.toLocaleLowerCase().includes(state.query.toLocaleLowerCase())
+  )
+);
+
+function sendExecuteCommand(workflow, options = {}) {
+  const workflowData = {
+    ...workflow,
+    includeTabId: true,
+    options: { ...options, checkParams: false },
   };
-  try {
-    const response = await fetch(
-      'https://interview-api.itasaas.com/api/v1/business/candidate/online-create',
-      requestOptions
+
+  sendMessage('workflow:execute', workflowData, 'background');
+  state.active = false;
+}
+function executeWorkflow(workflow) {
+  if (!workflow) return;
+
+  let triggerData = workflow.trigger;
+  if (!triggerData) {
+    const triggerNode = workflow.drawflow?.nodes?.find(
+      (node) => node.label === 'trigger'
     );
-    const result = await response.json();
-    if (result.code === 200) {
-      addStatus.value = '已加入';
-    }
-    return result;
-  } catch (error) {
-    console.log('error', error);
-    return error;
+    triggerData = triggerNode?.data;
   }
-};
+
+  if (triggerData?.parameters?.length > 0) {
+    const keys = new Set();
+    const params = [];
+    triggerData.parameters.forEach((param) => {
+      if (keys.has(param.name)) return;
+
+      params.push(param);
+      keys.add(param.name);
+    });
+
+    const parameters = cloneDeep(triggerData.parameters).map((item) => ({
+      ...item,
+      value: item.defaultValue,
+    }));
+
+    paramsState.workflow = workflow;
+    paramsState.items = parameters;
+
+    paramsState.active = true;
+  } else {
+    sendExecuteCommand(workflow);
+  }
+
+  if (inputRef.value) {
+    inputRef.value.value = '';
+  }
+  state.query = '';
+  paramsState.inputtedVal = '';
+}
 
 /**
  * 获取岗位列表
@@ -469,6 +439,12 @@ const userInfoMain = ref({
   age: '',
   workExperience: '',
   education: '',
+  chatMessage: '',
+  interviewInfo: null,
+  isExistSys: false,
+  interviewTime: '',
+  recruitmentId: '', // 面试方案ID
+  recruitmentStatus: '', // 面试方案状态
 });
 
 function extractResumeInfo(htmlString) {
@@ -488,11 +464,14 @@ function extractResumeInfo(htmlString) {
   const divElements = tempDiv.querySelectorAll('div');
 
   // 遍历div元素提取信息
-  divElements.forEach(div => {
+  divElements.forEach((div) => {
     const text = div.textContent.trim();
 
     // 跳过姓名div和活跃时间div
-    if (div.classList.contains('name-contet') || div.classList.contains('active-time')) {
+    if (
+      div.classList.contains('name-contet') ||
+      div.classList.contains('active-time')
+    ) {
       return;
     }
 
@@ -501,11 +480,28 @@ function extractResumeInfo(htmlString) {
       result.age = text;
     }
     // 检查工作年限（包含"年"字）
-    else if (text.includes('年') && !text.includes('本科') && !text.includes('大专') && !text.includes('硕士') && !text.includes('博士') && !text.includes('中专') && !text.includes('高中')) {
+    else if (
+      text.includes('年') &&
+      !text.includes('本科') &&
+      !text.includes('大专') &&
+      !text.includes('硕士') &&
+      !text.includes('博士') &&
+      !text.includes('中专') &&
+      !text.includes('高中')
+    ) {
       result.workExperience = text;
     }
     // 检查学历（常见的学历关键词）
-    else if (text.includes('本科') || text.includes('大专') || text.includes('硕士') || text.includes('博士') || text.includes('中专') || text.includes('高中') || text.includes('初中') || text.includes('学历')) {
+    else if (
+      text.includes('本科') ||
+      text.includes('大专') ||
+      text.includes('硕士') ||
+      text.includes('博士') ||
+      text.includes('中专') ||
+      text.includes('高中') ||
+      text.includes('初中') ||
+      text.includes('学历')
+    ) {
       result.education = text;
     }
   });
@@ -514,14 +510,482 @@ function extractResumeInfo(htmlString) {
 }
 
 /**
+ * 批量建面试
+ */
+const startInterviewBatch = async () => {
+  // const host =
+  //   document.querySelector('#ita-sync-requirement111') ||
+  //   document.querySelector('#ita-sync-requirement112');
+  // console.log(host, 'host');
+  // if (host) {
+  //   const shadowRoot = host.shadowRoot;
+  //   try {
+  //     // 确保所有数据都是可序列化的
+  //     const event = new CustomEvent('launchExtension', {
+  //       detail: { fromType: 'startInterviewBatch' },
+  //       bubbles: true, // 添加这个确保事件可以冒泡
+  //       cancelable: true, // 使事件可以被取消
+  //     });
+  //     document.dispatchEvent(event);
+  //   } catch (error) {
+  //     console.error('Error dispatching event:', error);
+  //   }
+  // }
+  const getDetail = {
+    token: token.value,
+    clientId: clientId.value,
+    userId: userInfo.userId,
+  };
+  const data = await browser.storage.local.get(['workflows', 'isFirstTime']);
+  workflows.value = data.workflows;
+  for (const element of data.workflows) {
+    if (element.name === '批量建面试') {
+      element.globalData = getDetail;
+      executeWorkflow(element);
+    }
+  }
+};
+
+function formatDate(date, includeSeconds = false) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  if (includeSeconds) {
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+const safeParseJSON = (input) => {
+  return input
+    .replace('```json', '')
+    .replace('```JSON', '')
+    .replace('```', '')
+    .trim();
+};
+
+/**
+ * AI对话
+ * @param {*} query
+ */
+const aiChat = async (obj) => {
+  const request = {
+    inputs: {
+      conversationContent: obj.conversationContent,
+      currentTime: obj.currentTime,
+    },
+    response_mode: 'blocking',
+    user: userInfo.userId,
+    query: '分析结果',
+  };
+  const data = JSON.stringify(request);
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer app-NZt8p2NnMCNfn3TsTnmhgzsr',
+      'Content-Type': 'application/json',
+    },
+    body: data,
+  };
+  try {
+    const response = await fetch(
+      'https://ai-api.itasaas.com/v1/chat-messages',
+      requestOptions
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    let res_data = null;
+    res_data = await response.json();
+    const result_data = JSON.parse(safeParseJSON(res_data.answer));
+    return result_data;
+  } catch (error) {
+    return null;
+  }
+};
+
+/**
+ * 获取系统中存在的面试信息
+ */
+const getCandidateInterviewInfo = async (searchName) => {
+  // 构建查询参数
+  const queryParams = new URLSearchParams({
+    page: 1,
+    pageSize: 10,
+    isAsc: 'desc',
+    orderByColumn: 'updateTime',
+    archived: 1,
+    name: searchName,
+  });
+
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      // 如果需要，可以添加其他请求头
+      Authorization: token.value,
+      clientId: clientId.value,
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `https://interview-api.itasaas.com/api/v1/business/candidate/list?${queryParams.toString()}`,
+      requestOptions
+    );
+    if (!response.ok) {
+      // 如果响应状态码不是 2xx，抛出错误
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('请求出错：', error);
+    return null;
+  }
+};
+
+/**
+ * 候选人详情
+ */
+const candidateDetailData = ref(null);
+const getCandidateDetail = async (candidateId) => {
+  candidateDetailData.value = null;
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      // 如果需要，可以添加其他请求头
+      Authorization: token.value,
+      clientId: clientId.value,
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `https://interview-api.itasaas.com/api/v1/business/candidate/${candidateId}`,
+      requestOptions
+    );
+    if (!response.ok) {
+      // 如果响应状态码不是 2xx，抛出错误
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    candidateDetailData.value = data?.data || null;
+    demandId.value = candidateDetailData.value?.recruitmentId || null;
+    return data;
+  } catch (error) {
+    console.error('请求出错：', error);
+    return null;
+  }
+};
+
+/**
+ * 获取面试方案详情
+ */
+const recruitmentIdData = ref(null);
+const getRecruitmentIdDetail = async (recruitmentId) => {
+  if (recruitmentId) {
+    recruitmentIdData.value = null;
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // 如果需要，可以添加其他请求头
+        Authorization: token.value,
+        clientId: clientId.value,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `https://interview-api.itasaas.com/api/v1/business/recruitment/${recruitmentId}`,
+        requestOptions
+      );
+      if (!response.ok) {
+        // 如果响应状态码不是 2xx，抛出错误
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      recruitmentIdData.value = data?.data || null;
+      return data;
+    } catch (error) {
+      console.error('请求出错：', error);
+      return null;
+    }
+  }
+};
+
+/**
+ * 创建面试
+ */
+const createInterviewProcess = async (params) => {
+  const {
+    candidateObj,
+    demand,
+    nodes,
+    processTemplate,
+    interviewTime,
+    screenedBy,
+  } = params;
+  // 遍历节点,如果节点的责任人id没有就默认当前登录用户
+  nodes.forEach((item) => {
+    if (interviewTime && screenedBy) {
+      if (item?.assignee?.userId === screenedBy && item?.name !== '选择简历') {
+        const time = interviewTime.replace(/:00$/, '');
+        item.interviewTime = time;
+      }
+    }
+    if (!item.assigneeId) {
+      item.assigneeId = screenedBy;
+    }
+  });
+  // 如果没有候选人直接返回
+  if (!candidateObj?.id) {
+    console.error('请选择候选人简历');
+    return;
+  }
+  // 1. 构建面试数据
+  const interviewData = {
+    name:
+      (demand?.name || processTemplate?.name) +
+      (candidateObj.name ? '-' + candidateObj.name : ''),
+    description: processTemplate.description,
+    profileName: processTemplate.positionProfile?.name,
+    positionProfileId: processTemplate.positionProfileId,
+    processNodes: nodes,
+    candidateId: candidateObj.id,
+    recruitmentId: demand?.id || null,
+    processTemplateId: processTemplate?.id,
+  };
+
+  // 2. 创建面试流程
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // 如果需要，可以添加其他请求头
+      Authorization: token.value,
+      clientId: clientId.value,
+    },
+    body: JSON.stringify(interviewData),
+  };
+  try {
+    const response = await fetch(
+      'https://interview-api.itasaas.com/api/v1/business/process',
+      requestOptions
+    );
+    if (!response.ok) {
+      // 如果响应状态码不是 2xx，抛出错误
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log('发起成功', data);
+    const candidateDetailResult = await getCandidateDetail(candidateObj.id);
+    if (candidateDetailResult.code === 200) {
+      candidateDetailData.value = candidateDetailResult.data;
+      userInfoMain.value.recruitmentStatus = candidateDetailResult.data?.recruitmentStatus || null;
+      userInfoMain.value.recruitmentId = candidateDetailResult.data?.recruitmentId || null;
+    }
+    return data;
+  } catch (error) {
+    console.error('请求出错：', error);
+    return null;
+  }
+};
+
+/**
+ * 获取面试需求list
+ */
+const demandList = ref(null);
+const demandId = ref(null);
+const typeOptions = ref([]);
+const getDemandList = async () => {
+  demandList.value = null;
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      // 如果需要，可以添加其他请求头
+      Authorization: token.value,
+      clientId: clientId.value,
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `https://interview-api.itasaas.com/api/v1/business/recruitment/list?createBy=${userInfo.userId}`,
+      requestOptions
+    );
+    if (!response.ok) {
+      // 如果响应状态码不是 2xx，抛出错误
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    demandList.value = data?.rows || null;
+    typeOptions.value = data?.rows.map((item) => {
+      let li = {
+        label: item.name,
+        value: item.id,
+        data: item,
+        positionId: item.positionId || null
+      }
+      if (item.positionId) {
+        li.postName = returnPostName(item.positionId) || null
+      }
+      return li
+    })
+    return data;
+  } catch (error) {
+    console.error('请求出错：', error);
+    return null;
+  }
+};
+/**
+ * 获取岗位list
+ */
+const positionList = ref(null);
+const getPositionList = async () => {
+  positionList.value = null;
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      // 如果需要，可以添加其他请求头
+      Authorization: token.value,
+      clientId: clientId.value,
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `https://interview-api.itasaas.com/api/v1/business/position/list`,
+      requestOptions
+    );
+    if (!response.ok) {
+      // 如果响应状态码不是 2xx，抛出错误
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    positionList.value = data?.rows || null;
+    return data;
+  } catch (error) {
+    console.error('请求出错：', error);
+    return null;
+  }
+};
+/**
+ * 修改候选人详情
+ */
+const updateCandidateDetail = async () => {
+  const requestOptions = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      // 如果需要，可以添加其他请求头
+      Authorization: token.value,
+      clientId: clientId.value,
+    },
+    body: JSON.stringify(candidateDetailData.value),
+  };
+
+  try {
+    const response = await fetch(
+      `https://interview-api.itasaas.com/api/v1/business/candidate`,
+      requestOptions
+    );
+    if (!response.ok) {
+      // 如果响应状态码不是 2xx，抛出错误
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    console.log('修改成功');
+    return data;
+  } catch (error) {
+    console.error('请求出错：', error);
+    return null;
+  }
+};
+
+/**
+ * 匹配岗位名称
+ * @param id
+ */
+const returnPostName = (id) => {
+  const title = positionList.value?.find((item) => item.id === id)?.name
+  return title || null
+}
+
+/**
+ * 变更面试需求
+ * @param id
+ */
+const changeDemandMain = async(id) => {
+  demandId.value = id;
+  console.log(demandId.value, 'demandId.value');
+  candidateDetailData.value.recruitmentId = id;
+  candidateDetailData.value.positionId = typeOptions.value.find((item) => item.value === id)?.positionId || null;
+  await updateCandidateDetail();
+  await getRecruitmentIdDetail(id);
+}
+
+/**
+ * 直接发起
+ */
+const directStartInterview = async (
+  candidateObj,
+  demand,
+  processTemplate,
+  interviewTime,
+  screenedBy
+) => {
+  // 准备流程节点数据
+  const nodes = JSON.parse(JSON.stringify(processTemplate.nodes));
+  nodes.forEach((item) => {
+    item.abilityIds = item.abilities.map((ability) => ability.id) || [];
+    delete item.abilities;
+  });
+  const res = await createInterviewProcess({
+    candidateObj,
+    demand,
+    nodes,
+    processTemplate,
+    interviewTime,
+    screenedBy,
+  });
+  return res;
+};
+
+/**
+ * 发起面试
+ */
+const startInterviewFromTalents = async () => {
+  if (recruitmentIdData.value && recruitmentIdData.value?.processTemplateVo) {
+    await directStartInterview(
+      candidateDetailData.value,
+      recruitmentIdData.value,
+      recruitmentIdData.value?.processTemplateVo,
+      userInfoMain.value.interviewTime,
+      userInfo.userId
+    );
+  }
+};
+
+/**
  * 获取候选人信息
  */
-const getCandidateInfo = () => {
+const c_loading = ref(false);
+const getCandidateInfo = async () => {
+  c_loading.value = true;
+  loadingTitle.value = '正在识别候选人信息...';
   userInfoMain.value = {
     name: '',
     age: '',
     education: '',
     workExperience: '',
+    chatMessage: '',
   };
   const resumeWrap = document.querySelector('.page-content');
   if (resumeWrap) {
@@ -538,25 +1002,95 @@ const getCandidateInfo = () => {
             const result = conversationMain.querySelector(
               '.base-info-single-detial'
             );
-            const resumeInfo = extractResumeInfo(result?.innerHTML);
-            console.log(resumeInfo);
-            if (resumeInfo.name) {
-              userInfoMain.value.name = resumeInfo.name;
-            }
-            if (resumeInfo.age) {
-              userInfoMain.value.age = resumeInfo.age;
-            }
-            if (resumeInfo.education) {
-              userInfoMain.value.education = resumeInfo.education;
-            }
-            if (resumeInfo.workExperience) {
-              userInfoMain.value.workExperience = resumeInfo.workExperience;
+            const conversationMessage = conversationMain.querySelector(
+              '.conversation-message'
+            );
+            if (conversationMessage) {
+              // 获取对话内容
+              const conversationContentHtml =
+                conversationMessage.querySelector(
+                  '.chat-message-list'
+                ).innerHTML;
+              // 获取对话时间
+              const currentTime = formatDate(new Date(), false);
+              // 组装AI分析参数
+              const chatMessage = {
+                conversationContent: conversationContentHtml,
+                currentTime,
+              };
+              // 调用AI分析
+              const aiResult = await aiChat(chatMessage);
+              if (aiResult.interviewTime) {
+                userInfoMain.value.interviewTime = aiResult.interviewTime;
+              } else {
+                userInfoMain.value.interviewTime = '';
+              }
+              // 拿到页面上的后续人信息
+              const resumeInfo = extractResumeInfo(result?.innerHTML);
+              if (resumeInfo.name) {
+                userInfoMain.value.name =
+                  aiResult.candidateName || resumeInfo.name; // 优先使用AI分析的结果
+              }
+              if (resumeInfo.age) {
+                userInfoMain.value.age = resumeInfo.age;
+              }
+              if (resumeInfo.education) {
+                userInfoMain.value.education = resumeInfo.education;
+              }
+              if (resumeInfo.workExperience) {
+                userInfoMain.value.workExperience = resumeInfo.workExperience;
+              }
+              const r_result = await getCandidateInterviewInfo(
+                userInfoMain.value.name
+              );
+              if (r_result.code === 200) {
+                if (r_result.rows.length > 0) {
+                  userInfoMain.value.isExistSys = true;
+                  // 获取候选人详情
+                  const d_result = await getCandidateDetail(
+                    r_result.rows[0].id
+                  );
+                  if (d_result.code === 200) {
+                    console.log(d_result, 'd_result');
+                    userInfoMain.value.recruitmentId =
+                      d_result.data.recruitmentId || '';
+                    userInfoMain.value.recruitmentStatus =
+                      d_result.data.recruitmentStatus || '';
+                    //  获取岗位详情
+                    const pp_result = await getPositionList();
+                    if (pp_result.code === 200) {
+                      console.log(pp_result, 'pp_result');
+                    }
+                    //   获取需求详情
+                    const dd_result = await getDemandList();
+                    if (dd_result.code === 200) {
+                      console.log(dd_result, 'dd_result');
+                    }
+                    // 获取面试方案详情
+                    const rr_result = await getRecruitmentIdDetail(
+                      userInfoMain.value?.recruitmentId
+                    );
+                    if (rr_result.code === 200) {
+                      console.log(rr_result, 'rr_result');
+                    }
+                  }
+                } else {
+                  userInfoMain.value.isExistSys = false;
+                  loadingTitle.value = '未找到候选人信息';
+                  c_loading.value = false;
+                }
+              }
+            } else {
+              loadingTitle.value = '未找到候选人信息';
+              c_loading.value = false;
             }
           }
         }
       }
     }
   }
+  loadingTitle.value = '未识别到候选人信息';
+  c_loading.value = false;
 };
 
 /**
@@ -585,6 +1119,41 @@ const togglePlug = () => {
 const closePlug = () => {
   isOpen.value = false;
   isPlugIn.value = false;
+};
+
+/**
+ * 点击外部关闭悬浮球
+ */
+const handleClickOutside = (event) => {
+  // 如果悬浮球未打开，不需要处理
+  if (!isOpen.value) return;
+
+  // 获取 draggable 元素 - 在 Shadow DOM 中查找
+  const draggable = rootElement?.shadowRoot?.querySelector('#draggable');
+  if (!draggable) return;
+
+  // 使用 composedPath 来获取事件路径（包括穿过 Shadow DOM 边界）
+  const path = event.composedPath ? event.composedPath() : [event.target];
+
+  // 检查点击路径中是否包含 draggable 元素或 rootElement
+  const clickedInside = path.some((el) => {
+    // 确保 el 是一个节点对象，避免 window、document 等非节点对象
+    if (!el || typeof el !== 'object') return false;
+
+    // 检查是否是 draggable 或 rootElement
+    if (el === draggable || el === rootElement) return true;
+
+    // 检查 el 是否是 Node 类型，再调用 contains
+    if (el instanceof Node && draggable.contains(el)) return true;
+
+    return false;
+  });
+
+  // 如果点击在外部，则关闭悬浮球
+  if (!clickedInside) {
+    isOpen.value = false;
+    isPlugIn.value = false;
+  }
 };
 
 const postLogin = async () => {
@@ -685,9 +1254,26 @@ onMounted(async () => {
   if (!token.value) {
     isLogin.value = true;
   }
+
+  // 添加点击外部关闭悬浮球的事件监听（使用捕获阶段）
+  document.addEventListener('click', handleClickOutside, true);
+  // 同时监听 Shadow DOM 内的点击（如果存在）
+  if (rootElement?.shadowRoot) {
+    rootElement.shadowRoot.addEventListener('click', handleClickOutside, true);
+  }
 });
 onBeforeUnmount(() => {
   // window.removeEventListener('keydown', onKeydown);
   // clearInterval(plugTime);
+
+  // 移除点击外部关闭悬浮球的事件监听
+  document.removeEventListener('click', handleClickOutside, true);
+  if (rootElement?.shadowRoot) {
+    rootElement.shadowRoot.removeEventListener(
+      'click',
+      handleClickOutside,
+      true
+    );
+  }
 });
 </script>

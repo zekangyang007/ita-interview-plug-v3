@@ -1,0 +1,1597 @@
+[
+  {
+    "extVersion": "1.29.9",
+    "name": "批量建面试",
+    "icon": "riGlobalLine",
+    "table": [],
+    "version": "1.29.9",
+    "drawflow": {
+        "nodes": [
+            {
+                "id": "StFgnmi-Az_nPRUQ4jIcv",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 100,
+                    "y": 504.5
+                },
+                "data": {
+                    "activeInInput": false,
+                    "contextMenuName": "",
+                    "contextTypes": [],
+                    "date": "",
+                    "days": [],
+                    "delay": 5,
+                    "description": "",
+                    "disableBlock": false,
+                    "interval": 60,
+                    "isUrlRegex": false,
+                    "observeElement": {
+                        "baseElOptions": {
+                            "attributeFilter": [],
+                            "attributes": false,
+                            "characterData": false,
+                            "childList": true,
+                            "subtree": false
+                        },
+                        "baseSelector": "",
+                        "matchPattern": "",
+                        "selector": "",
+                        "targetOptions": {
+                            "attributeFilter": [],
+                            "attributes": false,
+                            "characterData": false,
+                            "childList": true,
+                            "subtree": false
+                        }
+                    },
+                    "parameters": [],
+                    "preferParamsInTab": false,
+                    "shortcut": "",
+                    "time": "00:00",
+                    "type": "manual",
+                    "url": ""
+                },
+                "label": "trigger"
+            },
+            {
+                "id": "c5t78l5",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 377.1832134170805,
+                    "y": 503.49173308419154
+                },
+                "data": {
+                    "disableBlock": false
+                },
+                "label": "active-tab"
+            },
+            {
+                "id": "i7946p8",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 630.1912864422775,
+                    "y": 95.60851858350904
+                },
+                "data": {
+                    "activeTab": true,
+                    "createIfNoMatch": true,
+                    "description": "",
+                    "disableBlock": false,
+                    "findTabBy": "match-patterns",
+                    "matchPattern": "https://www.zhipin.com/web/chat/report/interview",
+                    "tabIndex": 0,
+                    "tabTitle": "",
+                    "url": "https://www.zhipin.com/web/chat/report/interview"
+                },
+                "label": "switch-tab"
+            },
+            {
+                "id": "dq34nra",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1593.4152685655295,
+                    "y": 1099.0568612585319
+                },
+                "data": {
+                    "description": "点击div",
+                    "disableBlock": false,
+                    "findBy": "cssSelector",
+                    "markEl": false,
+                    "multiple": false,
+                    "selector": "{{loopData@QWrlI-}} > div.phone",
+                    "waitForSelector": true,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "event-click"
+            },
+            {
+                "id": "ezi8ahr",
+                "type": "BlockElementExists",
+                "initialized": false,
+                "position": {
+                    "x": 1244.639463789185,
+                    "y": 466.18178683162785
+                },
+                "data": {
+                    "description": "面试list是否存在",
+                    "disableBlock": false,
+                    "findBy": "cssSelector",
+                    "markEl": false,
+                    "selector": "iframe |> div.interview-list-C",
+                    "throwError": false,
+                    "timeout": 5000,
+                    "tryCount": 10
+                },
+                "label": "element-exists"
+            },
+            {
+                "id": "vytpajg",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 956.6533161522094,
+                    "y": 480.1730166763392
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": "1500"
+                },
+                "label": "delay"
+            },
+            {
+                "id": "nqkwnzx",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 125.66504719139965,
+                    "y": 746.6955333113901
+                },
+                "data": {
+                    "code": "alert('面试列表不存在！')\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "面试列表不存在",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "lc004e9",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 1558.896358801245,
+                    "y": 479.16383164575484
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "sx4cmxt",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1886.5886664935533,
+                    "y": 499.1638316457548
+                },
+                "data": {
+                    "code": "const iframe = document.getElementsByTagName('iframe')[0]; \nif (iframe) {\n  // 获取iframe的document\n  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;\n  const interviewDoc = iframeDoc.querySelector('.interview-list-C');\n  if (interviewDoc) {\n    // 获取 class=\"interview-list-C\" 元素下所有的 ul 元素\n    const ulElements = interviewDoc.querySelectorAll('ul') || 0;\n    automaSetVariable('ulLength', ulElements.length);\n  }\n}\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "获取有多少个日期有面试",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "adqtp7q",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 122.82376447678311,
+                    "y": 1071.6324168724898
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "ed1tm5h",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 392.23174838391753,
+                    "y": 1094.553027505014
+                },
+                "data": {
+                    "actionElMaxWaitTime": 5,
+                    "actionElSelector": "",
+                    "actionPageMaxWaitTime": 10,
+                    "description": "循环日期",
+                    "disableBlock": false,
+                    "findBy": "cssSelector",
+                    "loadMoreAction": "none",
+                    "loopId": "eX-Br3",
+                    "maxLoop": "{{variables.ulLength}}",
+                    "reverseLoop": false,
+                    "scrollToBottom": true,
+                    "selector": "iframe |> div.interview-list-C > ul",
+                    "waitForSelector": true,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "loop-elements"
+            },
+            {
+                "id": "ojihmmm",
+                "type": "BlockLoopBreakpoint",
+                "initialized": false,
+                "position": {
+                    "x": 2359.2346529363886,
+                    "y": 1617.2665117757097
+                },
+                "data": {
+                    "clearLoop": false,
+                    "disableBlock": false,
+                    "loopId": "eX-Br3"
+                },
+                "label": "loop-breakpoint"
+            },
+            {
+                "id": "mcp1uoy",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 413.5978935160964,
+                    "y": 955.8809147103788
+                },
+                "data": {
+                    "action": "get",
+                    "addExtraRow": false,
+                    "assignVariable": true,
+                    "attributeName": "id",
+                    "attributeValue": "",
+                    "dataColumn": "",
+                    "description": "获取ul上的日期ID",
+                    "disableBlock": false,
+                    "extraRowDataColumn": "",
+                    "extraRowValue": "",
+                    "findBy": "cssSelector",
+                    "markEl": false,
+                    "multiple": false,
+                    "saveData": false,
+                    "selector": "{{loopData@eX-Br3}}",
+                    "variableName": "dateID",
+                    "waitForSelector": true,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "attribute-value"
+            },
+            {
+                "id": "t0b05xq",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 737.7888718802658,
+                    "y": 955.8809147103786
+                },
+                "data": {
+                    "code": "const dateId = automaRefData('variables', 'dateID');\nconsole.log(dateId,'11111111111')\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "存储DateId",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "yq77lwe",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 733.9986650529215,
+                    "y": 1078.9489575218056
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "7des30f",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1007.2943075402281,
+                    "y": 1101.5878966683497
+                },
+                "data": {
+                    "code": "const globalData = automaRefData('globalData');\nconst dateId = automaRefData('variables', 'dateID');\nfunction formatDate(date, includeSeconds = false) {\n  const year = date.getFullYear();\n  const month = String(date.getMonth() + 1).padStart(2, '0');\n  const day = String(date.getDate()).padStart(2, '0');\n  return `interview-${year}${month}${day}`;\n}\nconst dateTime = new Date();\nconst currentDateId = formatDate(dateTime)\nconsole.log(currentDateId)\nif (currentDateId === dateId) {\n  console.log(true)\n  automaNextBlock()\n  return\n} else {\n  console.log(false)\n  // automaNextBlock({},{nextBlockId:\"vrocibr\"})\n  automaNextBlock()\n  return\n}\n",
+                    "context": "website",
+                    "description": "判断今天有没有面试",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "vrocibr",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 2039.9262662511037,
+                    "y": 1635.73263174197
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "btx4ivl",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1072.5938373897134,
+                    "y": 954.4401756310539
+                },
+                "data": {
+                    "actionElMaxWaitTime": 5,
+                    "actionElSelector": "",
+                    "actionPageMaxWaitTime": 10,
+                    "description": "",
+                    "disableBlock": false,
+                    "findBy": "cssSelector",
+                    "loadMoreAction": "none",
+                    "loopId": "QWrlI-",
+                    "maxLoop": "10",
+                    "reverseLoop": false,
+                    "scrollToBottom": true,
+                    "selector": "{{loopData@eX-Br3}} > li > .interview-list-date > .item",
+                    "waitForSelector": false,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "loop-elements"
+            },
+            {
+                "id": "gyu6ng7",
+                "type": "BlockLoopBreakpoint",
+                "initialized": false,
+                "position": {
+                    "x": 2331.0102116380167,
+                    "y": 1409.4647023990533
+                },
+                "data": {
+                    "clearLoop": false,
+                    "disableBlock": false,
+                    "loopId": "QWrlI-"
+                },
+                "label": "loop-breakpoint"
+            },
+            {
+                "id": "bg0s0du",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1380.3061658769916,
+                    "y": 954.1367665871298
+                },
+                "data": {
+                    "addExtraRow": false,
+                    "assignVariable": true,
+                    "dataColumn": "",
+                    "description": "获取候选人姓名",
+                    "disableBlock": false,
+                    "extraRowDataColumn": "",
+                    "extraRowValue": "",
+                    "findBy": "cssSelector",
+                    "includeTags": false,
+                    "markEl": false,
+                    "multiple": false,
+                    "prefixText": "",
+                    "regex": "",
+                    "regexExp": [],
+                    "saveData": false,
+                    "selector": "{{loopData@QWrlI-}} > div.geek > span.geek-content > span.ui-block > span",
+                    "suffixText": "",
+                    "useTextContent": false,
+                    "variableName": "geekName",
+                    "waitForSelector": true,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "get-text"
+            },
+            {
+                "id": "kt28r27",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1320.4543941750105,
+                    "y": 1098.627189001021
+                },
+                "data": {
+                    "code": "const geekName = automaRefData('variables', 'geekName');\nconst geek_phone = automaRefData('variables', 'geek_phone');\nconst geek_status = automaRefData('variables', 'geek_status');\nconsole.log(geekName)\nlet h_phone = geek_phone.replace(\"+86\", \"\");\nautomaSetVariable('h_phone', h_phone)\nif (geek_status !== '已面试') {\n  automaNextBlock()\n  return\n} else {\n  // automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  automaNextBlock()\n  return\n}",
+                    "context": "website",
+                    "description": "判断面试状态和手机号",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "x3rtslj",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1687.6668870345593,
+                    "y": 955.9344418225838
+                },
+                "data": {
+                    "addExtraRow": false,
+                    "assignVariable": true,
+                    "dataColumn": "",
+                    "description": "获取状态",
+                    "disableBlock": false,
+                    "extraRowDataColumn": "",
+                    "extraRowValue": "",
+                    "findBy": "cssSelector",
+                    "includeTags": false,
+                    "markEl": false,
+                    "multiple": false,
+                    "prefixText": "",
+                    "regex": "",
+                    "regexExp": [],
+                    "saveData": false,
+                    "selector": "{{loopData@QWrlI-}} > div.status",
+                    "suffixText": "",
+                    "useTextContent": false,
+                    "variableName": "geek_status",
+                    "waitForSelector": true,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "get-text"
+            },
+            {
+                "id": "0inmsm5",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 2017.7758668522717,
+                    "y": 1428.0703518731243
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "h2fotxe",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 127.47663861033465,
+                    "y": 1269.5368736392059
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": "1000"
+                },
+                "label": "delay"
+            },
+            {
+                "id": "ghqddyt",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 418.75814357891534,
+                    "y": 1293.8651203721183
+                },
+                "data": {
+                    "addExtraRow": false,
+                    "assignVariable": true,
+                    "dataColumn": "",
+                    "description": "获取面试时间",
+                    "disableBlock": false,
+                    "extraRowDataColumn": "",
+                    "extraRowValue": "",
+                    "findBy": "cssSelector",
+                    "includeTags": false,
+                    "markEl": false,
+                    "multiple": false,
+                    "prefixText": "",
+                    "regex": "",
+                    "regexExp": [],
+                    "saveData": false,
+                    "selector": ".interview-panel-dialog > div:nth-child(3) > div.interview-detail-content > div.interview-item:nth-child(1) >div.interview-right",
+                    "suffixText": "",
+                    "useTextContent": false,
+                    "variableName": "interviewTimeWord",
+                    "waitForSelector": false,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "get-text"
+            },
+            {
+                "id": "yrs2sov",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 716.9471404236739,
+                    "y": 1294.101552469845
+                },
+                "data": {
+                    "code": "const interviewTimeWord = automaRefData('variables', 'interviewTimeWord');\n\nfunction formatDateString(dateStr) {\n  return dateStr.replace(/年|月/g, '-').replace('日', '');\n}\n\nconst interviewTime = formatDateString(interviewTimeWord)\nautomaSetVariable('interviewTime', interviewTime)\n\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "面试时间改造",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "v0m68qy",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1978.7811820435786,
+                    "y": 955.5915192825229
+                },
+                "data": {
+                    "addExtraRow": false,
+                    "assignVariable": true,
+                    "dataColumn": "",
+                    "description": "获取手机号",
+                    "disableBlock": false,
+                    "extraRowDataColumn": "",
+                    "extraRowValue": "",
+                    "findBy": "cssSelector",
+                    "includeTags": false,
+                    "markEl": false,
+                    "multiple": false,
+                    "prefixText": "",
+                    "regex": "",
+                    "regexExp": [],
+                    "saveData": false,
+                    "selector": "{{loopData@QWrlI-}} > div.phone > span",
+                    "suffixText": "",
+                    "useTextContent": false,
+                    "variableName": "geek_phone",
+                    "waitForSelector": true,
+                    "waitSelectorTimeout": 5000
+                },
+                "label": "get-text"
+            },
+            {
+                "id": "be9auku",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 1017.5642594482351,
+                    "y": 1270.1027068334301
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": "1000"
+                },
+                "label": "delay"
+            },
+            {
+                "id": "1y2pc8f",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1338.383995425252,
+                    "y": 1293.3080964972562
+                },
+                "data": {
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst h_phone = automaRefData('variables', 'h_phone');\n// 构建查询参数\nif (h_phone) {\n  const queryParams = new URLSearchParams({\n    page: 1,\n    pageSize: 10,\n    isAsc: 'desc',\n    orderByColumn: 'updateTime',\n    archived: 1,\n    phoneNumber: h_phone,\n  });\n  fetch(`https://interview-api.itasaas.com/api/v1/business/candidate/list?${queryParams.toString()}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('添加/更新', result);\n          if (result?.rows?.length > 0) { \n            const mitCandidateDetail = result?.rows[0]\n            automaSetVariable('mitCandidateDetail', mitCandidateDetail)\n            automaNextBlock()\n            return\n          } else {\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n             return\n          }\n      })\n      .catch(error => {\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
+                    "context": "website",
+                    "description": "系统中是否存在",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "r99k1uj",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 1627.4129694932103,
+                    "y": 1271.913601311893
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": "1000"
+                },
+                "label": "delay"
+            },
+            {
+                "id": "1lwo83n",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 136.24210188432747,
+                    "y": 1457.9305873312458
+                },
+                "data": {
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst mitCandidateDetail = automaRefData('variables', 'mitCandidateDetail');\n// 构建查询参数\nif (mitCandidateDetail) {\n  fetch(`https://interview-api.itasaas.com/api/v1/business/candidate/${mitCandidateDetail?.id}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('候选人信息', result);\n          if (result?.data) {\n            if (result?.data?.recruitmentStatus === 0) {    \n              const candidateDetailMain = result?.data\n              automaSetVariable('candidateDetailMain', candidateDetailMain)\n              automaNextBlock()\n              return\n            } else {\n              console.log('候选人信息已进行面试，跳过');\n              automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n              return\n            }\n          } else {\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n            return\n          }\n      })\n      .catch(error => {\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
+                    "context": "website",
+                    "description": "系统中存在,获取候选人详情",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "bbs5aa5",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 435.93390083614605,
+                    "y": 1435.3181209231852
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": "1000"
+                },
+                "label": "delay"
+            },
+            {
+                "id": "m526yun",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 735.2879227219494,
+                    "y": 1458.053869420841
+                },
+                "data": {
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst candidateDetailMain = automaRefData('variables', 'candidateDetailMain');\n// 构建查询参数\nif (candidateDetailMain) {\n  fetch(`https://interview-api.itasaas.com/api/v1/business/recruitment/${candidateDetailMain?.recruitmentId}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('需求详情', result);\n          if (result?.data) {\n            if (result?.data?.processTemplateVo) {  \n              const recruitmentIdData = result?.data\n              automaSetVariable('recruitmentIdData', recruitmentIdData)\n              automaNextBlock()\n              return\n            } else {\n               console.log('需求详情里没有面试方案信息');\n              automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n              return\n            }\n          } else {\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n            return\n          }\n      })\n      .catch(error => {\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
+                    "context": "website",
+                    "description": "获取需求详情",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "s1bweqd",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 1034.6419446077527,
+                    "y": 1434.0550237844266
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "3vz4zj7",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1335.2590636323148,
+                    "y": 1456.7907722820823
+                },
+                "data": {
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst candidateDetailMain = automaRefData('variables', 'candidateDetailMain');\nconst recruitmentIdData = automaRefData('variables', 'recruitmentIdData');\nconst interviewTime = automaRefData('variables', 'interviewTime');\nconst userId = globalData?.userId || '1831302864665706497'\n// 准备流程节点数据\nlet nodes = JSON.parse(JSON.stringify(recruitmentIdData?.processTemplateVo?.nodes));\nnodes.forEach((item) => {\n  item.abilityIds = item.abilities.map((ability) => ability.id) || [];\n  delete item.abilities;\n});\n\n// 遍历节点,如果节点的责任人id没有就默认当前登录用户\nnodes.forEach((item) => {\n  if (interviewTime && userId) {\n    if (item?.assignee?.userId === userId && item?.name !== '选择简历') {\n      const time = interviewTime;\n      item.interviewTime = time;\n    }\n  }\n  if (!item.assigneeId) {\n    item.assigneeId = userId;\n  }\n});\n\n// 1. 构建面试数据\nconst interviewData = {\n  name:\n    (recruitmentIdData?.name || recruitmentIdData?.processTemplateVo?.name) +\n    (candidateDetailMain?.name ? '-' + candidateDetailMain?.name : ''),\n  description: recruitmentIdData?.processTemplateVo?.description,\n  profileName: recruitmentIdData?.processTemplateVo?.positionProfile?.name,\n  positionProfileId: recruitmentIdData?.processTemplateVo?.positionProfileId,\n  processNodes: nodes,\n  candidateId: candidateDetailMain?.id,\n  recruitmentId: recruitmentIdData?.id || null,\n  processTemplateId: recruitmentIdData?.processTemplateVo?.id,\n};\nfetch(`https://interview-api.itasaas.com/api/v1/business/process`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"POST\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log(candidateDetailMain?.name + '已发起面试');\n      })\n      .catch(error => {\n          console.log(candidateDetailMain?.name + '发起面试失败');\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "发起面试",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "9lsybbk",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 1630.823794101842,
+                    "y": 1432.791926645668
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": "500"
+                },
+                "label": "delay"
+            },
+            {
+                "id": "yyziprx",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1727.0075973427297,
+                    "y": 338.15372586611835
+                },
+                "data": {
+                    "code": "// 创建新元素\nlet element = document.createElement('div');\nelement.innerHTML = `\n  <div class=\"add_status\" style=\"position: fixed;\n    width: 100%;\n    top: 10px;\n    height: 48px;\n    z-index: 999999999999999;\n    background-color: #363f4d7a;\n    color: white;\n    font-size: 32px;\n    line-height: 48px;\n    text-align: center;\">\n    正在执行批量发起面试流程\n  </div>\n`;\n\n// 插入到页面中\ndocument.body.appendChild(element);\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "插入元素",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "be7mpgb",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 120.74439760521042,
+                    "y": 1927.186450278682
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "m6jwm50",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 435.65122120633293,
+                    "y": 1952.0283664133945
+                },
+                "data": {
+                    "code": "let element = document.querySelector('.add_status');\nif(element) {\n    element.remove();\n}\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "清除提示",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "lo82d5w",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 745.735580237963,
+                    "y": 1927.8373880492247
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "wghg6lq",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 1036.0273206079994,
+                    "y": 1945.43082685953
+                },
+                "data": {
+                    "code": "alert('自动化发起面试流程结束！')\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "完成",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "j6gz8py",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 335.9838389098047,
+                    "y": 310.7218961346314
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "mgaadim",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 675.7569692358853,
+                    "y": 329.6683532160113
+                },
+                "data": {
+                    "code": "window.location.href = 'https://www.zhipin.com/web/chat/report/interview'\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "跳转到",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            }
+        ],
+        "edges": [
+            {
+                "id": "vueflow__edge-StFgnmi-Az_nPRUQ4jIcvStFgnmi-Az_nPRUQ4jIcv-output-1-c5t78l5c5t78l5-input-1",
+                "type": "custom",
+                "source": "StFgnmi-Az_nPRUQ4jIcv",
+                "target": "c5t78l5",
+                "sourceHandle": "StFgnmi-Az_nPRUQ4jIcv-output-1",
+                "targetHandle": "c5t78l5-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 315.99992722391863,
+                "sourceY": 540.4999805601518,
+                "targetX": 353.1831419731715,
+                "targetY": 539.4916750976901
+            },
+            {
+                "id": "vueflow__edge-vytpajgvytpajg-output-1-ezi8ahrezi8ahr-input-1",
+                "type": "custom",
+                "source": "vytpajg",
+                "target": "ezi8ahr",
+                "sourceHandle": "vytpajg-output-1",
+                "targetHandle": "ezi8ahr-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1172.653397562741,
+                "sourceY": 538.766694035942,
+                "targetX": 1220.6393923452758,
+                "targetY": 538.7754930179599
+            },
+            {
+                "id": "vueflow__edge-ezi8ahrezi8ahr-output-2-nqkwnzxnqkwnzx-input-1",
+                "type": "custom",
+                "source": "ezi8ahr",
+                "target": "nqkwnzx",
+                "sourceHandle": "ezi8ahr-output-2",
+                "targetHandle": "nqkwnzx-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1463.6393999435923,
+                "sourceY": 583.369229609892,
+                "targetX": 101.66505284079716,
+                "targetY": 782.6955909648485
+            },
+            {
+                "id": "vueflow__edge-ezi8ahrezi8ahr-output-1-lc004e9lc004e9-input-1",
+                "type": "custom",
+                "source": "ezi8ahr",
+                "target": "lc004e9",
+                "sourceHandle": "ezi8ahr-output-1",
+                "targetHandle": "lc004e9-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1463.6393999435923,
+                "sourceY": 538.7754930179599,
+                "targetX": 1534.896441543949,
+                "targetY": 537.7575475520109
+            },
+            {
+                "id": "vueflow__edge-sx4cmxtsx4cmxt-output-1-adqtp7qadqtp7q-input-1",
+                "type": "custom",
+                "source": "sx4cmxt",
+                "target": "adqtp7q",
+                "sourceHandle": "sx4cmxt-output-1",
+                "targetHandle": "adqtp7q-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2102.588593717472,
+                "sourceY": 535.1638507525598,
+                "targetX": 98.82377012618062,
+                "targetY": 1130.2262098720526
+            },
+            {
+                "id": "vueflow__edge-adqtp7qadqtp7q-output-1-ed1tm5hed1tm5h-input-1",
+                "type": "custom",
+                "source": "adqtp7q",
+                "target": "ed1tm5h",
+                "sourceHandle": "adqtp7q-output-1",
+                "targetHandle": "ed1tm5h-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 338.8236917007017,
+                "sourceY": 1130.2262098720526,
+                "targetX": 368.23175403331504,
+                "targetY": 1132.5530397165937
+            },
+            {
+                "id": "vueflow__edge-ed1tm5hed1tm5h-output-1-mcp1uoymcp1uoy-input-1",
+                "type": "custom",
+                "source": "ed1tm5h",
+                "target": "mcp1uoy",
+                "sourceHandle": "ed1tm5h-output-1",
+                "targetHandle": "mcp1uoy-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 608.2316756078362,
+                "sourceY": 1132.5530397165937,
+                "targetX": 389.59797625880043,
+                "targetY": 991.8808952705306
+            },
+            {
+                "id": "vueflow__edge-mcp1uoymcp1uoy-output-1-t0b05xqt0b05xq-input-1",
+                "type": "custom",
+                "source": "mcp1uoy",
+                "target": "t0b05xq",
+                "sourceHandle": "mcp1uoy-output-1",
+                "targetHandle": "t0b05xq-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 629.5978978333216,
+                "sourceY": 991.8808952705306,
+                "targetX": 713.7888775296633,
+                "targetY": 991.8808952705305
+            },
+            {
+                "id": "vueflow__edge-t0b05xqt0b05xq-output-1-yq77lweyq77lwe-input-1",
+                "type": "custom",
+                "source": "t0b05xq",
+                "target": "yq77lwe",
+                "sourceHandle": "t0b05xq-output-1",
+                "targetHandle": "yq77lwe-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 953.7887991041844,
+                "sourceY": 991.8808952705305,
+                "targetX": 709.998670702319,
+                "targetY": 1137.5426734280618
+            },
+            {
+                "id": "vueflow__edge-yq77lweyq77lwe-output-1-7des30f7des30f-input-1",
+                "type": "custom",
+                "source": "yq77lwe",
+                "target": "7des30f",
+                "sourceHandle": "yq77lwe-output-1",
+                "targetHandle": "7des30f-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 949.9985922768401,
+                "sourceY": 1137.5426734280618,
+                "targetX": 983.2942360963191,
+                "targetY": 1137.5878772285016
+            },
+            {
+                "id": "vueflow__edge-vrocibrvrocibr-output-1-ojihmmmojihmmm-input-1",
+                "type": "custom",
+                "source": "vrocibr",
+                "target": "ojihmmm",
+                "sourceHandle": "vrocibr-output-1",
+                "targetHandle": "ojihmmm-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2255.9261934750225,
+                "sourceY": 1694.3263476482261,
+                "targetX": 2335.2345814924797,
+                "targetY": 1692.8602268925304
+            },
+            {
+                "id": "vueflow__edge-gyu6ng7gyu6ng7-output-1-vrocibrvrocibr-input-1",
+                "type": "custom",
+                "source": "gyu6ng7",
+                "target": "vrocibr",
+                "sourceHandle": "gyu6ng7-output-1",
+                "targetHandle": "vrocibr-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2547.010293048548,
+                "sourceY": 1485.058417515874,
+                "targetX": 2015.9261948071946,
+                "targetY": 1694.3263476482261
+            },
+            {
+                "id": "vueflow__edge-7des30f7des30f-output-1-btx4ivlbtx4ivl-input-1",
+                "type": "custom",
+                "source": "7des30f",
+                "target": "btx4ivl",
+                "sourceHandle": "7des30f-output-1",
+                "targetHandle": "btx4ivl-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1223.2942347641467,
+                "sourceY": 1137.5878772285016,
+                "targetX": 1048.5937659458043,
+                "targetY": 990.4402332845123
+            },
+            {
+                "id": "vueflow__edge-btx4ivlbtx4ivl-output-1-bg0s0dubg0s0du-input-1",
+                "type": "custom",
+                "source": "btx4ivl",
+                "target": "bg0s0du",
+                "sourceHandle": "btx4ivl-output-1",
+                "targetHandle": "bg0s0du-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1288.593610427019,
+                "sourceY": 990.4402332845123,
+                "targetX": 1356.3062486196957,
+                "targetY": 990.1367471472817
+            },
+            {
+                "id": "vueflow__edge-bg0s0dubg0s0du-output-1-x3rtsljx3rtslj-input-1",
+                "type": "custom",
+                "source": "bg0s0du",
+                "target": "x3rtslj",
+                "sourceHandle": "bg0s0du-output-1",
+                "targetHandle": "x3rtslj-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1596.3060931009102,
+                "sourceY": 990.1367471472817,
+                "targetX": 1663.6669697772634,
+                "targetY": 991.9344223827356
+            },
+            {
+                "id": "vueflow__edge-0inmsm50inmsm5-output-1-gyu6ng7gyu6ng7-input-1",
+                "type": "custom",
+                "source": "0inmsm5",
+                "target": "gyu6ng7",
+                "sourceHandle": "0inmsm5-output-1",
+                "targetHandle": "gyu6ng7-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2233.7757940761903,
+                "sourceY": 1486.6640677793805,
+                "targetX": 2307.0104485673337,
+                "targetY": 1485.058417515874
+            },
+            {
+                "id": "vueflow__edge-kt28r27kt28r27-output-1-dq34nradq34nra-input-1",
+                "type": "custom",
+                "source": "kt28r27",
+                "target": "dq34nra",
+                "sourceHandle": "kt28r27-output-1",
+                "targetHandle": "dq34nra-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1536.454321398929,
+                "sourceY": 1134.6271695611729,
+                "targetX": 1569.4151971216204,
+                "targetY": 1135.0568418186838
+            },
+            {
+                "id": "vueflow__edge-dq34nradq34nra-output-1-h2fotxeh2fotxe-input-1",
+                "type": "custom",
+                "source": "dq34nra",
+                "target": "h2fotxe",
+                "sourceHandle": "dq34nra-output-1",
+                "targetHandle": "h2fotxe-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1809.415195789448,
+                "sourceY": 1135.0568418186838,
+                "targetX": 103.47660571307888,
+                "targetY": 1328.130589545462
+            },
+            {
+                "id": "vueflow__edge-h2fotxeh2fotxe-output-1-ghqddytghqddyt-input-1",
+                "type": "custom",
+                "source": "h2fotxe",
+                "target": "ghqddyt",
+                "sourceHandle": "h2fotxe-output-1",
+                "targetHandle": "ghqddyt-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 343.4764887409467,
+                "sourceY": 1328.130589545462,
+                "targetX": 394.75814922831285,
+                "targetY": 1329.8652551188832
+            },
+            {
+                "id": "vueflow__edge-ghqddytghqddyt-output-1-yrs2sovyrs2sov-input-1",
+                "type": "custom",
+                "source": "ghqddyt",
+                "target": "yrs2sov",
+                "sourceHandle": "ghqddyt-output-1",
+                "targetHandle": "yrs2sov-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 634.758070802834,
+                "sourceY": 1329.8652551188832,
+                "targetX": 692.9471460730714,
+                "targetY": 1330.101533029997
+            },
+            {
+                "id": "vueflow__edge-x3rtsljx3rtslj-output-1-v0m68qyv0m68qy-input-1",
+                "type": "custom",
+                "source": "x3rtslj",
+                "target": "v0m68qy",
+                "sourceHandle": "x3rtslj-output-1",
+                "targetHandle": "v0m68qy-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1903.6668142584779,
+                "sourceY": 991.9344223827356,
+                "targetX": 1954.7811105996695,
+                "targetY": 991.5914998426747
+            },
+            {
+                "id": "vueflow__edge-v0m68qyv0m68qy-output-1-kt28r27kt28r27-input-1",
+                "type": "custom",
+                "source": "v0m68qy",
+                "target": "kt28r27",
+                "sourceHandle": "v0m68qy-output-1",
+                "targetHandle": "kt28r27-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2194.7814176407232,
+                "sourceY": 991.5914998426747,
+                "targetX": 1296.4543227311015,
+                "targetY": 1134.6271695611729
+            },
+            {
+                "id": "vueflow__edge-yrs2sovyrs2sov-output-1-be9aukube9auku-input-1",
+                "type": "custom",
+                "source": "yrs2sov",
+                "target": "be9auku",
+                "sourceHandle": "yrs2sov-output-1",
+                "targetHandle": "be9auku-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 932.9470676475926,
+                "sourceY": 1330.101533029997,
+                "targetX": 993.5643421909392,
+                "targetY": 1328.6964227396863
+            },
+            {
+                "id": "vueflow__edge-be9aukube9auku-output-1-1y2pc8f1y2pc8f-input-1",
+                "type": "custom",
+                "source": "be9auku",
+                "target": "1y2pc8f",
+                "sourceHandle": "be9auku-output-1",
+                "targetHandle": "1y2pc8f-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1233.5641866721537,
+                "sourceY": 1328.6964227396863,
+                "targetX": 1314.384078167956,
+                "targetY": 1329.3080770574081
+            },
+            {
+                "id": "vueflow__edge-1y2pc8f1y2pc8f-output-1-r99k1ujr99k1uj-input-1",
+                "type": "custom",
+                "source": "1y2pc8f",
+                "target": "r99k1uj",
+                "sourceHandle": "1y2pc8f-output-1",
+                "targetHandle": "r99k1uj-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1554.3839226491705,
+                "sourceY": 1329.3080770574081,
+                "targetX": 1603.4128980493012,
+                "targetY": 1330.507471404762
+            },
+            {
+                "id": "vueflow__edge-r99k1ujr99k1uj-output-1-1lwo83n1lwo83n-input-1",
+                "type": "custom",
+                "source": "r99k1uj",
+                "target": "1lwo83n",
+                "sourceHandle": "r99k1uj-output-1",
+                "targetHandle": "1lwo83n-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1843.412896717129,
+                "sourceY": 1330.507471404762,
+                "targetX": 112.24210753372498,
+                "targetY": 1493.9305678913977
+            },
+            {
+                "id": "vueflow__edge-1lwo83n1lwo83n-output-1-bbs5aa5bbs5aa5-input-1",
+                "type": "custom",
+                "source": "1lwo83n",
+                "target": "bbs5aa5",
+                "sourceHandle": "1lwo83n-output-1",
+                "targetHandle": "bbs5aa5-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 352.24202910824613,
+                "sourceY": 1493.9305678913977,
+                "targetX": 411.93382939223704,
+                "targetY": 1493.9119910160543
+            },
+            {
+                "id": "vueflow__edge-bbs5aa5bbs5aa5-output-1-m526yunm526yun-input-1",
+                "type": "custom",
+                "source": "bbs5aa5",
+                "target": "m526yun",
+                "sourceHandle": "bbs5aa5-output-1",
+                "targetHandle": "m526yun-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 651.9338280600647,
+                "sourceY": 1493.9119910160543,
+                "targetX": 711.2879283713469,
+                "targetY": 1494.053849980993
+            },
+            {
+                "id": "vueflow__edge-m526yunm526yun-output-1-s1bweqds1bweqd-input-1",
+                "type": "custom",
+                "source": "m526yun",
+                "target": "s1bweqd",
+                "sourceHandle": "m526yun-output-1",
+                "targetHandle": "s1bweqd-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 951.2879270391745,
+                "sourceY": 1494.053849980993,
+                "targetX": 1010.6420273504568,
+                "targetY": 1492.6487396906828
+            },
+            {
+                "id": "vueflow__edge-s1bweqds1bweqd-output-1-3vz4zj73vz4zj7-input-1",
+                "type": "custom",
+                "source": "s1bweqd",
+                "target": "3vz4zj7",
+                "sourceHandle": "s1bweqd-output-1",
+                "targetHandle": "3vz4zj7-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1250.6418718316713,
+                "sourceY": 1492.6487396906828,
+                "targetX": 1311.2589921884057,
+                "targetY": 1492.7907528422343
+            },
+            {
+                "id": "vueflow__edge-3vz4zj73vz4zj7-output-1-9lsybbk9lsybbk-input-1",
+                "type": "custom",
+                "source": "3vz4zj7",
+                "target": "9lsybbk",
+                "sourceHandle": "3vz4zj7-output-1",
+                "targetHandle": "9lsybbk-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1551.2589908562334,
+                "sourceY": 1492.7907528422343,
+                "targetX": 1606.823876844546,
+                "targetY": 1491.385642551924
+            },
+            {
+                "id": "vueflow__edge-9lsybbk9lsybbk-output-1-0inmsm50inmsm5-input-1",
+                "type": "custom",
+                "source": "9lsybbk",
+                "target": "0inmsm5",
+                "sourceHandle": "9lsybbk-output-1",
+                "targetHandle": "0inmsm5-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1846.8237213257605,
+                "sourceY": 1491.385642551924,
+                "targetX": 1993.7759495949758,
+                "targetY": 1486.6640677793805
+            },
+            {
+                "id": "vueflow__edge-lc004e9lc004e9-output-1-yyziprxyyziprx-input-1",
+                "type": "custom",
+                "source": "lc004e9",
+                "target": "yyziprx",
+                "sourceHandle": "lc004e9-output-1",
+                "targetHandle": "yyziprx-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1774.8962860251636,
+                "sourceY": 537.7575475520109,
+                "targetX": 1703.0075258988206,
+                "targetY": 374.15370642627016
+            },
+            {
+                "id": "vueflow__edge-yyziprxyyziprx-output-1-sx4cmxtsx4cmxt-input-1",
+                "type": "custom",
+                "source": "yyziprx",
+                "target": "sx4cmxt",
+                "sourceHandle": "yyziprx-output-1",
+                "targetHandle": "sx4cmxt-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 1943.0075245666483,
+                "sourceY": 374.15370642627016,
+                "targetX": 1862.5887492362574,
+                "targetY": 535.1638507525598
+            },
+            {
+                "id": "vueflow__edge-ojihmmmojihmmm-output-1-be7mpgbbe7mpgb-input-1",
+                "type": "custom",
+                "source": "ojihmmm",
+                "target": "be7mpgb",
+                "sourceHandle": "ojihmmm-output-1",
+                "targetHandle": "be7mpgb-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2575.234425973694,
+                "sourceY": 1692.8602268925304,
+                "targetX": 96.74440325460793,
+                "targetY": 1985.7801661849383
+            },
+            {
+                "id": "vueflow__edge-be7mpgbbe7mpgb-output-1-m6jwm50m6jwm50-input-1",
+                "type": "custom",
+                "source": "be7mpgb",
+                "target": "m6jwm50",
+                "sourceHandle": "be7mpgb-output-1",
+                "targetHandle": "m6jwm50-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 336.744324829129,
+                "sourceY": 1985.7801661849383,
+                "targetX": 411.65130394903696,
+                "targetY": 1988.0283469735464
+            },
+            {
+                "id": "vueflow__edge-m6jwm50m6jwm50-output-1-lo82d5wlo82d5w-input-1",
+                "type": "custom",
+                "source": "m6jwm50",
+                "target": "lo82d5w",
+                "sourceHandle": "m6jwm50-output-1",
+                "targetHandle": "lo82d5w-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 651.6513026168647,
+                "sourceY": 1988.0283469735464,
+                "targetX": 721.7355858873605,
+                "targetY": 1986.431103955481
+            },
+            {
+                "id": "vueflow__edge-lo82d5wlo82d5w-output-1-wghg6lqwghg6lq-input-1",
+                "type": "custom",
+                "source": "lo82d5w",
+                "target": "wghg6lq",
+                "sourceHandle": "lo82d5w-output-1",
+                "targetHandle": "wghg6lq-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "class": "connected-edges",
+                "sourceX": 961.7355845551881,
+                "sourceY": 1986.431103955481,
+                "targetX": 1012.0272491640903,
+                "targetY": 1981.4309616062949
+            },
+            {
+                "id": "vueflow__edge-c5t78l5c5t78l5-output-1-j6gz8pyj6gz8py-input-1",
+                "type": "custom",
+                "source": "c5t78l5",
+                "target": "j6gz8py",
+                "sourceHandle": "c5t78l5-output-1",
+                "targetHandle": "j6gz8py-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 593.1831406409991,
+                "sourceY": 539.4916750976901,
+                "targetX": 311.9838445592022,
+                "targetY": 369.31565058754074
+            },
+            {
+                "id": "vueflow__edge-j6gz8pyj6gz8py-output-1-mgaadimmgaadim-input-1",
+                "type": "custom",
+                "source": "j6gz8py",
+                "target": "mgaadim",
+                "sourceHandle": "j6gz8py-output-1",
+                "targetHandle": "mgaadim-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "class": "connected-edges",
+                "sourceX": 551.9837661337233,
+                "sourceY": 369.31565058754074,
+                "targetX": 651.7569748852828,
+                "targetY": 365.66833377616314
+            },
+            {
+                "id": "vueflow__edge-mgaadimmgaadim-output-1-vytpajgvytpajg-input-1",
+                "type": "custom",
+                "source": "mgaadim",
+                "target": "vytpajg",
+                "sourceHandle": "mgaadim-output-1",
+                "targetHandle": "vytpajg-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 891.756896459804,
+                "sourceY": 365.66833377616314,
+                "targetX": 932.6533988949135,
+                "targetY": 538.766694035942
+            }
+        ],
+        "position": [
+            0,
+            -2.842170943040401e-14
+        ],
+        "zoom": 0.7917047464637371,
+        "viewport": {
+            "x": 0,
+            "y": -2.842170943040401e-14,
+            "zoom": 0.7917047464637371
+        }
+    },
+    "settings": {
+        "blockDelay": 0,
+        "debugMode": false,
+        "defaultColumnName": "column",
+        "execContext": "popup",
+        "executedBlockOnWeb": false,
+        "inputAutocomplete": true,
+        "insertDefaultColumn": false,
+        "notification": true,
+        "onError": "stop-workflow",
+        "publicId": "",
+        "restartTimes": 3,
+        "reuseLastState": false,
+        "saveLog": true
+    },
+    "globalData": "{\n\t\"key\": \"value\"\n}",
+    "description": "",
+    "includedWorkflows": {}
+}
+]

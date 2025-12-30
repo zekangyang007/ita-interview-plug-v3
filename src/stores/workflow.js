@@ -20,7 +20,7 @@ import { useUserStore } from './user';
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc-ceshi.json
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-scroll-ceshi.json
 export const API_URL =
-  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-scroll.json';
+  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-interview.json';
 
 const defaultWorkflow = (data = null, options = {}) => {
   let workflowData = {

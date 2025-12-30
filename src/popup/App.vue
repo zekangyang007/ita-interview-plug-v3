@@ -45,8 +45,8 @@ onMounted(async () => {
 </script>
 <style>
 body {
-  height: 600px !important;
-  width: 650px !important;
+  height: auto !important;
+  width: 120px !important;
   font-size: 16px;
 }
 input:focus {

@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-orc-ceshi.json
 // https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-scroll-ceshi.json
 export const API_URL =
-  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-scroll.json';
+  'https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/app-file/firstWorkflows-interview.json';
 
 // 创建获取数据的异步函数
 
