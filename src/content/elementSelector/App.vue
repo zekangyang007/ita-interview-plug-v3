@@ -1417,6 +1417,7 @@ button:active {
   justify-content: center;
   margin: 0 auto 12px;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  overflow: hidden;
 }
 
 .login-header h2 {
@@ -1727,6 +1728,8 @@ button:active {
   color: #9ca3af;
   border-radius: 6px;
   transition: all 0.2s;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 .logout-btn-new:hover {
@@ -1754,6 +1757,7 @@ button:active {
   justify-content: center;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .trigger-ball:hover {
@@ -1817,4 +1821,159 @@ button:active {
 .plug_content_main_in {
   right: -400px !important;
 }
+
+/* Tab 切换样式 */
+.top-tab-wrapper {
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1px solid #f3f4f6;
+  padding: 0 4px;
+}
+
+.tab-item-btn {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: none;
+}
+
+.tab-item-btn:hover {
+  color: #2563eb;
+  background: #f9fafb;
+}
+
+.tab-item-btn.is-active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  background: #eff6ff;
+}
+
+.tab-item-btn.batch-tab.is-active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  background: #eff6ff;
+}
+
+.tab-content-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* 批量自动发起界面样式 */
+.batch-trigger-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.batch-icon-large {
+  width: 64px;
+  height: 64px;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.batch-trigger-container h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.batch-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.batch-config-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.config-header {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.config-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.config-item:not(:last-child) {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.config-item span:first-child {
+  color: #374151;
+}
+
+.config-item .val {
+  color: #6b7280;
+}
+
+.btn-batch-start {
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-batch-start:hover {
+  background: #2564ebb4;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(58, 115, 237, 0.3);
+}
+
+.btn-batch-start:active {
+  transform: translateY(0);
+}
+
+/* .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 3vw;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 9999;
+} */
 </style>

@@ -133,12 +133,12 @@
                 "type": "BlockDelay",
                 "initialized": false,
                 "position": {
-                    "x": 956.6533161522094,
-                    "y": 480.1730166763392
+                    "x": 952.2549564496331,
+                    "y": 479.07342675069515
                 },
                 "data": {
                     "disableBlock": false,
-                    "time": "1500"
+                    "time": "5000"
                 },
                 "label": "delay"
             },
@@ -201,8 +201,8 @@
                 "type": "BlockDelay",
                 "initialized": false,
                 "position": {
-                    "x": 122.82376447678311,
-                    "y": 1071.6324168724898
+                    "x": -1182.8633657031792,
+                    "y": 1083.11940042246
                 },
                 "data": {
                     "disableBlock": false,
@@ -215,8 +215,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 392.23174838391753,
-                    "y": 1094.553027505014
+                    "x": -875.165436629477,
+                    "y": 1098.3820220216705
                 },
                 "data": {
                     "actionElMaxWaitTime": 5,
@@ -241,8 +241,8 @@
                 "type": "BlockLoopBreakpoint",
                 "initialized": false,
                 "position": {
-                    "x": 2359.2346529363886,
-                    "y": 1617.2665117757097
+                    "x": 2409.2346529363886,
+                    "y": 1687.2665117757097
                 },
                 "data": {
                     "clearLoop": false,
@@ -256,8 +256,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 413.5978935160964,
-                    "y": 955.8809147103788
+                    "x": -1108.4274268549739,
+                    "y": 938.6504393854233
                 },
                 "data": {
                     "action": "get",
@@ -286,8 +286,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 737.7888718802658,
-                    "y": 955.8809147103786
+                    "x": -803.3814210740884,
+                    "y": 942.4794339020799
                 },
                 "data": {
                     "code": "const dateId = automaRefData('variables', 'dateID');\nconsole.log(dateId,'11111111111')\nautomaNextBlock()",
@@ -306,8 +306,8 @@
                 "type": "BlockDelay",
                 "initialized": false,
                 "position": {
-                    "x": 733.9986650529215,
-                    "y": 1078.9489575218056
+                    "x": -485.5360885022632,
+                    "y": 921.9601823388775
                 },
                 "data": {
                     "disableBlock": false,
@@ -320,8 +320,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 1007.2943075402281,
-                    "y": 1101.5878966683497
+                    "x": -499.4150347642151,
+                    "y": 1090.1009131183794
                 },
                 "data": {
                     "code": "const globalData = automaRefData('globalData');\nconst dateId = automaRefData('variables', 'dateID');\nfunction formatDate(date, includeSeconds = false) {\n  const year = date.getFullYear();\n  const month = String(date.getMonth() + 1).padStart(2, '0');\n  const day = String(date.getDate()).padStart(2, '0');\n  return `interview-${year}${month}${day}`;\n}\nconst dateTime = new Date();\nconst currentDateId = formatDate(dateTime)\nconsole.log(currentDateId)\nif (currentDateId === dateId) {\n  console.log(true)\n  automaNextBlock()\n  return\n} else {\n  console.log(false)\n  // automaNextBlock({},{nextBlockId:\"vrocibr\"})\n  automaNextBlock()\n  return\n}\n",
@@ -340,8 +340,8 @@
                 "type": "BlockDelay",
                 "initialized": false,
                 "position": {
-                    "x": 2039.9262662511037,
-                    "y": 1635.73263174197
+                    "x": 2679.9262662511037,
+                    "y": 1529.0659650753032
                 },
                 "data": {
                     "disableBlock": false,
@@ -354,8 +354,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 1072.5938373897134,
-                    "y": 954.4401756310539
+                    "x": -62.70303679902219,
+                    "y": 931.4662085311132
                 },
                 "data": {
                     "actionElMaxWaitTime": 5,
@@ -380,8 +380,8 @@
                 "type": "BlockLoopBreakpoint",
                 "initialized": false,
                 "position": {
-                    "x": 2331.0102116380167,
-                    "y": 1409.4647023990533
+                    "x": 3734.3435449713506,
+                    "y": 1336.13136906572
                 },
                 "data": {
                     "clearLoop": false,
@@ -395,8 +395,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 1380.3061658769916,
-                    "y": 954.1367665871298
+                    "x": 614.5408434221457,
+                    "y": 929.0593710687662
                 },
                 "data": {
                     "addExtraRow": false,
@@ -428,8 +428,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 1320.4543941750105,
-                    "y": 1098.627189001021
+                    "x": 1533.4044550428316,
+                    "y": 932.5529276952988
                 },
                 "data": {
                     "code": "const geekName = automaRefData('variables', 'geekName');\nconst geek_phone = automaRefData('variables', 'geek_phone');\nconst geek_status = automaRefData('variables', 'geek_status');\nconsole.log(geekName)\nlet h_phone = geek_phone.replace(\"+86\", \"\");\nautomaSetVariable('h_phone', h_phone)\nif (geek_status !== '已面试') {\n  automaNextBlock()\n  return\n} else {\n  // automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  automaNextBlock()\n  return\n}",
@@ -448,8 +448,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 1687.6668870345593,
-                    "y": 955.9344418225838
+                    "x": 940.3327111588096,
+                    "y": 929.1482706442415
                 },
                 "data": {
                     "addExtraRow": false,
@@ -481,8 +481,8 @@
                 "type": "BlockDelay",
                 "initialized": false,
                 "position": {
-                    "x": 2017.7758668522717,
-                    "y": 1428.0703518731243
+                    "x": 1928.6769721252695,
+                    "y": 1412.4616914484802
                 },
                 "data": {
                     "disableBlock": false,
@@ -562,8 +562,8 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 1978.7811820435786,
-                    "y": 955.5915192825229
+                    "x": 1238.1435489624146,
+                    "y": 932.8232737809319
                 },
                 "data": {
                     "addExtraRow": false,
@@ -613,7 +613,7 @@
                     "y": 1293.3080964972562
                 },
                 "data": {
-                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst h_phone = automaRefData('variables', 'h_phone');\n// 构建查询参数\nif (h_phone) {\n  const queryParams = new URLSearchParams({\n    page: 1,\n    pageSize: 10,\n    isAsc: 'desc',\n    orderByColumn: 'updateTime',\n    archived: 1,\n    phoneNumber: h_phone,\n  });\n  fetch(`https://interview-api.itasaas.com/api/v1/business/candidate/list?${queryParams.toString()}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('添加/更新', result);\n          if (result?.rows?.length > 0) { \n            const mitCandidateDetail = result?.rows[0]\n            automaSetVariable('mitCandidateDetail', mitCandidateDetail)\n            automaNextBlock()\n            return\n          } else {\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n             return\n          }\n      })\n      .catch(error => {\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst h_phone = automaRefData('variables', 'h_phone');\n// 构建查询参数\nif (h_phone) {\n  const queryParams = new URLSearchParams({\n    page: 1,\n    pageSize: 10,\n    isAsc: 'desc',\n    orderByColumn: 'updateTime',\n    archived: 1,\n    phoneNumber: h_phone,\n  });\n  fetch(`https://interview-api.itasaas.com/api/v1/business/candidate/list?${queryParams.toString()}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('添加/更新', result);\n          if (result?.rows?.length > 0) { \n            const mitCandidateDetail = result?.rows[0]\n            automaSetVariable('mitCandidateDetail', mitCandidateDetail)\n            automaNextBlock()\n            return\n          } else {\n            automaSetVariable('addTitle', '简历库未匹配候选人')\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n             return\n          }\n      })\n      .catch(error => {\n         automaSetVariable('addTitle', '发起面试失败')\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaSetVariable('addTitle', '没有找到手机号')\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
                     "context": "website",
                     "description": "系统中是否存在",
                     "disableBlock": false,
@@ -647,7 +647,7 @@
                     "y": 1457.9305873312458
                 },
                 "data": {
-                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst mitCandidateDetail = automaRefData('variables', 'mitCandidateDetail');\n// 构建查询参数\nif (mitCandidateDetail) {\n  fetch(`https://interview-api.itasaas.com/api/v1/business/candidate/${mitCandidateDetail?.id}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('候选人信息', result);\n          if (result?.data) {\n            if (result?.data?.recruitmentStatus === 0) {    \n              const candidateDetailMain = result?.data\n              automaSetVariable('candidateDetailMain', candidateDetailMain)\n              automaNextBlock()\n              return\n            } else {\n              console.log('候选人信息已进行面试，跳过');\n              automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n              return\n            }\n          } else {\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n            return\n          }\n      })\n      .catch(error => {\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst mitCandidateDetail = automaRefData('variables', 'mitCandidateDetail');\n// 构建查询参数\nif (mitCandidateDetail) {\n  fetch(`https://interview-api.itasaas.com/api/v1/business/candidate/${mitCandidateDetail?.id}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('候选人信息', result);\n          if (result?.data) {\n            if (result?.data?.recruitmentStatus === 0 || \n                result?.data?.recruitmentStatus === 2 ||\n                result?.data?.recruitmentStatus === 3 ||\n                result?.data?.recruitmentStatus === 7 \n               ) {    \n              const candidateDetailMain = result?.data\n              automaSetVariable('candidateDetailMain', candidateDetailMain)\n              automaNextBlock()\n              return\n            } else {\n              automaSetVariable('addTitle', '候选人已在面试中')\n              console.log('候选人信息已进行面试，跳过');\n              automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n              return\n            }\n          } else {\n            automaSetVariable('addTitle', '简历库未匹配候选人')\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n            return\n          }\n      })\n      .catch(error => {\n        automaSetVariable('addTitle', '发起面试失败')\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaSetVariable('addTitle', '简历库未匹配候选人')\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
                     "context": "website",
                     "description": "系统中存在,获取候选人详情",
                     "disableBlock": false,
@@ -678,10 +678,10 @@
                 "initialized": false,
                 "position": {
                     "x": 735.2879227219494,
-                    "y": 1458.053869420841
+                    "y": 1456.3872027541743
                 },
                 "data": {
-                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst candidateDetailMain = automaRefData('variables', 'candidateDetailMain');\n// 构建查询参数\nif (candidateDetailMain) {\n  fetch(`https://interview-api.itasaas.com/api/v1/business/recruitment/${candidateDetailMain?.recruitmentId}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('需求详情', result);\n          if (result?.data) {\n            if (result?.data?.processTemplateVo) {  \n              const recruitmentIdData = result?.data\n              automaSetVariable('recruitmentIdData', recruitmentIdData)\n              automaNextBlock()\n              return\n            } else {\n               console.log('需求详情里没有面试方案信息');\n              automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n              return\n            }\n          } else {\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n            return\n          }\n      })\n      .catch(error => {\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst candidateDetailMain = automaRefData('variables', 'candidateDetailMain');\n// 构建查询参数\nif (candidateDetailMain) {\n  fetch(`https://interview-api.itasaas.com/api/v1/business/recruitment/${candidateDetailMain?.recruitmentId}`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"GET\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log('需求详情', result);\n          if (result?.data) {\n            if (result?.data?.processTemplateVo) {  \n              const recruitmentIdData = result?.data\n              automaSetVariable('recruitmentIdData', recruitmentIdData)\n              automaNextBlock()\n              return\n            } else {\n              automaSetVariable('addTitle', '候选人没有绑定面试方案')\n               console.log('需求详情里没有面试方案信息');\n              automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n              return\n            }\n          } else {\n            automaSetVariable('addTitle', '候选人没有绑定招聘需求')\n            automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n            return\n          }\n      })\n      .catch(error => {\n        automaSetVariable('addTitle', '发起面试失败')\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n} else {\n  automaSetVariable('addTitle', '简历库未匹配候选人')\n  automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n  return\n}",
                     "context": "website",
                     "description": "获取需求详情",
                     "disableBlock": false,
@@ -711,11 +711,11 @@
                 "type": "BlockBasic",
                 "initialized": false,
                 "position": {
-                    "x": 1335.2590636323148,
-                    "y": 1456.7907722820823
+                    "x": 1273.9951513658061,
+                    "y": 1595.4003737850578
                 },
                 "data": {
-                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst candidateDetailMain = automaRefData('variables', 'candidateDetailMain');\nconst recruitmentIdData = automaRefData('variables', 'recruitmentIdData');\nconst interviewTime = automaRefData('variables', 'interviewTime');\nconst userId = globalData?.userId || '1831302864665706497'\n// 准备流程节点数据\nlet nodes = JSON.parse(JSON.stringify(recruitmentIdData?.processTemplateVo?.nodes));\nnodes.forEach((item) => {\n  item.abilityIds = item.abilities.map((ability) => ability.id) || [];\n  delete item.abilities;\n});\n\n// 遍历节点,如果节点的责任人id没有就默认当前登录用户\nnodes.forEach((item) => {\n  if (interviewTime && userId) {\n    if (item?.assignee?.userId === userId && item?.name !== '选择简历') {\n      const time = interviewTime;\n      item.interviewTime = time;\n    }\n  }\n  if (!item.assigneeId) {\n    item.assigneeId = userId;\n  }\n});\n\n// 1. 构建面试数据\nconst interviewData = {\n  name:\n    (recruitmentIdData?.name || recruitmentIdData?.processTemplateVo?.name) +\n    (candidateDetailMain?.name ? '-' + candidateDetailMain?.name : ''),\n  description: recruitmentIdData?.processTemplateVo?.description,\n  profileName: recruitmentIdData?.processTemplateVo?.positionProfile?.name,\n  positionProfileId: recruitmentIdData?.processTemplateVo?.positionProfileId,\n  processNodes: nodes,\n  candidateId: candidateDetailMain?.id,\n  recruitmentId: recruitmentIdData?.id || null,\n  processTemplateId: recruitmentIdData?.processTemplateVo?.id,\n};\nfetch(`https://interview-api.itasaas.com/api/v1/business/process`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"POST\",\n      })\n      .then(response => response.json())\n      .then(result => {\n          console.log(candidateDetailMain?.name + '已发起面试');\n      })\n      .catch(error => {\n          console.log(candidateDetailMain?.name + '发起面试失败');\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });\n\nautomaNextBlock()",
+                    "code": "const globalData = automaRefData('globalData') || null;\nconst token = globalData?.token || 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxODMxMzAyODY0NjY1NzA2NDk3Iiwicm5TdHIiOiJpdUU1MEg2cGtmb0pjOGV4N09ITkxHNVMyclI0QjJReSIsImNsaWVudGlkIjoiMjk5M2FkMmI4MjA5NDlkNTljYThiZTg1OTA1M2RhZGMiLCJ0ZW5hbnRJZCI6Ijk1Mjg0MiIsInVzZXJJZCI6MTgzMTMwMjg2NDY2NTcwNjQ5NywidXNlck5hbWUiOiIxNTk3NjA3NjY0OSIsImRlcHRJZCI6MTk3NjU3MzczMDE0MTU4MTMxMywiZGVwdE5hbWUiOiLmmbrog73mi5vogZgifQ.EDfRhpPtWfg1RTRa5NTECwfjwJRyEocCBBdo3uQQV7E'\nconst clientId = globalData?.clientId || '2993ad2b820949d59ca8be859053dadc'\nconst candidateDetailMain = automaRefData('variables', 'candidateDetailMain');\nconst recruitmentIdData = automaRefData('variables', 'recruitmentIdData');\nconst interviewTime = automaRefData('variables', 'interviewTime');\nconst userId = globalData?.userId || '1831302864665706497'\n// 准备流程节点数据\nlet nodes = JSON.parse(JSON.stringify(recruitmentIdData?.processTemplateVo?.nodes));\nnodes.forEach((item) => {\n  item.abilityIds = item.abilities.map((ability) => ability.id) || [];\n  delete item.abilities;\n});\n\n// 遍历节点,如果节点的责任人id没有就默认当前登录用户\nnodes.forEach((item) => {\n  if (interviewTime && userId) {\n    if (item?.assignee?.userId === userId && item?.name !== '选择简历') {\n      const time = interviewTime;\n      item.interviewTime = time;\n    }\n  }\n  if (!item.assigneeId) {\n    item.assigneeId = userId;\n  }\n});\n\n// 1. 构建面试数据\nconst interviewData = {\n  name:\n    (recruitmentIdData?.name || recruitmentIdData?.processTemplateVo?.name) +\n    (candidateDetailMain?.name ? '-' + candidateDetailMain?.name : ''),\n  description: recruitmentIdData?.processTemplateVo?.description,\n  profileName: recruitmentIdData?.processTemplateVo?.positionProfile?.name,\n  positionProfileId: recruitmentIdData?.processTemplateVo?.positionProfileId,\n  processNodes: nodes,\n  candidateId: candidateDetailMain?.id,\n  recruitmentId: recruitmentIdData?.id || null,\n  processTemplateId: recruitmentIdData?.processTemplateVo?.id,\n};\nfetch(`https://interview-api.itasaas.com/api/v1/business/process`, {\n          headers: {\n              \"accept\": \"application/json, text/plain, */*\",\n              \"authorization\": token,\n              \"clientid\": clientId,\n              \"content-type\": \"application/json\"\n          },\n          method: \"POST\",\n          body: JSON.stringify(interviewData),\n      })\n      .then(response => response.json())\n      .then(result => {\n        automaSetVariable('addTitle', `绑定招聘需求：${recruitmentIdData?.name}，已发起面试`)\n          console.log(candidateDetailMain?.name + '已发起面试');\n        automaNextBlock()\n        return\n      })\n      .catch(error => {\n        automaSetVariable('addTitle', '发起面试失败')\n          console.log(candidateDetailMain?.name + '发起面试失败');\n         automaNextBlock({},{nextBlockId:\"0inmsm5\"})\n         return\n      });",
                     "context": "website",
                     "description": "发起面试",
                     "disableBlock": false,
@@ -749,14 +749,14 @@
                     "y": 338.15372586611835
                 },
                 "data": {
-                    "code": "// 创建新元素\nlet element = document.createElement('div');\nelement.innerHTML = `\n  <div class=\"add_status\" style=\"position: fixed;\n    width: 100%;\n    top: 10px;\n    height: 48px;\n    z-index: 999999999999999;\n    background-color: #363f4d7a;\n    color: white;\n    font-size: 32px;\n    line-height: 48px;\n    text-align: center;\">\n    正在执行批量发起面试流程\n  </div>\n`;\n\n// 插入到页面中\ndocument.body.appendChild(element);\nautomaNextBlock()",
-                    "context": "website",
-                    "description": "插入元素",
                     "disableBlock": false,
-                    "everyNewTab": false,
+                    "description": "插入元素",
+                    "timeout": 20000,
+                    "context": "website",
+                    "code": "// 创建新元素\nlet element = document.createElement('div');\nelement.innerHTML = `\n  <div class=\"add_status\" style=\"position: fixed;\n    width: 100%;\n    top: 10px;\n    height: 48px;\n    z-index: 999999999999999;\n    background-color: #363f4d7a;\n    color: white;\n    font-size: 32px;\n    line-height: 48px;\n    text-align: center;\">\n    正在执行批量发起面试流程，请勿操作\n  </div>\n`;\n\n// 插入到页面中\ndocument.body.appendChild(element);\nautomaNextBlock()",
                     "preloadScripts": [],
-                    "runBeforeLoad": false,
-                    "timeout": 20000
+                    "everyNewTab": false,
+                    "runBeforeLoad": false
                 },
                 "label": "javascript-code"
             },
@@ -861,6 +861,74 @@
                     "timeout": 20000
                 },
                 "label": "javascript-code"
+            },
+            {
+                "id": "8hool1s",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 35.572147019309014,
+                    "y": 1054.3182325637847
+                },
+                "data": {
+                    "code": "const selector = automaRefData('loopData', 'QWrlI-.data') || null;\nlet a = selector?.split('|>').map(s => s.trim()) || null;\nif (a && a.length > 0) {\n  const element_demp = a[1]\n  let doc_demo = document\n  let f_demo = document.querySelector('.frame-container')\n  let c_demo = f_demo.querySelector('.frame-box')\n  const iframe = c_demo.getElementsByTagName('iframe')[0]; \n  if (iframe) {\n    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;\n    // 注入样式\n    const style = iframeDoc.createElement('style');\n    style.textContent = `\n      @keyframes scanning {\n        0% { background-position: -100% 0; }\n        100% { background-position: 200% 0; }\n      }\n      \n      .scanning-effect {\n        position: relative;\n        overflow: hidden;\n      }\n      \n      .scanning-effect::after {\n        content: '';\n        position: absolute;\n        top: 0;\n        left: 0;\n        right: 0;\n        bottom: 0;\n        background: linear-gradient(\n          90deg,\n          transparent 0%,\n          rgba(0, 168, 168, 0.3) 50%,\n          transparent 100%\n        );\n        background-size: 50% 100%;\n        background-repeat: no-repeat;\n        animation: scanning 1.5s ease-in-out infinite;\n        pointer-events: none;\n      }\n    `;\n    iframeDoc.head.appendChild(style);\n    let el_demo = iframeDoc.querySelector(element_demp)\n    console.log(el_demo,'QWrlI-')\n    if (el_demo) {\n      el_demo.classList.add('scanning-effect');\n    }\n  }\n}\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "添加样式",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "m1ffcxn",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 381.6616587226434,
+                    "y": 1030.916589983408
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
+            },
+            {
+                "id": "kpqy0ix",
+                "type": "BlockBasic",
+                "initialized": false,
+                "position": {
+                    "x": 2334.6828781242652,
+                    "y": 1269.3521409713994
+                },
+                "data": {
+                    "code": "const selector = automaRefData('loopData', 'QWrlI-.data') || null;\nconst addTitle = automaRefData('variables', 'addTitle');\n\nlet isRed = false\n\nif (\n  addTitle === '简历库未匹配候选人' || \n  addTitle === '发起面试失败' || \n  addTitle === '没有找到手机号' ||\n  addTitle === '候选人已在面试中' ||\n  addTitle === '候选人没有绑定面试方案' ||\n  addTitle === '候选人没有绑定招聘需求'\n) {\n  isRed = true\n}\n\nlet a = selector?.split('|>').map(s => s.trim()) || null;\nif (a && a.length > 0) {\n  const element_demp = a[1]\n  let doc_demo = document\n  let f_demo = document.querySelector('.frame-container')\n  let c_demo = f_demo.querySelector('.frame-box')\n  const iframe = c_demo.getElementsByTagName('iframe')[0]; \n  if (iframe) {\n    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;\n    let el_demo = iframeDoc.querySelector(element_demp)\n    console.log(el_demo,'移除移除移除移除移除')\n    if (el_demo) {\n      console.log(el_demo,'移除移除移除移除移除1')\n      if (el_demo.classList.contains('scanning-effect')) {\n        console.log(el_demo,'移除移除移除移除移除2')\n        el_demo.classList.remove('scanning-effect');\n        // 创建新元素\n        let element = document.createElement('div');\n        element.innerHTML = `\n          <div class=\"add_status\" style=\"position: absolute;\n            left: 140px;\n            bottom: 0;\n            height: auto;\n            color: ${isRed ? 'red' : 'green'};\">\n            ${addTitle}\n          </div>\n        `;\n        console.log(el_demo,'移除移除移除移除移除3')\n        // 插入到页面中\n        el_demo.appendChild(element);\n        console.log(el_demo,'移除移除移除移除移除4')\n      }\n    }\n  }\n}\nautomaNextBlock()",
+                    "context": "website",
+                    "description": "移除样式",
+                    "disableBlock": false,
+                    "everyNewTab": false,
+                    "preloadScripts": [],
+                    "runBeforeLoad": false,
+                    "timeout": 20000
+                },
+                "label": "javascript-code"
+            },
+            {
+                "id": "vdi3guo",
+                "type": "BlockDelay",
+                "initialized": false,
+                "position": {
+                    "x": 2638.3532575036206,
+                    "y": 1189.3147901397886
+                },
+                "data": {
+                    "disableBlock": false,
+                    "time": 500
+                },
+                "label": "delay"
             }
         ],
         "edges": [
@@ -876,10 +944,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 315.99992722391863,
-                "sourceY": 540.4999805601518,
-                "targetX": 353.1831419731715,
-                "targetY": 539.4916750976901
+                "sourceX": 315.99993238061904,
+                "sourceY": 540.4999987077766,
+                "targetX": 353.1831561354865,
+                "targetY": 539.4916909195184
             },
             {
                 "id": "vueflow__edge-vytpajgvytpajg-output-1-ezi8ahrezi8ahr-input-1",
@@ -893,10 +961,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1172.653397562741,
-                "sourceY": 538.766694035942,
-                "targetX": 1220.6393923452758,
-                "targetY": 538.7754930179599
+                "sourceX": 1168.2549705751517,
+                "sourceY": 537.6671434877146,
+                "targetX": 1220.6394882524905,
+                "targetY": 538.7755029225356
             },
             {
                 "id": "vueflow__edge-ezi8ahrezi8ahr-output-2-nqkwnzxnqkwnzx-input-1",
@@ -910,10 +978,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1463.6393999435923,
-                "sourceY": 583.369229609892,
-                "targetX": 101.66505284079716,
-                "targetY": 782.6955909648485
+                "sourceX": 1463.639352239441,
+                "sourceY": 583.3692666478312,
+                "targetX": 101.66503078225549,
+                "targetY": 782.6955320191668
             },
             {
                 "id": "vueflow__edge-ezi8ahrezi8ahr-output-1-lc004e9lc004e9-input-1",
@@ -927,10 +995,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1463.6393999435923,
-                "sourceY": 538.7754930179599,
-                "targetX": 1534.896441543949,
-                "targetY": 537.7575475520109
+                "sourceX": 1463.639352239441,
+                "sourceY": 538.7755029225356,
+                "targetX": 1534.8963832645506,
+                "targetY": 537.757589255224
             },
             {
                 "id": "vueflow__edge-sx4cmxtsx4cmxt-output-1-adqtp7qadqtp7q-input-1",
@@ -944,10 +1012,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 2102.588593717472,
-                "sourceY": 535.1638507525598,
-                "targetX": 98.82377012618062,
-                "targetY": 1130.2262098720526
+                "sourceX": 2102.588680619072,
+                "sourceY": 535.1638303535315,
+                "targetX": -1206.863422984773,
+                "targetY": 1141.7131171594795
             },
             {
                 "id": "vueflow__edge-adqtp7qadqtp7q-output-1-ed1tm5hed1tm5h-input-1",
@@ -961,10 +1029,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 338.8236917007017,
-                "sourceY": 1130.2262098720526,
-                "targetX": 368.23175403331504,
-                "targetY": 1132.5530397165937
+                "sourceX": -966.8634333225601,
+                "sourceY": 1141.7131171594795,
+                "targetX": -899.1654121661713,
+                "targetY": 1136.382073187438
             },
             {
                 "id": "vueflow__edge-ed1tm5hed1tm5h-output-1-mcp1uoymcp1uoy-input-1",
@@ -978,10 +1046,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 608.2316756078362,
-                "sourceY": 1132.5530397165937,
-                "targetX": 389.59797625880043,
-                "targetY": 991.8808952705306
+                "sourceX": -659.1654225039583,
+                "sourceY": 1136.382073187438,
+                "targetX": -1132.4274023916682,
+                "targetY": 974.6504380931999
             },
             {
                 "id": "vueflow__edge-mcp1uoymcp1uoy-output-1-t0b05xqt0b05xq-input-1",
@@ -995,10 +1063,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 629.5978978333216,
-                "sourceY": 991.8808952705306,
-                "targetX": 713.7888775296633,
-                "targetY": 991.8808952705305
+                "sourceX": -892.4274127294552,
+                "sourceY": 974.6504380931999,
+                "targetX": -827.3813966107828,
+                "targetY": 978.4794326098565
             },
             {
                 "id": "vueflow__edge-t0b05xqt0b05xq-output-1-yq77lweyq77lwe-input-1",
@@ -1012,10 +1080,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 953.7887991041844,
-                "sourceY": 991.8808952705305,
-                "targetX": 709.998670702319,
-                "targetY": 1137.5426734280618
+                "sourceX": -587.3814069485697,
+                "sourceY": 978.4794326098565,
+                "targetX": -509.5360640389576,
+                "targetY": 980.553899075897
             },
             {
                 "id": "vueflow__edge-yq77lweyq77lwe-output-1-7des30f7des30f-input-1",
@@ -1029,10 +1097,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 949.9985922768401,
-                "sourceY": 1137.5426734280618,
-                "targetX": 983.2942360963191,
-                "targetY": 1137.5878772285016
+                "sourceX": -269.5361152491944,
+                "sourceY": 980.553899075897,
+                "targetX": -523.4150103009094,
+                "targetY": 1126.1009118261559
             },
             {
                 "id": "vueflow__edge-vrocibrvrocibr-output-1-ojihmmmojihmmm-input-1",
@@ -1046,10 +1114,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 2255.9261934750225,
-                "sourceY": 1694.3263476482261,
-                "targetX": 2335.2345814924797,
-                "targetY": 1692.8602268925304
+                "sourceX": 2895.925953397024,
+                "sourceY": 1587.6596818123226,
+                "targetX": 2385.234677399694,
+                "targetY": 1762.8603882985033
             },
             {
                 "id": "vueflow__edge-gyu6ng7gyu6ng7-output-1-vrocibrvrocibr-input-1",
@@ -1063,10 +1131,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 2547.010293048548,
-                "sourceY": 1485.058417515874,
-                "targetX": 2015.9261948071946,
-                "targetY": 1694.3263476482261
+                "sourceX": 3950.3435590968693,
+                "sourceY": 1411.7250820987147,
+                "targetX": 2655.925963734811,
+                "targetY": 1587.6596818123226
             },
             {
                 "id": "vueflow__edge-7des30f7des30f-output-1-btx4ivlbtx4ivl-input-1",
@@ -1080,27 +1148,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1223.2942347641467,
-                "sourceY": 1137.5878772285016,
-                "targetX": 1048.5937659458043,
-                "targetY": 990.4402332845123
-            },
-            {
-                "id": "vueflow__edge-btx4ivlbtx4ivl-output-1-bg0s0dubg0s0du-input-1",
-                "type": "custom",
-                "source": "btx4ivl",
-                "target": "bg0s0du",
-                "sourceHandle": "btx4ivl-output-1",
-                "targetHandle": "bg0s0du-input-1",
-                "updatable": true,
-                "selectable": true,
-                "data": {},
-                "label": "",
-                "markerEnd": "arrowclosed",
-                "sourceX": 1288.593610427019,
-                "sourceY": 990.4402332845123,
-                "targetX": 1356.3062486196957,
-                "targetY": 990.1367471472817
+                "sourceX": -283.41506151114623,
+                "sourceY": 1126.1009118261559,
+                "targetX": -86.70301233571656,
+                "targetY": 967.4662072388899
             },
             {
                 "id": "vueflow__edge-bg0s0dubg0s0du-output-1-x3rtsljx3rtslj-input-1",
@@ -1114,27 +1165,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1596.3060931009102,
-                "sourceY": 990.1367471472817,
-                "targetX": 1663.6669697772634,
-                "targetY": 991.9344223827356
-            },
-            {
-                "id": "vueflow__edge-0inmsm50inmsm5-output-1-gyu6ng7gyu6ng7-input-1",
-                "type": "custom",
-                "source": "0inmsm5",
-                "target": "gyu6ng7",
-                "sourceHandle": "0inmsm5-output-1",
-                "targetHandle": "gyu6ng7-input-1",
-                "updatable": true,
-                "selectable": true,
-                "data": {},
-                "label": "",
-                "markerEnd": "arrowclosed",
-                "sourceX": 2233.7757940761903,
-                "sourceY": 1486.6640677793805,
-                "targetX": 2307.0104485673337,
-                "targetY": 1485.058417515874
+                "sourceX": 830.540939292564,
+                "sourceY": 965.0593697765428,
+                "targetX": 916.3327356221153,
+                "targetY": 965.1482693520181
             },
             {
                 "id": "vueflow__edge-kt28r27kt28r27-output-1-dq34nradq34nra-input-1",
@@ -1148,10 +1182,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1536.454321398929,
-                "sourceY": 1134.6271695611729,
-                "targetX": 1569.4151971216204,
-                "targetY": 1135.0568418186838
+                "sourceX": 1749.4044691683503,
+                "sourceY": 968.5529264030754,
+                "targetX": 1569.415293028835,
+                "targetY": 1135.0568599663084
             },
             {
                 "id": "vueflow__edge-dq34nradq34nra-output-1-h2fotxeh2fotxe-input-1",
@@ -1165,10 +1199,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1809.415195789448,
-                "sourceY": 1135.0568418186838,
-                "targetX": 103.47660571307888,
-                "targetY": 1328.130589545462
+                "sourceX": 1809.415282691048,
+                "sourceY": 1135.0568599663084,
+                "targetX": 103.47666307364028,
+                "targetY": 1328.1305903762252
             },
             {
                 "id": "vueflow__edge-h2fotxeh2fotxe-output-1-ghqddytghqddyt-input-1",
@@ -1182,10 +1216,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 343.4764887409467,
-                "sourceY": 1328.130589545462,
-                "targetX": 394.75814922831285,
-                "targetY": 1329.8652551188832
+                "sourceX": 343.4766527358533,
+                "sourceY": 1328.1305903762252,
+                "targetX": 394.75808629732137,
+                "targetY": 1329.8652008247946
             },
             {
                 "id": "vueflow__edge-ghqddytghqddyt-output-1-yrs2sovyrs2sov-input-1",
@@ -1199,10 +1233,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 634.758070802834,
-                "sourceY": 1329.8652551188832,
-                "targetX": 692.9471460730714,
-                "targetY": 1330.101533029997
+                "sourceX": 634.758157704434,
+                "sourceY": 1329.8652008247946,
+                "targetX": 692.9471648869795,
+                "targetY": 1330.1016329225213
             },
             {
                 "id": "vueflow__edge-x3rtsljx3rtslj-output-1-v0m68qyv0m68qy-input-1",
@@ -1216,10 +1250,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1903.6668142584779,
-                "sourceY": 991.9344223827356,
-                "targetX": 1954.7811105996695,
-                "targetY": 991.5914998426747
+                "sourceX": 1156.3327252843283,
+                "sourceY": 965.1482693520181,
+                "targetX": 1214.1435734257202,
+                "targetY": 968.8232724887085
             },
             {
                 "id": "vueflow__edge-v0m68qyv0m68qy-output-1-kt28r27kt28r27-input-1",
@@ -1233,10 +1267,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 2194.7814176407232,
-                "sourceY": 991.5914998426747,
-                "targetX": 1296.4543227311015,
-                "targetY": 1134.6271695611729
+                "sourceX": 1454.1435630879332,
+                "sourceY": 968.8232724887085,
+                "targetX": 1509.4044795061372,
+                "targetY": 968.5529264030754
             },
             {
                 "id": "vueflow__edge-yrs2sovyrs2sov-output-1-be9aukube9auku-input-1",
@@ -1250,10 +1284,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 932.9470676475926,
-                "sourceY": 1330.101533029997,
-                "targetX": 993.5643421909392,
-                "targetY": 1328.6964227396863
+                "sourceX": 932.9469910593933,
+                "sourceY": 1330.1016329225213,
+                "targetX": 993.5642839115408,
+                "targetY": 1328.6964235704495
             },
             {
                 "id": "vueflow__edge-be9aukube9auku-output-1-1y2pc8f1y2pc8f-input-1",
@@ -1267,10 +1301,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1233.5641866721537,
-                "sourceY": 1328.6964227396863,
-                "targetX": 1314.384078167956,
-                "targetY": 1329.3080770574081
+                "sourceX": 1233.5642735737538,
+                "sourceY": 1328.6964235704495,
+                "targetX": 1314.3838563987583,
+                "targetY": 1329.3080134601332
             },
             {
                 "id": "vueflow__edge-1y2pc8f1y2pc8f-output-1-r99k1ujr99k1uj-input-1",
@@ -1284,10 +1318,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1554.3839226491705,
-                "sourceY": 1329.3080770574081,
-                "targetX": 1603.4128980493012,
-                "targetY": 1330.507471404762
+                "sourceX": 1554.3840095507705,
+                "sourceY": 1329.3080134601332,
+                "targetX": 1603.412993956516,
+                "targetY": 1330.507399793812
             },
             {
                 "id": "vueflow__edge-r99k1ujr99k1uj-output-1-1lwo83n1lwo83n-input-1",
@@ -1301,10 +1335,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1843.412896717129,
-                "sourceY": 1330.507471404762,
-                "targetX": 112.24210753372498,
-                "targetY": 1493.9305678913977
+                "sourceX": 1843.412983618729,
+                "sourceY": 1330.507399793812,
+                "targetX": 112.2420854751833,
+                "targetY": 1493.9305042941228
             },
             {
                 "id": "vueflow__edge-1lwo83n1lwo83n-output-1-bbs5aa5bbs5aa5-input-1",
@@ -1318,10 +1352,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 352.24202910824613,
-                "sourceY": 1493.9305678913977,
-                "targetX": 411.93382939223704,
-                "targetY": 1493.9119910160543
+                "sourceX": 352.24203426494654,
+                "sourceY": 1493.9305042941228,
+                "targetX": 411.9338435545521,
+                "targetY": 1493.9118376602046
             },
             {
                 "id": "vueflow__edge-bbs5aa5bbs5aa5-output-1-m526yunm526yun-input-1",
@@ -1335,10 +1369,11 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 651.9338280600647,
-                "sourceY": 1493.9119910160543,
-                "targetX": 711.2879283713469,
-                "targetY": 1494.053849980993
+                "class": "connected-edges",
+                "sourceX": 651.9338332167652,
+                "sourceY": 1493.9118376602046,
+                "targetX": 711.2878654403554,
+                "targetY": 1492.3871197170513
             },
             {
                 "id": "vueflow__edge-m526yunm526yun-output-1-s1bweqds1bweqd-input-1",
@@ -1352,10 +1387,11 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 951.2879270391745,
-                "sourceY": 1494.053849980993,
-                "targetX": 1010.6420273504568,
-                "targetY": 1492.6487396906828
+                "class": "connected-edges",
+                "sourceX": 951.287936847468,
+                "sourceY": 1492.3871197170513,
+                "targetX": 1010.6419690710584,
+                "targetY": 1492.648740521446
             },
             {
                 "id": "vueflow__edge-s1bweqds1bweqd-output-1-3vz4zj73vz4zj7-input-1",
@@ -1369,44 +1405,11 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1250.6418718316713,
-                "sourceY": 1492.6487396906828,
-                "targetX": 1311.2589921884057,
-                "targetY": 1492.7907528422343
-            },
-            {
-                "id": "vueflow__edge-3vz4zj73vz4zj7-output-1-9lsybbk9lsybbk-input-1",
-                "type": "custom",
-                "source": "3vz4zj7",
-                "target": "9lsybbk",
-                "sourceHandle": "3vz4zj7-output-1",
-                "targetHandle": "9lsybbk-input-1",
-                "updatable": true,
-                "selectable": true,
-                "data": {},
-                "label": "",
-                "markerEnd": "arrowclosed",
-                "sourceX": 1551.2589908562334,
-                "sourceY": 1492.7907528422343,
-                "targetX": 1606.823876844546,
-                "targetY": 1491.385642551924
-            },
-            {
-                "id": "vueflow__edge-9lsybbk9lsybbk-output-1-0inmsm50inmsm5-input-1",
-                "type": "custom",
-                "source": "9lsybbk",
-                "target": "0inmsm5",
-                "sourceHandle": "9lsybbk-output-1",
-                "targetHandle": "0inmsm5-input-1",
-                "updatable": true,
-                "selectable": true,
-                "data": {},
-                "label": "",
-                "markerEnd": "arrowclosed",
-                "sourceX": 1846.8237213257605,
-                "sourceY": 1491.385642551924,
-                "targetX": 1993.7759495949758,
-                "targetY": 1486.6640677793805
+                "class": "connected-edges",
+                "sourceX": 1250.6419587332714,
+                "sourceY": 1492.648740521446,
+                "targetX": 1249.9951758291118,
+                "targetY": 1631.400454237734
             },
             {
                 "id": "vueflow__edge-lc004e9lc004e9-output-1-yyziprxyyziprx-input-1",
@@ -1420,10 +1423,11 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1774.8962860251636,
-                "sourceY": 537.7575475520109,
-                "targetX": 1703.0075258988206,
-                "targetY": 374.15370642627016
+                "sourceX": 1774.8963729267637,
+                "sourceY": 537.757589255224,
+                "targetX": 1703.0076218060353,
+                "targetY": 374.153724573895,
+                "class": "connected-edges"
             },
             {
                 "id": "vueflow__edge-yyziprxyyziprx-output-1-sx4cmxtsx4cmxt-input-1",
@@ -1437,10 +1441,11 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 1943.0075245666483,
-                "sourceY": 374.15370642627016,
-                "targetX": 1862.5887492362574,
-                "targetY": 535.1638507525598
+                "sourceX": 1943.0076114682483,
+                "sourceY": 374.153724573895,
+                "targetX": 1862.588690956859,
+                "targetY": 535.1638303535315,
+                "class": "connected-edges"
             },
             {
                 "id": "vueflow__edge-ojihmmmojihmmm-output-1-be7mpgbbe7mpgb-input-1",
@@ -1454,10 +1459,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 2575.234425973694,
-                "sourceY": 1692.8602268925304,
-                "targetX": 96.74440325460793,
-                "targetY": 1985.7801661849383
+                "sourceX": 2625.234667061907,
+                "sourceY": 1762.8603882985033,
+                "targetX": 96.74438119606626,
+                "targetY": 1985.7801670157014
             },
             {
                 "id": "vueflow__edge-be7mpgbbe7mpgb-output-1-m6jwm50m6jwm50-input-1",
@@ -1471,10 +1476,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 336.744324829129,
-                "sourceY": 1985.7801661849383,
-                "targetX": 411.65130394903696,
-                "targetY": 1988.0283469735464
+                "sourceX": 336.7443299858295,
+                "sourceY": 1985.7801670157014,
+                "targetX": 411.65124566963857,
+                "targetY": 1988.0282833762715
             },
             {
                 "id": "vueflow__edge-m6jwm50m6jwm50-output-1-lo82d5wlo82d5w-input-1",
@@ -1488,10 +1493,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 651.6513026168647,
-                "sourceY": 1988.0283469735464,
-                "targetX": 721.7355858873605,
-                "targetY": 1986.431103955481
+                "sourceX": 651.6512353318516,
+                "sourceY": 1988.0282833762715,
+                "targetX": 721.7356047012686,
+                "targetY": 1986.431104786244
             },
             {
                 "id": "vueflow__edge-lo82d5wlo82d5w-output-1-wghg6lqwghg6lq-input-1",
@@ -1505,11 +1510,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "class": "connected-edges",
-                "sourceX": 961.7355845551881,
-                "sourceY": 1986.431103955481,
-                "targetX": 1012.0272491640903,
-                "targetY": 1981.4309616062949
+                "sourceX": 961.7355943634816,
+                "sourceY": 1986.431104786244,
+                "targetX": 1012.0271815815058,
+                "targetY": 1981.4309073122063
             },
             {
                 "id": "vueflow__edge-c5t78l5c5t78l5-output-1-j6gz8pyj6gz8py-input-1",
@@ -1523,10 +1527,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 593.1831406409991,
-                "sourceY": 539.4916750976901,
-                "targetX": 311.9838445592022,
-                "targetY": 369.31565058754074
+                "sourceX": 593.1831457976996,
+                "sourceY": 539.4916909195184,
+                "targetX": 311.98386337311035,
+                "targetY": 369.3156537441006
             },
             {
                 "id": "vueflow__edge-j6gz8pyj6gz8py-output-1-mgaadimmgaadim-input-1",
@@ -1540,11 +1544,10 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "class": "connected-edges",
-                "sourceX": 551.9837661337233,
-                "sourceY": 369.31565058754074,
-                "targetX": 651.7569748852828,
-                "targetY": 365.66833377616314
+                "sourceX": 551.9838530353234,
+                "sourceY": 369.3156537441006,
+                "targetX": 651.7569119542914,
+                "targetY": 365.66831105133815
             },
             {
                 "id": "vueflow__edge-mgaadimmgaadim-output-1-vytpajgvytpajg-input-1",
@@ -1558,21 +1561,159 @@
                 "data": {},
                 "label": "",
                 "markerEnd": "arrowclosed",
-                "sourceX": 891.756896459804,
-                "sourceY": 365.66833377616314,
-                "targetX": 932.6533988949135,
-                "targetY": 538.766694035942
+                "sourceX": 891.7570651063036,
+                "sourceY": 365.66831105133815,
+                "targetX": 928.2549809129388,
+                "targetY": 537.6671434877146
+            },
+            {
+                "id": "vueflow__edge-btx4ivlbtx4ivl-output-1-8hool1s8hool1s-input-1",
+                "type": "custom",
+                "source": "btx4ivl",
+                "target": "8hool1s",
+                "sourceHandle": "btx4ivl-output-1",
+                "targetHandle": "8hool1s-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 153.29693645404666,
+                "sourceY": 967.4662072388899,
+                "targetX": 11.572130610164855,
+                "targetY": 1090.3182312715612
+            },
+            {
+                "id": "vueflow__edge-m1ffcxnm1ffcxn-output-1-bg0s0dubg0s0du-input-1",
+                "type": "custom",
+                "source": "m1ffcxn",
+                "target": "bg0s0du",
+                "sourceHandle": "m1ffcxn-output-1",
+                "targetHandle": "bg0s0du-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 597.6615911032625,
+                "sourceY": 1089.510388465327,
+                "targetX": 590.5408678854513,
+                "targetY": 965.0593697765428
+            },
+            {
+                "id": "vueflow__edge-8hool1s8hool1s-output-1-m1ffcxnm1ffcxn-input-1",
+                "type": "custom",
+                "source": "8hool1s",
+                "target": "m1ffcxn",
+                "sourceHandle": "8hool1s-output-1",
+                "targetHandle": "m1ffcxn-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 251.57212027237784,
+                "sourceY": 1090.3182312715612,
+                "targetX": 357.6616014410494,
+                "targetY": 1089.510388465327
+            },
+            {
+                "id": "vueflow__edge-9lsybbk9lsybbk-output-1-0inmsm50inmsm5-input-1",
+                "type": "custom",
+                "source": "9lsybbk",
+                "target": "0inmsm5",
+                "sourceHandle": "9lsybbk-output-1",
+                "targetHandle": "0inmsm5-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "class": "source-9lsybbk-output-1 target-0inmsm5-input-1",
+                "sourceX": 1846.8238082273606,
+                "sourceY": 1491.3856433826872,
+                "targetX": 1904.676996588575,
+                "targetY": 1471.0554081854996
+            },
+            {
+                "id": "vueflow__edge-0inmsm50inmsm5-output-1-kpqy0ixkpqy0ix-input-1",
+                "type": "custom",
+                "source": "0inmsm5",
+                "target": "kpqy0ix",
+                "sourceHandle": "0inmsm5-output-1",
+                "targetHandle": "kpqy0ix-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2144.676986250788,
+                "sourceY": 1471.0554081854996,
+                "targetX": 2310.6825756079725,
+                "targetY": 1305.3521396791762
+            },
+            {
+                "id": "vueflow__edge-kpqy0ixkpqy0ix-output-1-vdi3guovdi3guo-input-1",
+                "type": "custom",
+                "source": "kpqy0ix",
+                "target": "vdi3guo",
+                "sourceHandle": "kpqy0ix-output-1",
+                "targetHandle": "vdi3guo-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2550.6825652701855,
+                "sourceY": 1305.3521396791762,
+                "targetX": 2614.3532819669263,
+                "targetY": 1247.908506876808
+            },
+            {
+                "id": "vueflow__edge-vdi3guovdi3guo-output-1-gyu6ng7gyu6ng7-input-1",
+                "type": "custom",
+                "source": "vdi3guo",
+                "target": "gyu6ng7",
+                "sourceHandle": "vdi3guo-output-1",
+                "targetHandle": "gyu6ng7-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "sourceX": 2854.3532716291393,
+                "sourceY": 1247.908506876808,
+                "targetX": 3710.3435694346563,
+                "targetY": 1411.7250820987147
+            },
+            {
+                "id": "vueflow__edge-3vz4zj73vz4zj7-output-1-9lsybbk9lsybbk-input-1",
+                "type": "custom",
+                "source": "3vz4zj7",
+                "target": "9lsybbk",
+                "sourceHandle": "3vz4zj7-output-1",
+                "targetHandle": "9lsybbk-input-1",
+                "updatable": true,
+                "selectable": true,
+                "data": {},
+                "label": "",
+                "markerEnd": "arrowclosed",
+                "class": "connected-edges",
+                "sourceX": 1489.9951654913248,
+                "sourceY": 1631.400454237734,
+                "targetX": 1606.8238185651476,
+                "targetY": 1491.3856433826872
             }
         ],
         "position": [
-            0,
-            -2.842170943040401e-14
+            171.42667026984736,
+            103.36894017367467
         ],
-        "zoom": 0.7917047464637371,
+        "zoom": 0.5658578661424806,
         "viewport": {
-            "x": 0,
-            "y": -2.842170943040401e-14,
-            "zoom": 0.7917047464637371
+            "x": 171.42667026984736,
+            "y": 103.36894017367467,
+            "zoom": 0.5658578661424806
         }
     },
     "settings": {

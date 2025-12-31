@@ -12,18 +12,22 @@
       <div class="panel-container">
         <!-- 头部导航 -->
         <div class="panel-header">
-          <div class="header-left">
-            <div class="user-avatar-small">
-              <span v-if="!isLogin">U</span>
-              <span v-else>?</span>
-            </div>
-            <div class="user-info">
-              <div class="user-name">{{ isLogin ? '请登录' : userInfo.userName }}</div>
-              <div v-if="!isLogin" class="connection-indicator">
-                <span class="dot"></span>
-                <span>在线</span>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="header-left">
+              <div class="user-avatar-small">
+                <span v-if="!isLogin">{{ userInfo.userName[0] }}</span>
+                <span v-else>?</span>
+              </div>
+              <div class="user-info">
+                <div class="user-name">{{ isLogin ? '请登录' : userInfo.userName }}</div>
+                <!-- <div v-if="!isLogin" class="connection-indicator">
+                  <span class="dot"></span>
+                  <span>在线</span>
+                </div> -->
               </div>
             </div>
+            <!-- 退出登录 -->
+            <div v-if="!isLogin" class="logout-btn-new" @click="isLogin = true" title="退出登录">退出账号</div>
           </div>
           <button class="header-close-btn" @click.stop="closePlug">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -37,9 +41,9 @@
             <div class="login-card">
               <div class="login-header">
                 <div class="login-icon">
-                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                  <img src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/landing-page/title_icon.jpg" alt="ITA面试助手" />
                 </div>
-                <h2>智能招聘助手</h2>
+                <h2>ITA面试助手</h2>
                 <p>请登录以继续使用</p>
               </div>
               <div class="login-form">
@@ -48,6 +52,7 @@
                   <ui-input
                     v-model="loginData.username"
                     placeholder="请输入手机号"
+                    style="width: 100%;"
                   />
                 </div>
                 <div class="form-group">
@@ -56,6 +61,7 @@
                     <ui-input
                       v-model="loginData.verificationCode"
                       placeholder="验证码"
+                      style="width: 100%;"
                     />
                     <button v-if="basicData.timeif" class="sms-btn" @click="clickCountSet">
                       获取验证码
@@ -76,99 +82,141 @@
           </div>
 
           <!-- 主界面 -->
-          <div v-else-if="!isDemand" class="main-wrapper">
-            <div v-if="!userInfoMain.name" class="empty-state">
-              <div class="loader"></div>
-              <p>{{ loadingTitle }}</p>
+          <div v-else-if="!isDemand">
+            <!-- 顶部切换tab -->
+            <div class="top-tab-wrapper">
+              <button
+                :class="['tab-item-btn', { 'is-active': activeTab === 'single' }]"
+                @click="activeTab = 'single'"
+              >
+                当前候选人
+              </button>
+              <button
+                :class="['tab-item-btn batch-tab', { 'is-active': activeTab === 'batch' }]"
+                @click="activeTab = 'batch'"
+              >
+                批量自动发起
+              </button>
             </div>
-            <div v-else class="candidate-container">
-              <!-- 候选人识别卡片 -->
-              <div class="candidate-card-new">
-                <div class="card-header-new">
-                  <div class="candidate-avatar-large">
-                    {{ userInfoMain.name[0] }}
-                  </div>
-                  <div class="candidate-basic-info">
-                    <div class="name-badge-row">
-                      <span class="candidate-name-new">{{ userInfoMain.name }}</span>
-                      <span v-if="userInfoMain.isExistSys" class="sys-badge">库内</span>
-                    </div>
-                    <div class="candidate-tags-new">
-                      <span v-if="userInfoMain.age" class="tag-item">{{ userInfoMain.age }}</span>
-                      <span v-if="userInfoMain.education" class="tag-item">{{ userInfoMain.education }}</span>
-                      <span v-if="userInfoMain.workExperience" class="tag-item">{{ userInfoMain.workExperience }}</span>
-                    </div>
-                  </div>
+
+            <!-- 内容切换区域 -->
+            <div class="tab-content-container">
+              <!-- 当前候选人 -->
+              <div v-if="activeTab === 'single'" class="main-wrapper" style="width: 100%;">
+                <div v-if="!userInfoMain.name" class="empty-state">
+                  <div class="loader"></div>
+                  <p>{{ loadingTitle }}</p>
                 </div>
-
-                <!-- 识别状态指示 -->
-                <div :class="['status-alert', userInfoMain.isExistSys ? 'alert-success' : 'alert-warning']">
-                  <div class="alert-icon">
-                    <svg v-if="userInfoMain.isExistSys" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <svg v-else viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                  </div>
-                  <span>{{ userInfoMain.isExistSys ? '已在人才库中' : '未在系统中找到此人' }}</span>
-                </div>
-
-                <!-- 表单详情 -->
-                <div class="details-form-new">
-                  <div class="form-field-new">
-                    <label>
-                      <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                      识别到的面试时间
-                    </label>
-                    <div class="time-display-new">
-                      {{ userInfoMain.interviewTime || '未识别到面试时间' }}
-                      <span class="hint-text">* 系统自动提取</span>
+                <div v-else class="candidate-container">
+                  <!-- 候选人识别卡片 -->
+                  <div class="candidate-card-new">
+                    <div class="card-header-new">
+                      <div class="candidate-avatar-large">
+                        {{ userInfoMain.name[0] }}
+                      </div>
+                      <div class="candidate-basic-info">
+                        <div class="name-badge-row">
+                          <span class="candidate-name-new">{{ userInfoMain.name }}</span>
+                          <span v-if="userInfoMain.isExistSys" class="sys-badge">库内</span>
+                        </div>
+                        <div class="candidate-tags-new">
+                          <span v-if="userInfoMain.age" class="tag-item">{{ userInfoMain.age }}</span>
+                          <span v-if="userInfoMain.education" class="tag-item">{{ userInfoMain.education }}</span>
+                          <span v-if="userInfoMain.workExperience" class="tag-item">{{ userInfoMain.workExperience }}</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <div v-if="userInfoMain.isExistSys" class="form-field-new">
-                    <label>
-                      <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                      关联面试需求
-                    </label>
-                    <div class="native-select-wrapper">
-                      <select
-                        :value="demandId"
-                        class="styled-native-select"
-                        @change="changeDemandMain($event.target.value)"
+                    <!-- 识别状态指示 -->
+                    <div :class="['status-alert', userInfoMain.isExistSys ? 'alert-success' : 'alert-warning']">
+                      <div class="alert-icon">
+                        <svg v-if="userInfoMain.isExistSys" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <svg v-else viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                      </div>
+                      <span>{{ userInfoMain.isExistSys ? '已在简历库中' : '未在简历库中找到此人' }}</span>
+                    </div>
+
+                    <!-- 表单详情 -->
+                    <div class="details-form-new">
+                      <div class="form-field-new">
+                        <label>
+                          <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                          识别到的面试时间
+                        </label>
+                        <div class="time-display-new">
+                          {{ userInfoMain.interviewTime || '未识别到面试时间' }}
+                          <span class="hint-text">* 系统自动提取</span>
+                        </div>
+                      </div>
+
+                      <div v-if="userInfoMain.isExistSys" class="form-field-new">
+                        <label>
+                          <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                          关联面试需求
+                        </label>
+                        <div class="native-select-wrapper">
+                          <select
+                            :value="demandId"
+                            class="styled-native-select"
+                            @change="changeDemandMain($event.target.value)"
+                          >
+                            <option value="" disabled>请选择招聘需求...</option>
+                            <option
+                              v-for="(item, index) in typeOptions"
+                              :key="index"
+                              :value="item.value"
+                            >
+                              {{ item.label }}
+                            </option>
+                          </select>
+                          <div class="select-chevron-new">
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div v-if="userInfoMain.isExistSys" class="action-section-new">
+                      <button
+                        v-if="
+                          userInfoMain.recruitmentStatus == 0 ||
+                          userInfoMain.recruitmentStatus == 2 ||
+                          userInfoMain.recruitmentStatus == 3 ||
+                          userInfoMain.recruitmentStatus == 7
+                        "
+                        class="btn-primary-new"
+                        @click="startInterviewFromTalents"
                       >
-                        <option value="" disabled>请选择招聘需求...</option>
-                        <option
-                          v-for="(item, index) in typeOptions"
-                          :key="index"
-                          :value="item.value"
-                        >
-                          {{ item.label }}
-                        </option>
-                      </select>
-                      <div class="select-chevron-new">
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        一键安排面试
+                      </button>
+                      <div v-else class="status-disabled-box">
+                        候选人已在面试中
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- 操作按钮 -->
-                <div v-if="userInfoMain.isExistSys" class="action-section-new">
-                  <button
-                    v-if="userInfoMain.recruitmentStatus == 0"
-                    class="btn-primary-new"
-                    @click="startInterviewFromTalents"
-                  >
-                    一键发起面试
-                  </button>
-                  <div v-else class="status-disabled-box">
-                    候选人已在面试中
+                  <!-- 底部提示 -->
+                  <div class="system-tip-new">
+                    <span class="tip-icon">💡</span>
+                    <p>若候选人已在流程中，安排面试将自动更新状态。</p>
                   </div>
                 </div>
               </div>
 
-              <!-- 底部提示 -->
-              <div class="system-tip-new">
-                <span class="tip-icon">💡</span>
-                <p>若候选人已在流程中，发起面试将自动更新状态。</p>
+              <!-- 批量自动发起 -->
+              <div v-if="activeTab === 'batch'" class="main-wrapper" style="width: 100%;">
+                <div class="batch-trigger-container">
+                  <div class="batch-icon-large">
+                    <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                  </div>
+                  <h3>批量自动安排面试</h3>
+                  <p class="batch-desc">系统将自动跳转至BOSS面试页面，读取日程信息自动安排面试</p>
+                  <button class="btn-batch-start" @click="startInterviewBatch">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="margin-right: 8px;"><path d="M8 5v14l11-7z"></path></svg>
+                    一键安排面试
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -180,9 +228,12 @@
             <span class="status-dot-active"></span>
             <span>系统连接正常</span>
           </div>
-          <button v-if="!isLogin" class="logout-btn-new" @click="isLogin = true" title="退出登录">
-            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          </button>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <!-- 跳转到ITA面试系统 -->
+            <button class="goto-ita-btn" @click="gotoItaInterviewSystem" title="进入ITA面试系统">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -194,19 +245,20 @@
       @click="togglePlug"
     >
       <div class="trigger-ball">
-        <span class="trigger-text">面</span>
-        <div class="trigger-badge"></div>
+        <!-- <span class="trigger-text">面</span> -->
+        <img src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/landing-page/title_icon.jpg" alt="批量管理" />
+        <!-- <div class="trigger-badge"></div> -->
       </div>
     </div>
 
     <!-- 批量管理小图标 -->
-    <div v-if="!isOpen && !isDemand" class="batch-trigger-item">
+    <!-- <div v-if="!isOpen && !isDemand" class="batch-trigger-item">
       <img
         src="https://test-biubiubiu.oss-cn-shenzhen.aliyuncs.com/plug-in-home-icon.png"
         alt="批量管理"
         @click="startInterviewBatch"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup>
@@ -237,6 +289,13 @@ const loginData = reactive({
   verificationCode: '',
 });
 
+/**
+ * 跳转到ITA面试系统
+ */
+const gotoItaInterviewSystem = () => {
+  window.open('https://people.itasaas.com/#/', '_blank');
+};
+
 // 发送验证码的一些数据
 const basicData = reactive({
   countDownNum: 60, // 重新发送验证码的倒计时
@@ -256,6 +315,7 @@ const userInfo = reactive({
 
 const isPlugIn = ref(false);
 const isOpen = ref(false);
+const activeTab = ref('single'); // 'single' | 'batch'
 // 候选人
 const candidate = reactive({
   name: '',
@@ -754,7 +814,10 @@ const createInterviewProcess = async (params) => {
   nodes.forEach((item) => {
     if (interviewTime && screenedBy) {
       if (item?.assignee?.userId === screenedBy && item?.name !== '选择简历') {
-        const time = interviewTime.replace(/:00$/, '');
+        // 如果时间包含秒（格式为 YYYY-MM-DD HH:MM:SS），去掉秒部分，保留格式为 YYYY-MM-DD HH:mm
+        const time = interviewTime.split(':').length === 3
+          ? interviewTime.substring(0, interviewTime.lastIndexOf(':'))
+          : interviewTime;
         item.interviewTime = time;
       }
     }
